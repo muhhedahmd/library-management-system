@@ -35,8 +35,13 @@ model Notification {
   @@map("notifications")
 }
 
+enum GENDER {
+  MALE 
+  FEMALE
+}
 model User {
   id                    String         @id @default(cuid())
+  gender                GENDER
   name                  String
   email                 String         @unique
   password              String
@@ -47,7 +52,7 @@ model User {
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
   Loan                  Loan[]
-
+  
   @@map("users")
 }
 
@@ -105,8 +110,8 @@ model Book {
   fileFormat   String    @default("PDF")
   thumbnailUrl String // URL to the book's thumbnail image
   language     String    @default("English")
-  pages        Int? // Number of pages in the book
-  publishedAt  DateTime? // Publication date of the book
+  pages        Int? 
+  publishedAt  DateTime?
   available    Boolean   @default(true)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -136,9 +141,9 @@ model Author {
   books       Book[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-
   @@map("authors")
 }
+
 
 model Publisher {
   id        String   @id @default(cuid())
@@ -157,7 +162,6 @@ model Category {
   books       Book[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
   @@map("categories")
 }
 

@@ -19,6 +19,7 @@ export const authOptions: AuthOptions = {
       },
       authorize: async (credentials) => {
         try {
+
           const response = await axios.post(
             "http://localhost:3000/api/users/Login",
            credentials ,
@@ -29,6 +30,7 @@ export const authOptions: AuthOptions = {
             return response.data;
           }
         } catch (error: any) {
+          
           console.log(error.response.data)
           throw new Error(
             JSON.stringify({
@@ -56,15 +58,10 @@ export const authOptions: AuthOptions = {
       async authorize(credentials: Record<string, any> | undefined) {
         console.log("credentials next auth", credentials);
         if(!credentials) return
-       const formData = new FormData();
-
-        Object.keys(credentials).map((k) => {
-          formData.append(k, credentials[k]);
-        });
 
         try {
           const response = await axios.post(
-            "http://localhost:3000/api/users/create",
+            "http://localhost:3000/api/users/signup",
             credentials,
             {
               headers: {

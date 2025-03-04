@@ -1,9 +1,12 @@
-import { getToken } from "next-auth/jwt";
+import { decode, getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import * as jose from "jose";
+import { User } from "@prisma/client";
 
-
-
+const jwtConfig = {
+  secret: new TextEncoder().encode(process.env.NEXTAUTH_SECRET)!,
+};
 
 export default withAuth(
   async function middleware(Request: NextRequest) {
@@ -18,7 +21,7 @@ export default withAuth(
 
     const ProtectedRoute = ["/product","/profile" ,
       // "/api" ,
-       "/maintimeline",  "/todo" , "/chat" , "/", "/profilee", "/upload", "/users" , "/posts"];
+       "/maintimeline",  "/todo" , "/chat" , "/profilee", "/upload", "/users" , "/posts"];
     const AuthRoute = pathname.startsWith("/api/auth");
     const isProtectedRoute = ProtectedRoute.some((route) => {
       return pathname.startsWith(route);
