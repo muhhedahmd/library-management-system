@@ -9,9 +9,6 @@
     "lint": "next lint" ,
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"
-
-    
-
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
