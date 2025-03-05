@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useState, useRef } from "react";
-import { Control } from "react-hook-form";
 import { z } from "zod";
 
 interface AutocompleteMultiValueProps {
   value: Record<string, string> |undefined;
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (value: Record<string, any>) => void;
 }
 

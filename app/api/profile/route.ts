@@ -1,13 +1,12 @@
 import { authOptions } from "@/lib/authOption";
 import prisma from "@/lib/prisma";
 import { CustomSession } from "@/Types";
-import { GENDER, Profile, ProfilePicture, UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 
 
-export const GET = async (req: Request) => {
+export const GET = async () => {
     const session = (await getServerSession(authOptions)) as CustomSession;
     const userId = session?.user?.id;
 

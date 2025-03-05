@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { GENDER, UserRole } from "@prisma/client"
+import {  UserRole } from "@prisma/client"
 
 export function RoleSelect( {
     RoleValue  ,

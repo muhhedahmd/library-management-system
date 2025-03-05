@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {  BookOpen} from "lucide-react";
-import Link from "next/link"
 
 
 export default function MemberContent({ books }: { books: { title: string; author: string; returnDate: string }[] }) {

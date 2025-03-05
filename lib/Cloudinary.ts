@@ -10,9 +10,7 @@ cloudinary.v2.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!,
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
-interface paramsInterface {
-  id: number;
-}
+
 
 export interface CloudinaryUploadResponse {
   status: number;
@@ -41,7 +39,7 @@ export interface CloudinaryUploadResponse {
 export const Upload_coludnairy = async (
   file: File,
   userFolder?: string,
-  params?: paramsInterface
+  // params?: paramsInterface
 ) => {
   console.log(file);
 
@@ -53,7 +51,7 @@ export const Upload_coludnairy = async (
 
     const uploadFromBuffer = async (file: Buffer) => {
       return new Promise((resolve, reject) => {
-        let cld_upload_stream = cloudinary.v2.uploader.upload_stream(
+        const  cld_upload_stream = cloudinary.v2.uploader.upload_stream(
           {
             folder: userFolder || "defualt_Folder",
             sign_url: true,
@@ -68,6 +66,7 @@ export const Upload_coludnairy = async (
               },
             ],
           },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (error: any, result: any) => {
             if (result) {
               resolve(result);
@@ -90,6 +89,7 @@ console.log(result)
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const updateCloudinaryAsset = async (publicId: string, updates: any) => {
   try {
     const result = await cloudinary.v2.uploader.update_metadata(
@@ -161,7 +161,7 @@ export const uploadFile = async (
 ): Promise<FileUploadResponse> => {
   try {
     const {
-      folder = "uploads",
+      // folder = "uploads",
 
       maxSize = 10 * 1024 * 1024, // 10MB default
 
@@ -188,23 +188,24 @@ export const uploadFile = async (
 
     // Determine resource type based on file mime type
 
-    let resourceType = "raw";
+    // let resourceType = "raw";
 
-    if (file.type.startsWith("image/")) {
-      resourceType = "image";
-    } else if (file.type.startsWith("video/")) {
-      resourceType = "video";
-    }
+    // if (file.type.startsWith("image/")) {
+    //   resourceType = "image";
+    // } else if (file.type.startsWith("video/")) {
+    //   resourceType = "video";
+    // }
 
     // Convert file to base64
 
-    const fileToBase64 = (file: Buffer): string => {
-      return Buffer.from(file as unknown as any).toString("base64");
-    };
+    // const fileToBase64 = (file: Buffer): string => {
+    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //   return Buffer.from(file as unknown as any).toString("base64");
+    // };
 
-    const base64Data = fileToBase64(Buffer.from(await file.arrayBuffer()));
+    // const base64Data = fileToBase64(Buffer.from(await file.arrayBuffer()));
 
-    const base64Uri = `data:${file.type};base64,${base64Data}`;
+    // const base64Uri = `data:${file.type};base64,${base64Data}`;
     // const uploadResult = await cloudinary.v2.uploader.upload(base64Uri, {
     //   // folder,
     //   access_mode :"authenticated",
@@ -217,7 +218,7 @@ export const uploadFile = async (
 
     const uploadFromBuffer = async (file: Buffer) => {
       return new Promise((resolve, reject) => {
-        let cld_upload_stream = cloudinary.v2.uploader.upload_stream(
+        const cld_upload_stream = cloudinary.v2.uploader.upload_stream(
           {
             // folder: "userFolder" ,
             // type: "authenticated",
@@ -233,7 +234,8 @@ export const uploadFile = async (
             //   },
             // ],
           },
-          (error: any, result: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(error: any, result: any) => {
             if (result) {
               resolve(result);
             } else {

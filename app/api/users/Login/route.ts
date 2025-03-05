@@ -76,6 +76,6 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   } catch (err) {
-    return NextResponse.json({ message: "try again later" }, { status: 400 });
+    return NextResponse.json({ message: "try again later"  , err}, { status: 400 });
   }
 }

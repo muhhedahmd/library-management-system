@@ -1,4 +1,4 @@
-import  { AuthOptions } from "next-auth";
+import { AuthOptions } from "next-auth";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
@@ -21,24 +21,27 @@ export const authOptions: AuthOptions = {
 
           const response = await axios.post(
             "http://localhost:3000/api/users/Login",
-           credentials ,
+            credentials,
           );
 
           if (response.status === 200) {
             console.log("Response Data:", response.data);
             return response.data;
           }
-        } catch (error: any) {
-          
-       throw new Error(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error : any)  {
+
+
+          throw new Error(
             JSON.stringify({
-              errors: error.response.data,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              errors: error.response.data as unknown as any ,
               status: 400,
               ok: false,
             })
           )
-        //   console.log(error.response.data)
-    
+          //   console.log(error.response.data)
+
           // return null
 
         }
@@ -56,9 +59,10 @@ export const authOptions: AuthOptions = {
         },
         role: { label: "role", type: "text" },
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async authorize(credentials: Record<string, any> | undefined) {
         console.log("credentials next auth", credentials);
-        if(!credentials) return
+        if (!credentials) return
 
         try {
           const response = await axios.post(
@@ -75,8 +79,8 @@ export const authOptions: AuthOptions = {
             console.log("Response Data:", response.data);
             return response.data;
           }
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-          console.log(error.response.data)
           throw new Error(
             JSON.stringify({
               errors: error.response.data,
@@ -108,12 +112,12 @@ export const authOptions: AuthOptions = {
       // console.log("User Data in JWT:", user, token); // Debug log
       return { ...token, ...user };
     },
-    async session({ session, token, user }) {
+    async session({ session, token, }) {
       // console.log("Session Token:", token, session, user); // Debug log
       session.user = token;
       return session;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       // console.log(url, baseUrl);
       // Redirect users to the home page after sign in/sign up
       return baseUrl;

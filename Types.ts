@@ -45,7 +45,7 @@ export interface CustomSession {
         id: string;
         name?: string | null;
         email?: string | null;
-        Role :UserRole ,
+        role :UserRole ,
         Gender :GENDER
         Profile : ProfileWithPic[]
        
@@ -57,7 +57,7 @@ export type UserData =  {
     id: string;
     name?: string | null;
     email?: string | null;
-    Role :UserRole ,
+    role :UserRole ,
     Gender :GENDER
     Profile : ProfileWithPic[],
     user :{

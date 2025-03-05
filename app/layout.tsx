@@ -4,6 +4,7 @@ import "./globals.css";
 import StoreProvider from "@/store/storeProvider";
 import UserSessionProvider from "./_comonents/UserSessionProvider";
 import NavBar from "./_comonents/navBar";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
             </div>
 
             {children}
+            <Toaster/>
           </div>
         </StoreProvider>
       </body>

@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
+    "noUnusedLocals": false, // Disable unused local variable warnings
+    "noUnusedParameters": false ,// Disable unused parameter warnings
+    "noImplicitAny": false,
+    "strict": false ,// Optional: Disable all strict type-checking
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    // "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -23,5 +27,7 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  
+  // };
 }

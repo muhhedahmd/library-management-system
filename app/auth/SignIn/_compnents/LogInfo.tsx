@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect,  useState } from "react"
 import Link from "next/link"
 import { Eye, EyeOff, Mail, User, Lock, LucideUserSquare, Settings2 } from "lucide-react"
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -65,10 +65,10 @@ export default function AuthForm() {
 
   useEffect(()=>{
     setValue("grnder" , GenderValue)
-  } ,[GenderValue])
+  } ,[GenderValue ,setValue])
   useEffect(()=>{
     setValue("Role" , RoleValue)
-  } ,[RoleValue])
+  } ,[RoleValue ,setValue])
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)

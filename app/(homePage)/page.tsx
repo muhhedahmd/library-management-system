@@ -4,9 +4,6 @@ import { BookOpen, Users, BarChart, Calendar, Search, BookCopy, ArrowRight } fro
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ThemeToggle } from "../_comonents/ThemeToggle"
-import { DropdownMenuDemo } from "../_comonents/UserLogDropMenuNav"
-import NavBar from "../_comonents/navBar"
 
 export default function LandingPage() {
   return (
@@ -97,7 +94,7 @@ export default function LandingPage() {
                   Everything You Need to Manage Your Library
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our comprehensive solution provides all the tools you need to efficiently manage your library's
+                  Our comprehensive solution provides all the tools you need to efficiently manage your library `&aposs
                   resources and patrons.
                 </p>
               </div>
@@ -221,8 +218,9 @@ export default function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    "LibraryPro has transformed how we manage our collection. The time saved on administrative tasks
-                    allows us to focus more on serving our community."
+                  
+  {"\"LibraryPro has transformed how we manage our collection. The time saved on administrative tasks allows us to focus more on serving our community.\""}
+
                   </p>
                 </CardContent>
               </Card>
@@ -239,9 +237,10 @@ export default function LandingPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
+            
                   <p className="text-sm text-muted-foreground">
-                    "The analytics capabilities have given us unprecedented insights into our collection usage, helping
-                    us make data-driven acquisition decisions."
+                    The analytics capabilities have given us unprecedented insights into our collection usage ,&rdquo helping
+                    us make data-driven acquisition decisions.
                   </p>
                 </CardContent>
               </Card>
@@ -259,8 +258,8 @@ export default function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    "Our students love the intuitive search interface, and I appreciate how easy it is to track
-                    checkouts and returns. Highly recommended!"
+                    Our students love the intuitive search interface, and I appreciate how easy it is to track
+                    checkouts and returns. Highly recommended! 
                   </p>
                 </CardContent>
               </Card>

@@ -6,7 +6,7 @@ import { Briefcase, Calendar, Earth, Edit, FileText, Loader2, Pencil, Phone, Plu
 import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm, FormProvider } from 'react-hook-form'; // Import FormProvider
 import { useSelector } from 'react-redux';
-import { ProfileWithPic, UserData } from '@/Types';
+import { ProfileWithPic } from '@/Types';
 import useImageFile from '@/hooks/useImageData';
 import EditableField from '@/app/_comonents/EditableField';
 import { ProfileSchema } from '@/app/_comonents/ZodScheams';
@@ -16,6 +16,7 @@ import PhotoViewrComp from '@/app/_comonents/PhotoViewr';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import AutocompleteMultiValue from '@/app/_comonents/AutoCompleteMulti';
 import { useUpdateProfileMutation } from '@/store/QueriesApi/ProfileQuery';
+import { toast } from 'sonner';
 
 const MainInfoEdit = ({
     blurProfile,
@@ -24,6 +25,7 @@ const MainInfoEdit = ({
     profileData: ProfileWithPic | undefined;
     blurProfile: ProfilePicture | null;
 }) => {
+    
     const CachedUser = useSelector(userResponse)!;
 
     const methods = useForm<typeof ProfileSchema._type>({
@@ -40,7 +42,7 @@ const MainInfoEdit = ({
         resolver: zodResolver(ProfileSchema), // Add Zod resolver for validation
     });
 
-    const { register, formState: { errors }, control, setValue, getValues, trigger, handleSubmit } = methods;
+    const {  formState: { }, control, setValue, getValues, trigger } = methods;
     const [editProfile, {
         isLoading: editStatus,
     }] = useUpdateProfileMutation()
@@ -52,7 +54,7 @@ const MainInfoEdit = ({
         setBlurProfileToUpdate(blurProfile || null);
     }, [blurProfile]);
 
-    const { dimensions: CoverDimantionNew, error: errorProfile, isLoading: isLoadingProfile, url: urlProfilenew, blurHash: blurHashProfileNew } = useImageFile(getValues("profile_picture"));
+    const { dimensions: CoverDimantionNew, isLoading: isLoadingProfile, url: urlProfilenew, blurHash: blurHashProfileNew } = useImageFile(getValues("profile_picture"));
 
     const ProfilePicInputRef = useRef<HTMLInputElement>(null);
 
@@ -81,21 +83,23 @@ const MainInfoEdit = ({
 
                 editProfile(formData).then((res) => {
                     console.log({ res })
-                    // toast({
-                    //   title: "Profile Updated",
-                    //   description: "Your profile has been updated successfully.",
+                    toast("Profile Updated" ,{
+                    style :{
+                        background : ""
+                    },
+                    className:"bg-emerald-500",
+                    //   title: ,
+                      description: "Your profile has been updated successfully.",
                     //   variant: "success",
 
-                    // })
+                    })
 
                 }
-                ).catch((err) => {
-                    console.log(err)
-                    // toast({
-                    //   title: "Error",
-                    //   description: "There was an error updating your profile.",
-                    //   variant: "destructive",
-                    // })
+                ).catch(() => {
+                    toast( "Error",{
+                      description: "There was an error updating your profile.",
+                        className : "bg-destructive"
+                    })
                 })
                 //   Router.push("/maintimeline")
 
@@ -117,7 +121,7 @@ const MainInfoEdit = ({
                 e.preventDefault()
                 e.stopPropagation()
             }}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="flex flex-col w-full justify-start items-start gap-2 md:gap-1">
 
                         <div className="flex justify-start font-medium items-center gap-2">
@@ -200,7 +204,7 @@ const MainInfoEdit = ({
                         control={control}
                         disabled={editStatus}
                         name="website"
-                        render={({ field }) => (
+                        render={({  }) => (
                             <FormItem className="w-full">
                                 <div className="flex justify-start items-center gap-2">
                                     <Earth size={18} />

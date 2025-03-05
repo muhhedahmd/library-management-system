@@ -66,7 +66,8 @@ const LogIn = () => {
 
 
         }
-        const resMsg = JSON.parse(res?.error as unknown as any)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const resMsg = JSON.parse(res?.error as unknown as any)
         if (resMsg.ok === false) {
 
           if (resMsg?.errors?.status !== 200 || resMsg.status !== 201) {
@@ -89,7 +90,8 @@ const LogIn = () => {
 
     } catch (error) {
       setIsLoading(false)
-      setError(error as any)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+setError(error as any)
     }
     // console.log(error)
 

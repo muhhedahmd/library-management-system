@@ -1,12 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ArrowLeftCircle, Calendar, Edit, Library, Mail, Phone, Settings, ShieldCheck, User, Users } from "lucide-react"
+import { ArrowLeftCircle, Calendar, Edit, Mail, Phone, Settings, User} from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent,  CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 
 import MemberContent from "../_components/MemberContent"
@@ -18,46 +18,46 @@ import FullSkeletonLoader from "../_components/FullSkeltonLoader"
 import { ProgreeProfile } from "../_components/ProgressProfile"
 import { TabsInfo } from "../_components/TabsInfo"
 import { AnimatePresence, motion } from "motion/react"
-import { useRouter } from "next/navigation"
 
 // This is a mock data object - replace with your actual data fetching logic
-// const mockCachedUser = {
-//   admin: {
-//     name: "Sarah Johnson",
-//     email: "sarah.johnson@library.com",
-//     phone: "+1 (555) 123-4567",
-//     role: "Administrator",
-//     joinDate: "March 15, 2020",
-//     profileImage: "/placeholder.svg?height=200&width=200",
-//     stats: {
-//       booksManaged: 5243,
-//       membersOverseeing: 1250,
-//       activeLoans: 328,
-//       overdue: 42,
-//     },
-//   },
-//   member: {
-//     name: "Michael Chen",
-//     email: "michael.chen@example.com",
-//     phone: "+1 (555) 987-6543",
-//     role: "Member",
-//     membershipType: "Premium",
-//     membershipId: "MEM-2023-7845",
-//     joinDate: "June 8, 2022",
-//     profileImage: "/placeholder.svg?height=200&width=200",
-//     stats: {
-//       booksLoaned: 37,
-//       currentlyBorrowed: 3,
-//       reservations: 2,
-//       overdue: 0,
-//     },
-//     recentBooks: [
-//       { title: "The Midnight Library", author: "Matt Haig", returnDate: "Apr 15, 2024" },
-//       { title: "Project Hail Mary", author: "Andy Weir", returnDate: "Apr 22, 2024" },
-//       { title: "Atomic Habits", author: "James Clear", returnDate: "Apr 30, 2024" },
-//     ],
-//   },
-// }
+
+const mockCachedUser = {
+  ADMIN: {
+    name: "Sarah Johnson",
+    email: "sarah.johnson@library.com",
+    phone: "+1 (555) 123-4567",
+    role: "Administrator",
+    joinDate: "March 15, 2020",
+    profileImage: "/placeholder.svg?height=200&width=200",
+    stats: {
+      booksManaged: 5243,
+      MEMBERsOverseeing: 1250,
+      activeLoans: 328,
+      overdue: 42,
+    },
+  },
+  MEMBER: {
+    name: "Michael Chen",
+    email: "michael.chen@example.com",
+    phone: "+1 (555) 987-6543",
+    role: "Member",
+    MEMBERshipType: "Premium",
+    MEMBERshipId: "MEM-2023-7845",
+    joinDate: "June 8, 2022",
+    profileImage: "/placeholder.svg?height=200&width=200",
+    stats: {
+      booksLoaned: 37,
+      currentlyBorrowed: 3,
+      reservations: 2,
+      overdue: 0,
+    },
+    recentBooks: [
+      { title: "The Midnight Library", author: "Matt Haig", returnDate: "Apr 15, 2024" },
+      { title: "Project Hail Mary", author: "Andy Weir", returnDate: "Apr 22, 2024" },
+      { title: "Atomic Habits", author: "James Clear", returnDate: "Apr 30, 2024" },
+    ],
+  },
+}
 
 export default function ProfilePage({ params }: { params: Promise<{ userId: string }> }) {
   // const { userId } = params;
@@ -68,7 +68,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
         (await params).userId
       )
     })()
-  }, [])
+  }, [params])
   // console.log(userIdParam)
 
   const [
@@ -76,11 +76,11 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
     setEditBg
   ] = useState(false)
 
-  const { isLoading: isLoadingProfile, data: profileData, error: ErrorProfile } = useGetUserProfileQuery({
+  const { isLoading: isLoadingProfile, data: profileData,  } = useGetUserProfileQuery({
     userId: userIdParam
   })
 
-  const Router = useRouter()
+  // const Router = useRouter()
   const [scoreProfile, setScoreProfile] = useState(0);
 
   useEffect(() => {
@@ -109,10 +109,9 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
   }, [profileData]); // Add profileData as a dependency
 
-  const CachedUser = useSelector(userResponse!)!
+  const CachedUser = useSelector(userResponse)!
   const IsLoading = useSelector(isLoading)
 
-  const [userRole, setUserRole] = useState<"admin" | "member">("admin")
 
 
   if (IsLoading || !CachedUser || isLoadingProfile) {
@@ -123,11 +122,12 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
     );
   }
 
+  console.log(CachedUser)
 
-  // Toggle between admin and member view for demonstration
+  // Toggle between ADMIN and MEMBER view for demonstration
 
 
-  // const userRole = CachedUser.Role === "ADMIN" ? mockCachedUser.admin : mockCachedUser.member
+  // const CachedUser.role = CachedUser.role === "ADMIN" ? mockCachedUser.ADMIN : mockCachedUser.MEMBER
 
   if (!CachedUser) return
   // const user  = CachedUser
@@ -163,8 +163,8 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                 </Avatar>
                 <CardTitle className="text-xl">{CachedUser.name}</CardTitle>
                 <div className="flex items-center gap-2 mt-1">
-                  <Badge variant={userRole === "admin" ? "destructive" : "secondary"}>{CachedUser.Role}</Badge>
-                  {userRole === "member" && <Badge variant="outline">{CachedUser?.membershipType || "silver"}</Badge>}
+                  <Badge variant={CachedUser.role === "ADMIN" ? "destructive" : "secondary"}>{CachedUser.role}</Badge>
+                  {CachedUser.role === "MEMBER" && <Badge variant="outline">{  "silver"}</Badge>}
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -181,10 +181,10 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span>Joined {JSON.stringify(CachedUser?.createdAt)}</span>
                   </div>
-                  {userRole === "member" && (
+                  {CachedUser.role === "MEMBER" && (
                     <div className="flex items-center gap-2 text-sm">
                       <User className="h-4 w-4 text-muted-foreground" />
-                      {/* <span>ID: {CachedUser.membershipId}</span> */}
+                      {/* <span>ID: {CachedUser.MEMBERshipId}</span> */}
                     </div>
                   )}
                 </div>
@@ -192,7 +192,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                 <Separator />
 
                 <div className="grid grid-cols-2 gap-4 pt-2">
-                  {CachedUser.Role === "ADMIN" ? (
+                  {CachedUser.role === "ADMIN" ? (
                     <>
                       <div className="space-y-1">
                         <p className="text-xs text-muted-foreground">Books Managed</p>
@@ -200,7 +200,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                       </div>
                       <div className="space-y-1">
                         <p className="text-xs text-muted-foreground">Members</p>
-                        {/* <p className="text-xl font-medium">{CachedUser.stats.membersOverseeing}</p> */}
+                        {/* <p className="text-xl font-medium">{CachedUser.stats.MEMBERsOverseeing}</p> */}
                       </div>
                       <div className="space-y-1">
                         <p className="text-xs text-muted-foreground">Active Loans</p>
@@ -245,7 +245,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
               </CardFooter>
             </Card>
 
-            {/* Right column - Role specific content */}
+            {/* Right column - role specific content */}
             <div className="w-full md:w-2/3 sticky top-0 space-y-6">
 
 
@@ -366,7 +366,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
 
 
 
-              {userRole === "admin" && !editBg &&
+              {CachedUser.role === "ADMIN" && !editBg &&
 
                 <AnimatePresence
                   mode="wait"
@@ -382,7 +382,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                   </motion.div>
                 </AnimatePresence>
               }
-              {userRole === "member" && !editBg &&
+              {CachedUser.role === "MEMBER" && !editBg &&
                 <AnimatePresence
                   mode="wait"
 
@@ -393,15 +393,16 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    < MemberContent books={CachedUser.recentBooks} />
+                  < MemberContent books={mockCachedUser.MEMBER.recentBooks} />
                   </motion.div>
                 </AnimatePresence>
               }
+             
 
               {/* This button is just for demo purposes to toggle between views */}
               <div className="flex justify-end mt-8">
-                {/* <Button variant="outline" onClick={toggleUserRole} size="sm">
-                  Switch to {userRole === "admin" ? "Member" : "Admin"} View
+                {/* <Button variant="outline" onClick={toggleCachedUser.role} size="sm">
+                  Switch to {CachedUser.role === "ADMIN" ? "Member" : "Admin"} View
                 </Button> */}
               </div>
             </div>

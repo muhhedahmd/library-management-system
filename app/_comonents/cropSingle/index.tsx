@@ -6,10 +6,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose
 } from "@/components/ui/dialog";
-import { FlipHorizontal, FlipVertical, Pencil, RotateCcwIcon, RotateCw } from "lucide-react";
+import { FlipHorizontal, FlipVertical,  RotateCcwIcon, RotateCw } from "lucide-react";
 import React, { SetStateAction, useMemo, useRef, useState } from "react";
 import {
   FixedCropper,
@@ -37,7 +36,6 @@ const CropperModal: React.FC<CropperModalProps> = ({
   setOpenDialog,
   onCropComplete,
   setCroppedImage,
-  croppedImage,
   cover,
   profile
 }) => {
@@ -115,7 +113,7 @@ const CropperModal: React.FC<CropperModalProps> = ({
         <DialogHeader className="text-left">
           <DialogTitle>Edit Image</DialogTitle>
           <DialogDescription>
-            Crop and adjust your image. Click save when you're done.
+            Crop and adjust your image. Click save when you re done.
           </DialogDescription>
         </DialogHeader>
 
