@@ -153,3 +153,14 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes wave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-wave {
+  background: linear-gradient(90deg, transparent, rgba(114, 114, 114, 0.5), transparent);
+  background-size: 200% 100%;
+  animation: wave 1.5s infinite;
+}

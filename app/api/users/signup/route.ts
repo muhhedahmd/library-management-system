@@ -77,6 +77,7 @@ export async function POST(req: Request) {
         },
  
       },
+ 
       select: {
         id: true,
         email: true,
@@ -85,10 +86,16 @@ export async function POST(req: Request) {
         name :true ,
         updatedAt : true ,
         createdAt : true ,
+        profile :{
+          include :{
+            profilePictures: true
+          }
+        }       
         // first_name: true,
         // last_name: true,
         // user_name: true,
       },
+    
     });
 
     return NextResponse.json(user, { status: 201 });

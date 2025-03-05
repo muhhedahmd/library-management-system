@@ -1,22 +1,39 @@
-import { CircleUser, Icon, PiIcon } from 'lucide-react'
+import { BookOpen, CircleUser, Icon, PiIcon } from 'lucide-react'
 import React from 'react'
 import { ThemeToggle } from './ThemeToggle'
 import { DropdownMenuDemo } from './UserLogDropMenuNav'
+import Link from 'next/link'
 
 const NavBar = () => {
     return (
-        <div
-            className='w-screen border-b-1   flex justify-between items-center pl-8 pr-8 pt-1 pb-1   shadow-sm '
-        >
-            <PiIcon  className='w-6 h-6'/>
+        <header className="border-b w-full p-4 pb-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="sm:container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-2">
+            <BookOpen className="h-6 w-6 text-primary" />
+            <span className="text-xl font-bold">LibraryPro</span>
+          </div>
+          <nav className="hidden md:flex gap-6">
+            <Link href="#features" className="text-sm font-medium hover:underline">
+              Features
+            </Link>
+            <Link href="#testimonials" className="text-sm font-medium hover:underline">
+              Testimonials
+            </Link>
+            <Link href="#pricing" className="text-sm font-medium hover:underline">
+              Pricing
+            </Link>
+            <Link href="#contact" className="text-sm font-medium hover:underline">
+              Contact
+            </Link>
+          </nav>
+          <div className="flex items-center gap-4">
 
-            <div
-
-                className='flex justify-start items-center  gap-5'>
-               <DropdownMenuDemo/>
-                <ThemeToggle />
-            </div>
+<DropdownMenuDemo/>
+            <ThemeToggle/>
+          </div>
         </div>
+    
+      </header>
     )
 }
 

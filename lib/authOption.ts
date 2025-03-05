@@ -15,7 +15,6 @@ export const authOptions: AuthOptions = {
           placeholder: "hello@example.com",
         },
         password: { label: "Password", type: "password" },
-        user_name: { label: "User name", type: "text" },
       },
       authorize: async (credentials) => {
         try {
@@ -31,14 +30,16 @@ export const authOptions: AuthOptions = {
           }
         } catch (error: any) {
           
-          console.log(error.response.data)
-          throw new Error(
+       throw new Error(
             JSON.stringify({
               errors: error.response.data,
               status: 400,
               ok: false,
             })
-          );
+          )
+        //   console.log(error.response.data)
+    
+          // return null
 
         }
         return null;

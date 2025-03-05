@@ -6,46 +6,21 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ThemeToggle } from "../_comonents/ThemeToggle"
 import { DropdownMenuDemo } from "../_comonents/UserLogDropMenuNav"
+import NavBar from "../_comonents/navBar"
 
 export default function LandingPage() {
   return (
-    <div className="flex w-full justify-center items-center">
+    <div className="flex  w-full  justify-center items-center">
 
     <div className="flex min-h-screen flex-col w-fit">
 
       {/* Header/Navigation */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BookOpen className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">LibraryPro</span>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="#features" className="text-sm font-medium hover:underline">
-              Features
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:underline">
-              Testimonials
-            </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:underline">
-              Pricing
-            </Link>
-            <Link href="#contact" className="text-sm font-medium hover:underline">
-              Contact
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-
-<DropdownMenuDemo/>
-            <ThemeToggle/>
-          </div>
-        </div>
-      </header>
+      {/* <NavBar/> */}
 
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-background to-muted">
-          <div className="container px-4 md:px-6">
+          <div className="sm:container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2 w-full max-w-7xl mx-auto">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -88,7 +63,7 @@ export default function LandingPage() {
 
         {/* Stats Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
+          <div className="sm:container px-4 md:px-6">
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:gap-12">
               <div className="flex flex-col items-center justify-center space-y-2 text-center">
                 <div className="text-3xl font-bold md:text-4xl">5,000+</div>
@@ -112,7 +87,7 @@ export default function LandingPage() {
 
         {/* Features Section */}
         <section id="features" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="sm:container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
@@ -217,7 +192,7 @@ export default function LandingPage() {
 
         {/* Testimonials Section */}
         <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
+          <div className="sm:container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
@@ -295,7 +270,7 @@ export default function LandingPage() {
 
         {/* CTA Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary text-secondary-foreground">
-          <div className="container px-4 md:px-6">
+          <div className="sm:container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center w-full max-w-4xl mx-auto">
               <div className="space-y-2 bg-secondary">
                 <h2 className="text-secondary-foreground text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -331,7 +306,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t bg-background">
 
-        <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
+        <div className=" sm: flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2">
             <BookOpen className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">LibraryPro</span>
