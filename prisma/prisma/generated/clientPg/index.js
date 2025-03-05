@@ -12,13 +12,18 @@ const {
   empty,
   join,
   raw,
+  skip,
   Decimal,
+  Debug,
   objectEnumValues,
   makeStrictEnum,
   Extensions,
+  warnOnce,
   defineDmmfProperty,
   Public,
-} = require('@prisma/client/runtime/library.js')
+  getRuntime,
+  createParam,
+} = require('./runtime/library.js')
 
 
 const Prisma = {}
@@ -263,7 +268,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Lib.M.S\\source-code\\node_modules\\@prisma\\client",
+      "value": "C:\\Lib.M.S\\source-code\\prisma\\prisma\\generated\\clientPg",
       "fromEnvVar": null
     },
     "config": {
@@ -277,19 +282,21 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Lib.M.S\\source-code\\prisma\\schema.prisma"
+    "sourceFilePath": "C:\\Lib.M.S\\source-code\\prisma\\schema.prisma",
+    "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": "../../../../.env",
+    "schemaEnvPath": "../../../../.env"
   },
-  "relativePath": "../../../prisma",
+  "relativePath": "../../..",
   "clientVersion": "6.4.1",
   "engineVersion": "a9055b89e58b4b5bfb59600785423b1db3d0e75d",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -298,8 +305,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nenum UserRole {\n  MEMBER\n  ADMIN\n}\n\nenum NotificationType {\n  LIKE\n  COMMENT\n  FOLLOW\n  MESSAGE\n}\n\nmodel Notification {\n  id          String           @id @default(cuid())\n  notifierId  String\n  notifyingId String\n  type        NotificationType\n  read        Boolean          @default(false)\n  notifier    User             @relation(\"UserNotifier\", fields: [notifierId], references: [id], onDelete: Cascade)\n  notifying   User             @relation(\"UserNotifying\", fields: [notifyingId], references: [id], onDelete: Cascade)\n  createdAt   DateTime         @default(now())\n  updatedAt   DateTime         @updatedAt\n\n  @@index([notifierId, notifyingId])\n  @@map(\"notifications\")\n}\n\nenum GENDER {\n  MALE\n  FEMALE\n}\n\nmodel User {\n  id                    String         @id @default(cuid())\n  gender                GENDER\n  name                  String\n  email                 String         @unique\n  password              String\n  notificationsSent     Notification[] @relation(\"UserNotifier\")\n  notificationsReceived Notification[] @relation(\"UserNotifying\")\n  role                  UserRole       @default(MEMBER)\n  profile               Profile?\n  createdAt             DateTime       @default(now())\n  updatedAt             DateTime       @updatedAt\n  Loan                  Loan[]\n\n  @@map(\"users\")\n}\n\nmodel Profile {\n  id              String           @id @default(cuid())\n  userId          String           @unique\n  bio             String?\n  phoneNumber     String?\n  isVerified      Boolean          @default(false)\n  birthdate       DateTime?\n  title           String?\n  createdAt       DateTime         @default(now())\n  updatedAt       DateTime         @updatedAt\n  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)\n  profilePictures ProfilePicture[]\n  website         Json?            @default(\"{}\")\n\n  @@map(\"profile\")\n}\n\nmodel ProfilePicture {\n  id          String   @id @default(cuid())\n  url         String\n  publicId    String\n  assetId     String\n  width       Int\n  height      Int\n  format      String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  secureUrl   String\n  publicUrl   String\n  assetFolder String\n  displayName String\n  tags        String[]\n  hashBlur    String\n  profileId   String\n  profile     Profile  @relation(fields: [profileId], references: [id])\n\n  @@unique([profileId])\n  @@map(\"profile-picture\")\n}\n\nmodel Book {\n  id           String    @id @default(cuid())\n  title        String\n  description  String?\n  isbn         String    @unique\n  authorId     String\n  author       Author    @relation(fields: [authorId], references: [id])\n  publisherId  String\n  publisher    Publisher @relation(fields: [publisherId], references: [id])\n  categoryId   String\n  category     Category  @relation(fields: [categoryId], references: [id])\n  fileUrl      String // URL to the PDF file\n  fileSize     Int? // Size of the PDF file in bytes\n  fileFormat   String    @default(\"PDF\")\n  thumbnailUrl String // URL to the book's thumbnail image\n  language     String    @default(\"English\")\n  pages        Int?\n  publishedAt  DateTime?\n  available    Boolean   @default(true)\n  createdAt    DateTime  @default(now())\n  updatedAt    DateTime  @updatedAt\n  loans        Loan[]\n\n  @@map(\"books\")\n}\n\nmodel Loan {\n  id         String     @id @default(cuid())\n  userId     String\n  user       User       @relation(fields: [userId], references: [id])\n  bookId     String\n  book       Book       @relation(fields: [bookId], references: [id])\n  loanDate   DateTime   @default(now())\n  dueDate    DateTime\n  returnDate DateTime?\n  status     LoanStatus @default(ACTIVE)\n\n  @@map(\"loans\")\n}\n\nmodel Author {\n  id          String    @id @default(cuid())\n  name        String\n  bio         String? // Author's biography\n  nationality String? // Author's nationality\n  birthdate   DateTime? // Author's birthdate\n  books       Book[]\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n\n  @@map(\"authors\")\n}\n\nmodel Publisher {\n  id        String   @id @default(cuid())\n  name      String\n  website   String?\n  books     Book[]\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"publishers\")\n}\n\nmodel Category {\n  id          String   @id @default(cuid())\n  name        String\n  description String?\n  books       Book[]\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  @@map(\"categories\")\n}\n\nenum LoanStatus {\n  ACTIVE\n  RETURNED\n}\n",
-  "inlineSchemaHash": "26d5f9df713821c550530337173719e8232474f6e2016bf040be01e067aa24de",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./prisma/generated/clientPg\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nenum UserRole {\n  MEMBER\n  ADMIN\n}\n\nenum NotificationType {\n  LIKE\n  COMMENT\n  FOLLOW\n  MESSAGE\n}\n\nmodel Notification {\n  id          String           @id @default(cuid())\n  notifierId  String\n  notifyingId String\n  type        NotificationType\n  read        Boolean          @default(false)\n  notifier    User             @relation(\"UserNotifier\", fields: [notifierId], references: [id], onDelete: Cascade)\n  notifying   User             @relation(\"UserNotifying\", fields: [notifyingId], references: [id], onDelete: Cascade)\n  createdAt   DateTime         @default(now())\n  updatedAt   DateTime         @updatedAt\n\n  @@index([notifierId, notifyingId])\n  @@map(\"notifications\")\n}\n\nenum GENDER {\n  MALE\n  FEMALE\n}\n\nmodel User {\n  id                    String         @id @default(cuid())\n  gender                GENDER\n  name                  String\n  email                 String         @unique\n  password              String\n  notificationsSent     Notification[] @relation(\"UserNotifier\")\n  notificationsReceived Notification[] @relation(\"UserNotifying\")\n  role                  UserRole       @default(MEMBER)\n  profile               Profile?\n  createdAt             DateTime       @default(now())\n  updatedAt             DateTime       @updatedAt\n  Loan                  Loan[]\n\n  @@map(\"users\")\n}\n\nmodel Profile {\n  id              String           @id @default(cuid())\n  userId          String           @unique\n  bio             String?\n  phoneNumber     String?\n  isVerified      Boolean          @default(false)\n  birthdate       DateTime?\n  title           String?\n  createdAt       DateTime         @default(now())\n  updatedAt       DateTime         @updatedAt\n  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)\n  profilePictures ProfilePicture[]\n  website         Json?            @default(\"{}\")\n\n  @@map(\"profile\")\n}\n\nmodel ProfilePicture {\n  id          String   @id @default(cuid())\n  url         String\n  publicId    String\n  assetId     String\n  width       Int\n  height      Int\n  format      String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  secureUrl   String\n  publicUrl   String\n  assetFolder String\n  displayName String\n  tags        String[]\n  hashBlur    String\n  profileId   String\n  profile     Profile  @relation(fields: [profileId], references: [id])\n\n  @@unique([profileId])\n  @@map(\"profile-picture\")\n}\n\nmodel Book {\n  id           String    @id @default(cuid())\n  title        String\n  description  String?\n  isbn         String    @unique\n  authorId     String\n  author       Author    @relation(fields: [authorId], references: [id])\n  publisherId  String\n  publisher    Publisher @relation(fields: [publisherId], references: [id])\n  categoryId   String\n  category     Category  @relation(fields: [categoryId], references: [id])\n  fileUrl      String // URL to the PDF file\n  fileSize     Int? // Size of the PDF file in bytes\n  fileFormat   String    @default(\"PDF\")\n  thumbnailUrl String // URL to the book's thumbnail image\n  language     String    @default(\"English\")\n  pages        Int?\n  publishedAt  DateTime?\n  available    Boolean   @default(true)\n  createdAt    DateTime  @default(now())\n  updatedAt    DateTime  @updatedAt\n  loans        Loan[]\n\n  @@map(\"books\")\n}\n\nmodel Loan {\n  id         String     @id @default(cuid())\n  userId     String\n  user       User       @relation(fields: [userId], references: [id])\n  bookId     String\n  book       Book       @relation(fields: [bookId], references: [id])\n  loanDate   DateTime   @default(now())\n  dueDate    DateTime\n  returnDate DateTime?\n  status     LoanStatus @default(ACTIVE)\n\n  @@map(\"loans\")\n}\n\nmodel Author {\n  id          String    @id @default(cuid())\n  name        String\n  bio         String? // Author's biography\n  nationality String? // Author's nationality\n  birthdate   DateTime? // Author's birthdate\n  books       Book[]\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n\n  @@map(\"authors\")\n}\n\nmodel Publisher {\n  id        String   @id @default(cuid())\n  name      String\n  website   String?\n  books     Book[]\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"publishers\")\n}\n\nmodel Category {\n  id          String   @id @default(cuid())\n  name        String\n  description String?\n  books       Book[]\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  @@map(\"categories\")\n}\n\nenum LoanStatus {\n  ACTIVE\n  RETURNED\n}\n",
+  "inlineSchemaHash": "80bd9231619152496f2b07a752161226a5fa8f775387b3631dd187c7801238d1",
   "copyEngine": true
 }
 
@@ -308,8 +315,8 @@ const fs = require('fs')
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   const alternativePaths = [
-    "node_modules/.prisma/client",
-    ".prisma/client",
+    "prisma/prisma/generated/clientPg",
+    "prisma/generated/clientPg",
   ]
   
   const alternativePath = alternativePaths.find((altPath) => {
@@ -326,7 +333,7 @@ config.engineWasm = undefined
 config.compilerWasm = undefined
 
 
-const { warnEnvConflicts } = require('@prisma/client/runtime/library.js')
+const { warnEnvConflicts } = require('./runtime/library.js')
 
 warnEnvConflicts({
     rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(config.dirname, config.relativeEnvPaths.rootEnvPath),
@@ -339,7 +346,7 @@ Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "node_modules/.prisma/client/query_engine-windows.dll.node")
+path.join(process.cwd(), "prisma/prisma/generated/clientPg/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "node_modules/.prisma/client/schema.prisma")
+path.join(process.cwd(), "prisma/prisma/generated/clientPg/schema.prisma")
