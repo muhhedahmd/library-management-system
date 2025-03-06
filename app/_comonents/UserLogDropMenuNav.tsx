@@ -28,11 +28,9 @@ export function DropdownMenuDemo() {
   if(!CachedUser){
     return<div>
 
-      <Button>
-        <Link href={"auth/Signin"}>
+        <Link href={"auth/signin"}>
         Log in
         </Link>
-      </Button>
     </div>
   }
 
