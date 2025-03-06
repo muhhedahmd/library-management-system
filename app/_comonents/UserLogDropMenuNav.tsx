@@ -29,7 +29,7 @@ export function DropdownMenuDemo() {
     return<div>
 
       <Button>
-        <Link href={"auth/signin"}>
+        <Link href={"auth/Signin"}>
         Log in
         </Link>
       </Button>
