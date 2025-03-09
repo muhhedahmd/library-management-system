@@ -1,46 +1,65 @@
 // import { ShapeOfUserSearchMention } from "@/app/api/users/mentions/route";
 // import { ShapeOFminmalUserType } from "@/app/api/users/singleuser/route";
 import { ProfileWithPic, UserData } from "@/Types";
-import { User } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiUser = createApi({
   reducerPath: "users",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
   endpoints: (build) => ({
-    GetUserProfile: build.query<ProfileWithPic , {
+    GetUserProfile: build.query<ProfileWithPic, {
 
-      userId ?:string
+      userId?: string
     }>({
-      query: ({ userId : userId }) => {
+      query: ({ userId: userId }) => {
 
 
         return {
           url: "api/profile",
           params: {
-            userId 
+            userId
           }
         }
       },
-      
-    }),
-    updateProfile : build.mutation<any , FormData>({
 
-      query :(formData)=> {
+    }),
+    updateProfile: build.mutation<ProfileWithPic, FormData>({
+
+      query: (formData) => {
+
         return {
-          url : "api/profile/EditProfile",
-          method :"PUT",
-          body : formData
+          url: "api/profile/EditProfile",
+          method: "PUT",
+          body: formData
         }
-      }
+      },
+      async onQueryStarted(queryArgument, mutationLifeCycleApi) {
+        try {
+          const data = await mutationLifeCycleApi.queryFulfilled
+          mutationLifeCycleApi.dispatch(apiUser.util.updateQueryData("GetUserProfile",
+            { userId: queryArgument.get("userId") as string }
+            , (draft) => {
+              if (draft.userId === queryArgument.get("userId")) {
+                return data.data
+              } else {
+                return null
+              }
+            }))
+
+
+        } catch (error) {
+          throw new Error(error)
+        }
+
+      },
     })
 
   }),
 });
 
 // Export the generated hooks
-export const { 
-  useUpdateProfileMutation ,
+export const {
+  useUpdateProfileMutation,
   useGetUserProfileQuery
 } =
   apiUser;

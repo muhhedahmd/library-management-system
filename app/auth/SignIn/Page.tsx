@@ -2,7 +2,9 @@ import AuthForm from "./_compnents/LogInfo"
 
 const Page = () => {
   return (
-    <div className="h-fit w-screen">
+    <div  style={{
+    height :"calc(100vh - 81px)"
+    }}className="  relative w-screen">
   {/* <NavBar/> */}
   <AuthForm/>
 

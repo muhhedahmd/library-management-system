@@ -1,5 +1,7 @@
 
-import { PrismaClient } from '../prisma/prisma/generated/clientPg'; // Import from custom folder
+// import { PrismaClient } from "prisma"; // Import from custom folder
+
+import { PrismaClient } from "@prisma/client"
 
 const prismaClientSingleton = () => {
   return new PrismaClient()

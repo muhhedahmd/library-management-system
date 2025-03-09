@@ -9,7 +9,7 @@ import {
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOption";
-import { CustomSession } from "@/Types";
+import { CustomSession, ProfileWithPic } from "@/Types";
 
 export const PUT = async (
     req: Request,
@@ -117,7 +117,7 @@ export const PUT = async (
                 profilePictures: true
             },
             create: { ...profileData },
-        });
+        }) as ProfileWithPic
 
         // Function to save profile pictures
         const saveProfilePicture = async (

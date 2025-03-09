@@ -1,12 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ArrowLeftCircle, Calendar, Edit, Mail, Phone, Settings, User} from "lucide-react"
+import { ArrowLeftCircle, Calendar, Edit, Mail, Phone, Settings, User } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent,  CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 
 import MemberContent from "../_components/MemberContent"
@@ -18,6 +18,7 @@ import FullSkeletonLoader from "../_components/FullSkeltonLoader"
 import { ProgreeProfile } from "../_components/ProgressProfile"
 import { TabsInfo } from "../_components/TabsInfo"
 import { AnimatePresence, motion } from "motion/react"
+import BooksPage from "../_components/BookActions/BookManage"
 
 // This is a mock data object - replace with your actual data fetching logic
 
@@ -61,6 +62,7 @@ const mockCachedUser = {
 
 export default function ProfilePage({ params }: { params: Promise<{ userId: string }> }) {
   // const { userId } = params;
+  const [openManageBooks, setOpenManageBooks] = useState(false)
   const [userIdParam, setuserIdParam] = useState<string>("")
   useEffect(() => {
     (async () => {
@@ -76,7 +78,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
     setEditBg
   ] = useState(false)
 
-  const { isLoading: isLoadingProfile, data: profileData,  } = useGetUserProfileQuery({
+  const { isLoading: isLoadingProfile, data: profileData, } = useGetUserProfileQuery({
     userId: userIdParam
   })
 
@@ -92,20 +94,22 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
       bio: profileData.bio,
       birthdate: profileData.birthdate,
       phoneNumber: profileData.phoneNumber,
-      website: profileData.website,
-      ProfilePicture: profileData.profilePictures,
-    }).map((item)=>{
-      if (item !== "" && item !== null && item !== undefined) {
-        return 16.6666666667;
-      }else {
-        return 0 
+      website: Object.values(profileData.website).length,
+      ProfilePicture: profileData.profilePictures.length,
+    }).map((item) => {
+      if (item !== "" && item !== null && item !== undefined && item !== 0) {
+        return 100 / 6;
+      } else {
+        return 0;
       }
-    }).reduce((acc :number , cur : number)=>{
-      return acc +cur
-    } ,0 )
+    }).reduce((acc, cur) => {
+      return acc + cur;
+    }, 0);
+
+    console.log("Total Score:", totalScore);
 
     // Update the state once with the total score
-    setScoreProfile(totalScore);
+    setScoreProfile(Math.floor(totalScore));
 
   }, [profileData]); // Add profileData as a dependency
 
@@ -134,7 +138,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
 
 
-const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[0] :  null
+  const blurProfile = profileData?.profilePictures ? profileData.profilePictures[0] : null
 
   // console.log(ProfileDataProfileData)
 
@@ -146,11 +150,11 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
       <div className=" flex container justify-center items-center">
 
 
-        <div className=" mx-auto container py-6 px-4 mt-[-12] md:px-6 max-w-5xl">
+        <div className=" w-full md:w-[90%]  flex justify-between items-center py-6 px-4 mt-[-12]  ">
 
-          <div className="flex container flex-col relative md:flex-row justify-between items-start gap-6">
+          <div className="flex w-full  flex-col  md:flex-row justify-center items-start gap-6">
             {/* Left column - Profile info */}
-            <Card className="w-full md:w-1/3">
+            <Card className="w-full sticky top-5 md:w-1/3">
               <CardHeader className="flex flex-col items-center text-center pb-2">
                 <Avatar className="h-24 w-24 mb-4">
                   <AvatarImage src={blurProfile?.secureUrl || ""} alt={CachedUser.name!} />
@@ -164,7 +168,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                 <CardTitle className="text-xl">{CachedUser.name}</CardTitle>
                 <div className="flex items-center gap-2 mt-1">
                   <Badge variant={CachedUser.role === "ADMIN" ? "destructive" : "secondary"}>{CachedUser.role}</Badge>
-                  {CachedUser.role === "MEMBER" && <Badge variant="outline">{  "silver"}</Badge>}
+                  {CachedUser.role === "MEMBER" && <Badge variant="outline">{"silver"}</Badge>}
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -268,7 +272,7 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                 </div>
 
               }
-              {profileData?.user.id === CachedUser.id &&
+              {scoreProfile !== 100 && profileData?.user.id === CachedUser.id &&
                 <div className="flex justify-center  flex-col items-start p-2 w-full mt-2 bg-secondary rounded-md">
 
                   <div className="flex   justify-between w-full">
@@ -297,9 +301,6 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
 
 
                         }
-
-
-
                           variant={"outline"} className="cursor-pointer">
                           Complete
                         </Button>
@@ -318,43 +319,40 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                 </div>
               }
 
-              {
-                editBg ?
 
-            
+              {editBg ?
+                  <AnimatePresence
+                    mode="wait"
 
-                      <AnimatePresence
-                        mode="wait"
+                  >
+                    <motion.div
+                      className="mt-[-1.5rem]"
+                      //  key={item.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
 
-                      >
-                        <motion.div
-                          className="mt-[-1.5rem]"
-                          //  key={item.id}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
+                      <div className="flex justify-start items-center gap-1">
 
-                          <div className="flex justify-start items-center gap-1">
-
-                            <Button size={"icon"} className="hover:bg-primary cursor-pointer" onClick={() => setEditBg(false)} variant={"ghost"}>
-                              <ArrowLeftCircle
-
-                              />
-                            </Button>
-                            <h2 className="p-4 pl-0 text-xl">
-                              Edit Profile
-                            </h2>
-                          </div>
-
-                          <TabsInfo
-                          profileData={profileData}
-                            blurProfile={blurProfile || null}
-
+                        <Button size={"icon"} className="hover:bg-primary cursor-pointer" onClick={() => setEditBg(false)} variant={"ghost"}>
+                          <ArrowLeftCircle
 
                           />
-                        </motion.div>
-                      </AnimatePresence>
+                        </Button>
+                        <h2 className="p-4 pl-0 text-xl">
+                          Edit Profile
+                        </h2>
+                      </div>
+
+                      <TabsInfo
+                        profileData={profileData}
+                        blurProfile={blurProfile || null}
+
+
+                      />
+                    </motion.div>
+                  </AnimatePresence>
 
 
                   : null
@@ -366,8 +364,24 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
 
 
 
-              {CachedUser.role === "ADMIN" && !editBg &&
+              {!openManageBooks && CachedUser.role === "ADMIN" && !editBg &&
 
+                <AnimatePresence
+
+                  mode="wait"
+
+                >
+                  <motion.div
+                    //  key={item.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <AdminContent setOpenManageBooks={setOpenManageBooks} />
+                  </motion.div>
+                </AnimatePresence>
+              }
+              {!openManageBooks && CachedUser.role === "MEMBER" && !editBg &&
                 <AnimatePresence
                   mode="wait"
 
@@ -378,34 +392,24 @@ const blurProfile = profileData?.profilePictures  ? profileData.profilePictures[
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <AdminContent />
+                    < MemberContent books={mockCachedUser.MEMBER.recentBooks} />
                   </motion.div>
                 </AnimatePresence>
               }
-              {CachedUser.role === "MEMBER" && !editBg &&
-                <AnimatePresence
-                  mode="wait"
+              {
+                openManageBooks && <BooksPage
+                  searchParams={{
+                    // author : ""
+                  }}
+                />
+              }
 
-                >
-                  <motion.div
-                    //  key={item.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                  < MemberContent books={mockCachedUser.MEMBER.recentBooks} />
-                  </motion.div>
-                </AnimatePresence>
-              }
+
+
+
              
-
-              {/* This button is just for demo purposes to toggle between views */}
-              <div className="flex justify-end mt-8">
-                {/* <Button variant="outline" onClick={toggleCachedUser.role} size="sm">
-                  Switch to {CachedUser.role === "ADMIN" ? "Member" : "Admin"} View
-                </Button> */}
-              </div>
             </div>
+
           </div>
 
 

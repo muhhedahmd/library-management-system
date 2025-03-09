@@ -131,7 +131,6 @@ model Loan {
   returnDate DateTime?
   status     LoanStatus @default(ACTIVE)
   @@map("loans")
-
 }
 
 model Author {

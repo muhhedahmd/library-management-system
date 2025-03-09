@@ -8,6 +8,10 @@ import { Controller, useForm, FormProvider } from 'react-hook-form'; // Import F
 import { useSelector } from 'react-redux';
 import { ProfileWithPic } from '@/Types';
 import useImageFile from '@/hooks/useImageData';
+// const EditableField  = dynamic( ()=> import("@/app/_comonents/EditableField")  ,{
+//     ssr : false
+
+// } )
 import EditableField from '@/app/_comonents/EditableField';
 import { ProfileSchema } from '@/app/_comonents/ZodScheams';
 import { userResponse } from '@/store/Reducers/MainUserSlice';
@@ -28,7 +32,7 @@ const MainInfoEdit = ({
     
     const CachedUser = useSelector(userResponse)!;
 
-    const methods = useForm<typeof ProfileSchema._type>({
+    const form = useForm<typeof ProfileSchema._type>({
         defaultValues: {
             bio: profileData?.title || "",
             profile_picture: null,
@@ -42,7 +46,7 @@ const MainInfoEdit = ({
         resolver: zodResolver(ProfileSchema), // Add Zod resolver for validation
     });
 
-    const {  formState: { }, control, setValue, getValues, trigger } = methods;
+    
     const [editProfile, {
         isLoading: editStatus,
     }] = useUpdateProfileMutation()
@@ -54,7 +58,7 @@ const MainInfoEdit = ({
         setBlurProfileToUpdate(blurProfile || null);
     }, [blurProfile]);
 
-    const { dimensions: CoverDimantionNew, isLoading: isLoadingProfile, url: urlProfilenew, blurHash: blurHashProfileNew } = useImageFile(getValues("profile_picture"));
+    const { dimensions: CoverDimantionNew, isLoading: isLoadingProfile, url: urlProfilenew, blurHash: blurHashProfileNew } = useImageFile(form.getValues("profile_picture"));
 
     const ProfilePicInputRef = useRef<HTMLInputElement>(null);
 
@@ -63,8 +67,8 @@ const MainInfoEdit = ({
     };
 
     const onSubmit = async () => {
-        const data = getValues()
-        if (await trigger()) {
+        const data = form.getValues()
+        if (await form.trigger()) {
             try {
                 const formData = new FormData();
 
@@ -80,6 +84,7 @@ const MainInfoEdit = ({
                     }
                 });
 
+                formData.append("userId" , CachedUser.id)
 
                 editProfile(formData).then((res) => {
                     console.log({ res })
@@ -115,7 +120,7 @@ const MainInfoEdit = ({
 
 
     return (
-        <FormProvider {...methods}>
+        <FormProvider {...form}>
 
             <form onSubmit={(e) => {
                 e.preventDefault()
@@ -129,7 +134,7 @@ const MainInfoEdit = ({
                             <p className="text-sm font-[500] flex items-center gap-2">Profile picture</p>
                         </div>
                         <div className="relative w-full flex justify-start items-center gap-4">
-                            {getValues("profile_picture") ? (
+                            {form.getValues("profile_picture") ? (
                                 isLoadingProfile ? (
                                     <Loader2 className="animate-spin w-4 h-4" />
                                 ) : (
@@ -165,7 +170,7 @@ const MainInfoEdit = ({
                                 onChange={(e) => {
                                     const file = e.target.files?.[0];
                                     if (file) {
-                                        setValue("profile_picture", file);
+                                        form.setValue("profile_picture", file);
                                         SetopenDilogCropProfile(true);
                                     }
                                 }}
@@ -178,7 +183,7 @@ const MainInfoEdit = ({
                                 )}
                             </Button>
 
-                            {getValues("profile_picture") && (
+                            {form.getValues("profile_picture") && (
                                 <Button onClick={() => SetopenDilogCropProfile(true)} variant={"outline"}>
                                     <Edit className="w-6 h-6 text-amber-600" />
                                 </Button>
@@ -187,8 +192,8 @@ const MainInfoEdit = ({
                             <Button
                                 size="icon"
                                 onClick={() => {
-                                    setValue("profile_picture", null);
-                                    setValue("removeProfilePic", "remove");
+                                    form.setValue("profile_picture", null);
+                                    form.setValue("removeProfilePic", "remove");
                                     setBlurProfileToUpdate(null);
                                 }}
                                 variant="outline"
@@ -198,10 +203,10 @@ const MainInfoEdit = ({
                         </div>
                     </div>
 
-                    <EditableField editStatus={editStatus} control={control} name="name" icon={<UserPenIcon size={18} />} label="Name" placeholder={CachedUser.name || ""} />
+                    <EditableField editStatus={editStatus} control={form.control} name="name" icon={<UserPenIcon size={18} />} label="Name" placeholder={CachedUser.name || ""} />
 
                     <FormField
-                        control={control}
+                        control={form.control}
                         disabled={editStatus}
                         name="website"
                         render={({  }) => (
@@ -214,7 +219,7 @@ const MainInfoEdit = ({
                                     <Controller
                                         disabled={editStatus}
                                         name="website"
-                                        control={control}
+                                        control={form.control}
                                         render={({ field }) => (
                                             <AutocompleteMultiValue
                                                 value={field.value}
@@ -227,9 +232,9 @@ const MainInfoEdit = ({
                             </FormItem>
                         )}
                     />
-                    <EditableField editStatus={editStatus} control={control} name="title" icon={<Briefcase size={18} />} label="Title" placeholder={profileData?.title || ""} />
-                    <EditableField editStatus={editStatus} control={control} type='text' name="PhoneNumber" icon={<Phone size={18} />} label="Phone Number" placeholder={profileData?.phoneNumber?.toString() || ""} />
-                    <EditableField editStatus={editStatus} control={control} name="birthdate" icon={<Calendar size={18} />} label="Birthday" type="date" placeholder={""} />
+                    <EditableField editStatus={editStatus} control={form.control} name="title" icon={<Briefcase size={18} />} label="Title" placeholder={profileData?.title || ""} />
+                    <EditableField editStatus={editStatus} control={form.control} type='text' name="PhoneNumber" icon={<Phone size={18} />} label="Phone Number" placeholder={profileData?.phoneNumber?.toString() || ""} />
+                    <EditableField editStatus={editStatus} control={form.control} name="birthdate" icon={<Calendar size={18} />} label="Birthday" type="date" placeholder={""} />
 
                     <CropperModal
                         imageFile={ProfilePicInputRef.current?.files?.[0] || null}
@@ -239,14 +244,14 @@ const MainInfoEdit = ({
                         croppedImage={croppedImageProfile}
                         setCroppedImage={setCroppedImageProfile}
                         onCropComplete={(file) => {
-                            setValue("profile_picture", file);
+                            form.setValue("profile_picture", file);
                         }}
                     />
                 </div>
 
                 <EditableField
                     editStatus={editStatus}
-                    control={control}
+                    control={form.control}
                     className={"mt-4"}
                     name="bio"
                     icon={<FileText size={18} />}

@@ -9,7 +9,7 @@ export default function LandingPage() {
   return (
     <div className="flex  w-full  justify-center items-center">
 
-    <div className="flex min-h-screen flex-col w-fit">
+    <div className="flex min-h-screen flex-col w-full">
 
       {/* Header/Navigation */}
       {/* <NavBar/> */}

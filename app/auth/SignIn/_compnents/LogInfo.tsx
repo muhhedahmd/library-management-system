@@ -97,7 +97,7 @@ export default function AuthForm() {
 }
 
   return (
-    <div className={cn("flex mt-[0vh] items-center justify-center p-4", tabState === "login" && "mt-[15vh]")}>
+    <div className={cn("flex min-w-[26rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  items-center justify-center p-4", tabState === "login" && "")}>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Welcome</CardTitle>

@@ -37,3 +37,19 @@ export const ProfileSchema =  z.object({
       .optional(),
   });
   
+  export const authorSchema = z.object({
+    name: z.string().min(1),
+    bio: z.string().optional().nullable(),
+    nationality: z.string().optional().nullable(),
+    birthdate: z.date().optional().nullable(),
+  })
+  export const categorySchema = z.object({
+    name: z.string().min(1),
+    description: z.string().optional(),
+  })
+  
+export  const publisherSchema = z.object({
+    name: z.string().min(1),
+    website: z.string().url().optional().or(z.literal("")),
+  })
+  

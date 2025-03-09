@@ -7,7 +7,11 @@ import {  BookOpen, Calendar, Library, ShieldCheck, Users} from "lucide-react";
 
 import Link from "next/link"
 
-export default function AdminContent() {
+export default function AdminContent({
+  setOpenManageBooks
+} : {
+  setOpenManageBooks: React.Dispatch<React.SetStateAction<boolean>>
+}) {
     return (
       <>
         <Card>
@@ -17,7 +21,7 @@ export default function AdminContent() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button variant="outline" className="h-24 flex flex-col gap-1 items-center justify-center">
+              <Button variant="outline" onClick={()=>setOpenManageBooks(true)} className="h-24 flex flex-col gap-1 items-center justify-center">
                 <Library className="h-6 w-6 mb-1" />
                 <span>Manage Books</span>
               </Button>
