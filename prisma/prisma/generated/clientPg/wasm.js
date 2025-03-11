@@ -184,8 +184,27 @@ exports.Prisma.BookScalarFieldEnum = {
   thumbnailUrl: 'thumbnailUrl',
   language: 'language',
   pages: 'pages',
+  blurHash: 'blurHash',
   publishedAt: 'publishedAt',
   available: 'available',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  price: 'price'
+};
+
+exports.Prisma.RatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  rating: 'rating',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FavoriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -279,6 +298,8 @@ exports.Prisma.ModelName = {
   Profile: 'Profile',
   ProfilePicture: 'ProfilePicture',
   Book: 'Book',
+  Rating: 'Rating',
+  Favorite: 'Favorite',
   Loan: 'Loan',
   Author: 'Author',
   Publisher: 'Publisher',

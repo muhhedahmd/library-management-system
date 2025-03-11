@@ -19,7 +19,7 @@ interface Category {
 }
 
 interface InfiniteScrollSelectProps {
-  control: Control<any>;
+  control: Control<unknown>;
   name: string;
   isLoading: boolean;
   categories: Category[];
@@ -34,30 +34,30 @@ const InfiniteScrollSelect: React.FC<InfiniteScrollSelectProps> = ({
   control,
   name,
   country,
-  isLoading,
   categories,
   loadMore,
   hasMore,
   label,
   placeholder = "Select an option", // Default placeholder
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [, setIsOpen] = useState(false);
 
   return (
     <FormField
       control={control}
-      name={name}
+      name={name as unknown as never}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="min-w-[200px]">
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Select
+            
               onValueChange={field.onChange}
               value={field.value}
               defaultValue={field.value}
               onOpenChange={(open) => setIsOpen(open)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="min-w-full">
                 <SelectValue placeholder={placeholder} /> {/* Use placeholder prop */}
               </SelectTrigger>
               <SelectContent>

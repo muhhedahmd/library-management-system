@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "books" ADD COLUMN     "blurHash" TEXT,
+ALTER COLUMN "fileSize" SET DATA TYPE TEXT,
+ALTER COLUMN "pages" SET DATA TYPE TEXT;

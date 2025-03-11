@@ -52,6 +52,8 @@ model User {
   profile               Profile?
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
+  ratting           Rating[]
+  favoriteUsers    Favorite[]
   Loan                  Loan[]
   @@map("users")
 }
@@ -107,17 +109,44 @@ model Book {
   categoryId   String
   category     Category  @relation(fields: [categoryId], references: [id])
   fileUrl      String // URL to the PDF file
-  fileSize     Int? // Size of the PDF file in bytes
+  fileSize     String?// Size of the PDF file in bytes
   fileFormat   String    @default("PDF")
   thumbnailUrl String // URL to the book's thumbnail image
   language     String    @default("English")
-  pages        Int? 
+  pages        String?
+  blurHash String?
   publishedAt  DateTime?
   available    Boolean   @default(true)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   loans        Loan[]
+  Rating  Rating[]
+  Favorite Favorite[]
+  price   String @default("0.00")
   @@map("books")
+}
+// ratting
+model Rating {
+  id           String    @id @default(cuid())
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
+  bookId     String
+  book       Book       @relation(fields: [bookId], references: [id])
+  rating     Int       @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  @@map("ratings")
+}
+
+model Favorite {
+  id         String     @id @default(cuid())
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
+  bookId     String
+  book       Book       @relation(fields: [bookId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  @@map("favorites")
 }
 
 model Loan {
@@ -170,3 +199,4 @@ enum LoanStatus {
   ACTIVE
   RETURNED
 }
+// extra

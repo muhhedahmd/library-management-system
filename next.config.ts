@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true, // Ignore TypeScript errors during build
   },
   images: {
+    domains:['http://localhost'],
     remotePatterns: [
       {
         hostname : "res.cloudinary.com"

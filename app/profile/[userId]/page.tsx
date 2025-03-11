@@ -150,11 +150,11 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
       <div className=" flex container justify-center items-center">
 
 
-        <div className=" w-full md:w-[90%]  flex justify-between items-center py-6 px-4 mt-[-12]  ">
+        <div className=" w-full md:w-[100%]  flex justify-between items-center py-6 px-4 mt-[-12]  ">
 
           <div className="flex w-full  flex-col  md:flex-row justify-center items-start gap-6">
             {/* Left column - Profile info */}
-            <Card className="w-full sticky top-5 md:w-1/3">
+            <Card className="w-full sticky sm:static top-5 md:w-1/3">
               <CardHeader className="flex flex-col items-center text-center pb-2">
                 <Avatar className="h-24 w-24 mb-4">
                   <AvatarImage src={blurProfile?.secureUrl || ""} alt={CachedUser.name!} />

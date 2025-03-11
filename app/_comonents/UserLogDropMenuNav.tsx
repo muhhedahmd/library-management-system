@@ -36,13 +36,7 @@ export function DropdownMenuDemo() {
 
   return (
     <div className="flex justify-start items-center ">
-   {
-    CachedUser &&
-      <p>
 
-      Hello ,{CachedUser.name}
-      </ p>
-      }
     <DropdownMenu>
 
       <DropdownMenuTrigger asChild>

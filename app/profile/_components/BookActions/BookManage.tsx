@@ -1,17 +1,16 @@
 "use client"
-import { getServerSession } from "next-auth/next"
 // import { prisma } from "@/lib/prisma"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeftCircleIcon, Plus } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 // import { authOptions } from "@/lib/authOption"
 import { DataTable } from "./dataTable"
 import { columns } from "./Columns"
-import BookForm from "./BookForm"
 import { useState } from "react"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-
+import dynamic from "next/dynamic"
+const BookForm = dynamic(() => import('./BookForm'), {
+    ssr: false,
+  });
 export const mockAuthors = [
     { id: "author1", name: "J.K. Rowling" },
     { id: "author2", name: "George R.R. Martin" },
@@ -60,14 +59,14 @@ export const mockInitialData = {
 };
 
 export default function BooksPage({
-    searchParams,
+    // searchParams,
 }: {
     searchParams: { [key: string]: string | string[] | undefined }
 }) {
     //   const session = await getServerSession(authOptions)
 
     // Parse query parameters
-    const search = typeof searchParams.search === "string" ? searchParams.search : ""
+    // const search = typeof searchParams.search === "string" ? searchParams.search : ""
     //   const category = typeof searchParams.category === "string" ? searchParams.category : ""
     //   const available = searchParams.available === "true" ? true : searchParams.available === "false" ? false : undefined
 

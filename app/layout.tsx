@@ -5,6 +5,10 @@ import StoreProvider from "@/store/storeProvider";
 import UserSessionProvider from "./_comonents/UserSessionProvider";
 import NavBar from "./_comonents/navBar";
 import { Toaster } from "sonner";
+import { Header } from "./_comonents/header-books";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { CartProvider } from "./_comonents/cart/cart-provider";
+import { Sidebar } from "./_comonents/side-bar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,14 +37,24 @@ export default function RootLayout({
       >
         <StoreProvider>
           <UserSessionProvider />
-          <div className="flex flex-col justify-center items-center">
-            <div className="w-full container sm:w-[87vw]">
-              <NavBar />
-            </div>
+          <SidebarProvider>
+            <CartProvider>
 
-            {children}
-            <Toaster/>
-          </div>
+              <div className="flex flex-col justify-start mx-auto items-center">
+                <div className="w-full container sm:w-[87vw]">
+
+                  <Header />
+                </div>
+
+      <Sidebar />
+                <div className="w-full">
+
+                  {children}
+                </div>
+                <Toaster />
+              </div>
+            </CartProvider>
+          </SidebarProvider>
         </StoreProvider>
       </body>
     </html>

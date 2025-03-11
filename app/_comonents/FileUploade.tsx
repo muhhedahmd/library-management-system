@@ -3,20 +3,21 @@
 import type React from "react"
 
 import { useState, useRef } from "react"
-import { FileText, Image, Upload, X, Eye, Loader2 } from "lucide-react"
+import { FileText, Image as ImageIcon, Upload, X, Eye, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { formatFileSize } from "@/lib/utils"
+import Image from "next/image"
 
 interface FileUploadProps {
   accept: string
   maxSize: number // in bytes
-  value: string
-  onChange: (url: string) => void
+  onChange: (url: File | null) => void
   onSizeChange?: (size: number) => void
   onPagesChange?: (pages: number) => void
+  previewThumbnail: string,
   disabled?: boolean
   isPdf?: boolean
 }
@@ -24,15 +25,14 @@ interface FileUploadProps {
 export function FileUpload({
   accept,
   maxSize,
-  value,
+  previewThumbnail,
   onChange,
   onSizeChange,
   onPagesChange,
   disabled,
-  isPdf = false,
 }: FileUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
-  const [preview, setPreview] = useState<string | null>(value || null)
+  const [preview, setPreview] = useState<string | null>( null)
   const [error, setError] = useState<string | null>(null)
   const [fileDetails, setFileDetails] = useState<{
     name: string
@@ -69,6 +69,7 @@ export function FileUpload({
       // Set preview
       setPreview(fileUrl)
 
+      console.log('Uploading', fileUrl)
       // Set file details
       const details = {
         name: file.name,
@@ -76,7 +77,7 @@ export function FileUpload({
       }
 
       // If it's a PDF, try to get page count
-      if (isPdf && file.type === "application/pdf") {
+      if ( file.type === "application/pdf") {
         try {
           // In a real app, you would use a PDF library to get page count
           // For this example, we'll simulate it with a random number
@@ -99,7 +100,7 @@ export function FileUpload({
       }
 
       // Update form value
-      onChange(fileUrl)
+      onChange(file)
 
       // Update file size if callback provided
       if (onSizeChange) {
@@ -119,7 +120,7 @@ export function FileUpload({
   const handleRemove = () => {
     setPreview(null)
     setFileDetails(null)
-    onChange("")
+    onChange(null)
     if (onSizeChange) {
       onSizeChange(0)
     }
@@ -133,7 +134,9 @@ export function FileUpload({
 
   return (
     <div className="space-y-4">
+
       {!preview ? (
+
         <div className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-6 text-center">
           {isUploading ? (
             <div className="flex flex-col items-center space-y-2">
@@ -142,16 +145,28 @@ export function FileUpload({
             </div>
           ) : (
             <>
-              {isPdf ? (
-                <FileText className="h-10 w-10 text-muted-foreground mb-2" />
+              {/* {isPdf ? (
+                <Image
+                  width={300}
+                  height={300}
+                  src={previewThumbnail || "/placeholder.svg"}
+                  alt="Thumbnail preview"
+                  className="h-full w-full object-cover"
+                />
+
               ) : (
-                <Image className="h-10 w-10 text-muted-foreground mb-2" />
-              )}
-              <p className="text-sm font-medium mb-1">{isPdf ? "Upload PDF file" : "Upload thumbnail image"}</p>
+                <FileText className="h-8 w-8 text-primary" />
+
+              )} */}
+              {/* <p className="text-sm font-medium mb-1">{isPdf ? "Upload PDF file" : "Upload thumbnail image"}</p> */}
               <p className="text-xs text-muted-foreground mb-4">
-                {isPdf
-                  ? "PDF file (max. " + formatFileSize(maxSize) + ")"
-                  : "JPG, PNG or GIF (max. " + formatFileSize(maxSize) + ")"}
+
+                
+                {
+
+                   "PDF file (max. " + formatFileSize(maxSize) 
+                }
+                  {/* : "JPG, PNG or GIF (max. " + formatFileSize(maxSize) + ")"} */}
               </p>
               <Input
                 ref={fileInputRef}
@@ -160,7 +175,7 @@ export function FileUpload({
                 onChange={handleFileChange}
                 className="hidden"
                 disabled={disabled || isUploading}
-                id={isPdf ? "pdf-upload" : "image-upload"}
+                id={ "pdf-upload" }
               />
               <Button
                 type="button"
@@ -177,25 +192,30 @@ export function FileUpload({
         </div>
       ) : (
         <Card>
+
+
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center space-x-3">
-                {isPdf ? (
+                {true ? (
                   <div className="h-16 w-16 flex items-center justify-center bg-primary/10 rounded">
-                    <FileText className="h-8 w-8 text-primary" />
-                  </div>
-                ) : (
-                  <div className="h-16 w-16 rounded overflow-hidden bg-muted">
-                    <img
-                      src={preview || "/placeholder.svg"}
+                    <Image
+                      width={300}
+                      height={300}
+                      src={previewThumbnail || "/placeholder.svg"}
                       alt="Thumbnail preview"
                       className="h-full w-full object-cover"
                     />
                   </div>
+                ) : (
+                  <div className="h-16 w-16 rounded overflow-hidden bg-muted">
+                    <FileText className="h-8 w-8 text-primary" />
+
+                  </div>
                 )}
                 <div>
                   <p className="text-sm font-medium truncate max-w-[200px]">
-                    {fileDetails?.name || (isPdf ? "PDF Document" : "Image")}
+                    {fileDetails?.name || "PDF Document" }
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {fileDetails?.size ? formatFileSize(fileDetails.size) : ""}
@@ -204,18 +224,23 @@ export function FileUpload({
                 </div>
               </div>
               <div className="flex space-x-2">
-                {isPdf && (
+
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="outline" size="icon">
                         <Eye className="h-4 w-4" />
                       </Button>
                     </DialogTrigger>
+
                     <DialogContent className="max-w-4xl h-[80vh]">
+                      <DialogTitle className="hidden">
+
+                      </DialogTitle>
                       <iframe src={preview} className="w-full h-full" title="PDF Preview" />
+     
                     </DialogContent>
                   </Dialog>
-                )}
+
                 <Button variant="outline" size="icon" onClick={handleRemove} disabled={disabled}>
                   <X className="h-4 w-4" />
                 </Button>

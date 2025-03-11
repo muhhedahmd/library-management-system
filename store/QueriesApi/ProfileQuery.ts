@@ -33,11 +33,10 @@ export const apiUser = createApi({
           body: formData
         }
       },
-      async onQueryStarted(queryArgument, mutationLifeCycleApi) {
+      async onQueryStarted(queryArgument, {dispatch ,queryFulfilled}) {
         try {
-          const data = await mutationLifeCycleApi.queryFulfilled
-          mutationLifeCycleApi.dispatch(apiUser.util.updateQueryData("GetUserProfile",
-            { userId: queryArgument.get("userId") as string }
+          const data = await queryFulfilled
+          dispatch(apiUser.util.updateQueryData("GetUserProfile", { userId: queryArgument.get("userId") as string }
             , (draft) => {
               if (draft.userId === queryArgument.get("userId")) {
                 return data.data

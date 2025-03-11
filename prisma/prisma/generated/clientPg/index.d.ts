@@ -39,6 +39,16 @@ export type ProfilePicture = $Result.DefaultSelection<Prisma.$ProfilePicturePayl
  */
 export type Book = $Result.DefaultSelection<Prisma.$BookPayload>
 /**
+ * Model Rating
+ * 
+ */
+export type Rating = $Result.DefaultSelection<Prisma.$RatingPayload>
+/**
+ * Model Favorite
+ * 
+ */
+export type Favorite = $Result.DefaultSelection<Prisma.$FavoritePayload>
+/**
  * Model Loan
  * 
  */
@@ -288,6 +298,26 @@ export class PrismaClient<
     * ```
     */
   get book(): Prisma.BookDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rating`: Exposes CRUD operations for the **Rating** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Ratings
+    * const ratings = await prisma.rating.findMany()
+    * ```
+    */
+  get rating(): Prisma.RatingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.favorite`: Exposes CRUD operations for the **Favorite** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Favorites
+    * const favorites = await prisma.favorite.findMany()
+    * ```
+    */
+  get favorite(): Prisma.FavoriteDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.loan`: Exposes CRUD operations for the **Loan** model.
@@ -773,6 +803,8 @@ export namespace Prisma {
     Profile: 'Profile',
     ProfilePicture: 'ProfilePicture',
     Book: 'Book',
+    Rating: 'Rating',
+    Favorite: 'Favorite',
     Loan: 'Loan',
     Author: 'Author',
     Publisher: 'Publisher',
@@ -792,7 +824,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "notification" | "user" | "profile" | "profilePicture" | "book" | "loan" | "author" | "publisher" | "category"
+      modelProps: "notification" | "user" | "profile" | "profilePicture" | "book" | "rating" | "favorite" | "loan" | "author" | "publisher" | "category"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1163,6 +1195,154 @@ export namespace Prisma {
           count: {
             args: Prisma.BookCountArgs<ExtArgs>
             result: $Utils.Optional<BookCountAggregateOutputType> | number
+          }
+        }
+      }
+      Rating: {
+        payload: Prisma.$RatingPayload<ExtArgs>
+        fields: Prisma.RatingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RatingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RatingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          findFirst: {
+            args: Prisma.RatingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RatingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          findMany: {
+            args: Prisma.RatingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          create: {
+            args: Prisma.RatingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          createMany: {
+            args: Prisma.RatingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RatingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          delete: {
+            args: Prisma.RatingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          update: {
+            args: Prisma.RatingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          deleteMany: {
+            args: Prisma.RatingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RatingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RatingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          upsert: {
+            args: Prisma.RatingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          aggregate: {
+            args: Prisma.RatingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRating>
+          }
+          groupBy: {
+            args: Prisma.RatingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RatingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RatingCountArgs<ExtArgs>
+            result: $Utils.Optional<RatingCountAggregateOutputType> | number
+          }
+        }
+      }
+      Favorite: {
+        payload: Prisma.$FavoritePayload<ExtArgs>
+        fields: Prisma.FavoriteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FavoriteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FavoriteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>
+          }
+          findFirst: {
+            args: Prisma.FavoriteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FavoriteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>
+          }
+          findMany: {
+            args: Prisma.FavoriteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>[]
+          }
+          create: {
+            args: Prisma.FavoriteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>
+          }
+          createMany: {
+            args: Prisma.FavoriteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FavoriteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>[]
+          }
+          delete: {
+            args: Prisma.FavoriteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>
+          }
+          update: {
+            args: Prisma.FavoriteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>
+          }
+          deleteMany: {
+            args: Prisma.FavoriteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FavoriteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FavoriteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>[]
+          }
+          upsert: {
+            args: Prisma.FavoriteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoritePayload>
+          }
+          aggregate: {
+            args: Prisma.FavoriteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFavorite>
+          }
+          groupBy: {
+            args: Prisma.FavoriteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FavoriteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FavoriteCountArgs<ExtArgs>
+            result: $Utils.Optional<FavoriteCountAggregateOutputType> | number
           }
         }
       }
@@ -1551,6 +1731,8 @@ export namespace Prisma {
     profile?: ProfileOmit
     profilePicture?: ProfilePictureOmit
     book?: BookOmit
+    rating?: RatingOmit
+    favorite?: FavoriteOmit
     loan?: LoanOmit
     author?: AuthorOmit
     publisher?: PublisherOmit
@@ -1651,12 +1833,16 @@ export namespace Prisma {
   export type UserCountOutputType = {
     notificationsSent: number
     notificationsReceived: number
+    ratting: number
+    favoriteUsers: number
     Loan: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notificationsSent?: boolean | UserCountOutputTypeCountNotificationsSentArgs
     notificationsReceived?: boolean | UserCountOutputTypeCountNotificationsReceivedArgs
+    ratting?: boolean | UserCountOutputTypeCountRattingArgs
+    favoriteUsers?: boolean | UserCountOutputTypeCountFavoriteUsersArgs
     Loan?: boolean | UserCountOutputTypeCountLoanArgs
   }
 
@@ -1683,6 +1869,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRattingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFavoriteUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavoriteWhereInput
   }
 
   /**
@@ -1730,10 +1930,14 @@ export namespace Prisma {
 
   export type BookCountOutputType = {
     loans: number
+    Rating: number
+    Favorite: number
   }
 
   export type BookCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loans?: boolean | BookCountOutputTypeCountLoansArgs
+    Rating?: boolean | BookCountOutputTypeCountRatingArgs
+    Favorite?: boolean | BookCountOutputTypeCountFavoriteArgs
   }
 
   // Custom InputTypes
@@ -1752,6 +1956,20 @@ export namespace Prisma {
    */
   export type BookCountOutputTypeCountLoansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LoanWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountRatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountFavoriteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavoriteWhereInput
   }
 
 
@@ -3135,6 +3353,8 @@ export namespace Prisma {
     notificationsSent?: boolean | User$notificationsSentArgs<ExtArgs>
     notificationsReceived?: boolean | User$notificationsReceivedArgs<ExtArgs>
     profile?: boolean | User$profileArgs<ExtArgs>
+    ratting?: boolean | User$rattingArgs<ExtArgs>
+    favoriteUsers?: boolean | User$favoriteUsersArgs<ExtArgs>
     Loan?: boolean | User$LoanArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -3177,6 +3397,8 @@ export namespace Prisma {
     notificationsSent?: boolean | User$notificationsSentArgs<ExtArgs>
     notificationsReceived?: boolean | User$notificationsReceivedArgs<ExtArgs>
     profile?: boolean | User$profileArgs<ExtArgs>
+    ratting?: boolean | User$rattingArgs<ExtArgs>
+    favoriteUsers?: boolean | User$favoriteUsersArgs<ExtArgs>
     Loan?: boolean | User$LoanArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3189,6 +3411,8 @@ export namespace Prisma {
       notificationsSent: Prisma.$NotificationPayload<ExtArgs>[]
       notificationsReceived: Prisma.$NotificationPayload<ExtArgs>[]
       profile: Prisma.$ProfilePayload<ExtArgs> | null
+      ratting: Prisma.$RatingPayload<ExtArgs>[]
+      favoriteUsers: Prisma.$FavoritePayload<ExtArgs>[]
       Loan: Prisma.$LoanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3597,6 +3821,8 @@ export namespace Prisma {
     notificationsSent<T extends User$notificationsSentArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     notificationsReceived<T extends User$notificationsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | null, null, ExtArgs, ClientOptions>
+    ratting<T extends User$rattingArgs<ExtArgs> = {}>(args?: Subset<T, User$rattingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
+    favoriteUsers<T extends User$favoriteUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$favoriteUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     Loan<T extends User$LoanArgs<ExtArgs> = {}>(args?: Subset<T, User$LoanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4087,6 +4313,54 @@ export namespace Prisma {
      */
     include?: ProfileInclude<ExtArgs> | null
     where?: ProfileWhereInput
+  }
+
+  /**
+   * User.ratting
+   */
+  export type User$rattingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * User.favoriteUsers
+   */
+  export type User$favoriteUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    where?: FavoriteWhereInput
+    orderBy?: FavoriteOrderByWithRelationInput | FavoriteOrderByWithRelationInput[]
+    cursor?: FavoriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FavoriteScalarFieldEnum | FavoriteScalarFieldEnum[]
   }
 
   /**
@@ -6522,20 +6796,8 @@ export namespace Prisma {
 
   export type AggregateBook = {
     _count: BookCountAggregateOutputType | null
-    _avg: BookAvgAggregateOutputType | null
-    _sum: BookSumAggregateOutputType | null
     _min: BookMinAggregateOutputType | null
     _max: BookMaxAggregateOutputType | null
-  }
-
-  export type BookAvgAggregateOutputType = {
-    fileSize: number | null
-    pages: number | null
-  }
-
-  export type BookSumAggregateOutputType = {
-    fileSize: number | null
-    pages: number | null
   }
 
   export type BookMinAggregateOutputType = {
@@ -6547,15 +6809,17 @@ export namespace Prisma {
     publisherId: string | null
     categoryId: string | null
     fileUrl: string | null
-    fileSize: number | null
+    fileSize: string | null
     fileFormat: string | null
     thumbnailUrl: string | null
     language: string | null
-    pages: number | null
+    pages: string | null
+    blurHash: string | null
     publishedAt: Date | null
     available: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    price: string | null
   }
 
   export type BookMaxAggregateOutputType = {
@@ -6567,15 +6831,17 @@ export namespace Prisma {
     publisherId: string | null
     categoryId: string | null
     fileUrl: string | null
-    fileSize: number | null
+    fileSize: string | null
     fileFormat: string | null
     thumbnailUrl: string | null
     language: string | null
-    pages: number | null
+    pages: string | null
+    blurHash: string | null
     publishedAt: Date | null
     available: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    price: string | null
   }
 
   export type BookCountAggregateOutputType = {
@@ -6592,23 +6858,15 @@ export namespace Prisma {
     thumbnailUrl: number
     language: number
     pages: number
+    blurHash: number
     publishedAt: number
     available: number
     createdAt: number
     updatedAt: number
+    price: number
     _all: number
   }
 
-
-  export type BookAvgAggregateInputType = {
-    fileSize?: true
-    pages?: true
-  }
-
-  export type BookSumAggregateInputType = {
-    fileSize?: true
-    pages?: true
-  }
 
   export type BookMinAggregateInputType = {
     id?: true
@@ -6624,10 +6882,12 @@ export namespace Prisma {
     thumbnailUrl?: true
     language?: true
     pages?: true
+    blurHash?: true
     publishedAt?: true
     available?: true
     createdAt?: true
     updatedAt?: true
+    price?: true
   }
 
   export type BookMaxAggregateInputType = {
@@ -6644,10 +6904,12 @@ export namespace Prisma {
     thumbnailUrl?: true
     language?: true
     pages?: true
+    blurHash?: true
     publishedAt?: true
     available?: true
     createdAt?: true
     updatedAt?: true
+    price?: true
   }
 
   export type BookCountAggregateInputType = {
@@ -6664,10 +6926,12 @@ export namespace Prisma {
     thumbnailUrl?: true
     language?: true
     pages?: true
+    blurHash?: true
     publishedAt?: true
     available?: true
     createdAt?: true
     updatedAt?: true
+    price?: true
     _all?: true
   }
 
@@ -6709,18 +6973,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: BookAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: BookSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: BookMinAggregateInputType
@@ -6751,8 +7003,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: BookCountAggregateInputType | true
-    _avg?: BookAvgAggregateInputType
-    _sum?: BookSumAggregateInputType
     _min?: BookMinAggregateInputType
     _max?: BookMaxAggregateInputType
   }
@@ -6766,18 +7016,18 @@ export namespace Prisma {
     publisherId: string
     categoryId: string
     fileUrl: string
-    fileSize: number | null
+    fileSize: string | null
     fileFormat: string
     thumbnailUrl: string
     language: string
-    pages: number | null
+    pages: string | null
+    blurHash: string | null
     publishedAt: Date | null
     available: boolean
     createdAt: Date
     updatedAt: Date
+    price: string
     _count: BookCountAggregateOutputType | null
-    _avg: BookAvgAggregateOutputType | null
-    _sum: BookSumAggregateOutputType | null
     _min: BookMinAggregateOutputType | null
     _max: BookMaxAggregateOutputType | null
   }
@@ -6810,14 +7060,18 @@ export namespace Prisma {
     thumbnailUrl?: boolean
     language?: boolean
     pages?: boolean
+    blurHash?: boolean
     publishedAt?: boolean
     available?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
     author?: boolean | AuthorDefaultArgs<ExtArgs>
     publisher?: boolean | PublisherDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     loans?: boolean | Book$loansArgs<ExtArgs>
+    Rating?: boolean | Book$RatingArgs<ExtArgs>
+    Favorite?: boolean | Book$FavoriteArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["book"]>
 
@@ -6835,10 +7089,12 @@ export namespace Prisma {
     thumbnailUrl?: boolean
     language?: boolean
     pages?: boolean
+    blurHash?: boolean
     publishedAt?: boolean
     available?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
     author?: boolean | AuthorDefaultArgs<ExtArgs>
     publisher?: boolean | PublisherDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6858,10 +7114,12 @@ export namespace Prisma {
     thumbnailUrl?: boolean
     language?: boolean
     pages?: boolean
+    blurHash?: boolean
     publishedAt?: boolean
     available?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
     author?: boolean | AuthorDefaultArgs<ExtArgs>
     publisher?: boolean | PublisherDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -6881,18 +7139,22 @@ export namespace Prisma {
     thumbnailUrl?: boolean
     language?: boolean
     pages?: boolean
+    blurHash?: boolean
     publishedAt?: boolean
     available?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
   }
 
-  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "isbn" | "authorId" | "publisherId" | "categoryId" | "fileUrl" | "fileSize" | "fileFormat" | "thumbnailUrl" | "language" | "pages" | "publishedAt" | "available" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
+  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "isbn" | "authorId" | "publisherId" | "categoryId" | "fileUrl" | "fileSize" | "fileFormat" | "thumbnailUrl" | "language" | "pages" | "blurHash" | "publishedAt" | "available" | "createdAt" | "updatedAt" | "price", ExtArgs["result"]["book"]>
   export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | AuthorDefaultArgs<ExtArgs>
     publisher?: boolean | PublisherDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     loans?: boolean | Book$loansArgs<ExtArgs>
+    Rating?: boolean | Book$RatingArgs<ExtArgs>
+    Favorite?: boolean | Book$FavoriteArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6913,6 +7175,8 @@ export namespace Prisma {
       publisher: Prisma.$PublisherPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs>
       loans: Prisma.$LoanPayload<ExtArgs>[]
+      Rating: Prisma.$RatingPayload<ExtArgs>[]
+      Favorite: Prisma.$FavoritePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6923,15 +7187,17 @@ export namespace Prisma {
       publisherId: string
       categoryId: string
       fileUrl: string
-      fileSize: number | null
+      fileSize: string | null
       fileFormat: string
       thumbnailUrl: string
       language: string
-      pages: number | null
+      pages: string | null
+      blurHash: string | null
       publishedAt: Date | null
       available: boolean
       createdAt: Date
       updatedAt: Date
+      price: string
     }, ExtArgs["result"]["book"]>
     composites: {}
   }
@@ -7330,6 +7596,8 @@ export namespace Prisma {
     publisher<T extends PublisherDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PublisherDefaultArgs<ExtArgs>>): Prisma__PublisherClient<$Result.GetResult<Prisma.$PublisherPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
     loans<T extends Book$loansArgs<ExtArgs> = {}>(args?: Subset<T, Book$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
+    Rating<T extends Book$RatingArgs<ExtArgs> = {}>(args?: Subset<T, Book$RatingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
+    Favorite<T extends Book$FavoriteArgs<ExtArgs> = {}>(args?: Subset<T, Book$FavoriteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7367,15 +7635,17 @@ export namespace Prisma {
     readonly publisherId: FieldRef<"Book", 'String'>
     readonly categoryId: FieldRef<"Book", 'String'>
     readonly fileUrl: FieldRef<"Book", 'String'>
-    readonly fileSize: FieldRef<"Book", 'Int'>
+    readonly fileSize: FieldRef<"Book", 'String'>
     readonly fileFormat: FieldRef<"Book", 'String'>
     readonly thumbnailUrl: FieldRef<"Book", 'String'>
     readonly language: FieldRef<"Book", 'String'>
-    readonly pages: FieldRef<"Book", 'Int'>
+    readonly pages: FieldRef<"Book", 'String'>
+    readonly blurHash: FieldRef<"Book", 'String'>
     readonly publishedAt: FieldRef<"Book", 'DateTime'>
     readonly available: FieldRef<"Book", 'Boolean'>
     readonly createdAt: FieldRef<"Book", 'DateTime'>
     readonly updatedAt: FieldRef<"Book", 'DateTime'>
+    readonly price: FieldRef<"Book", 'String'>
   }
     
 
@@ -7796,6 +8066,54 @@ export namespace Prisma {
   }
 
   /**
+   * Book.Rating
+   */
+  export type Book$RatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Book.Favorite
+   */
+  export type Book$FavoriteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    where?: FavoriteWhereInput
+    orderBy?: FavoriteOrderByWithRelationInput | FavoriteOrderByWithRelationInput[]
+    cursor?: FavoriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FavoriteScalarFieldEnum | FavoriteScalarFieldEnum[]
+  }
+
+  /**
    * Book without action
    */
   export type BookDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7811,6 +8129,2185 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BookInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Rating
+   */
+
+  export type AggregateRating = {
+    _count: RatingCountAggregateOutputType | null
+    _avg: RatingAvgAggregateOutputType | null
+    _sum: RatingSumAggregateOutputType | null
+    _min: RatingMinAggregateOutputType | null
+    _max: RatingMaxAggregateOutputType | null
+  }
+
+  export type RatingAvgAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type RatingSumAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type RatingMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    rating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RatingMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    rating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RatingCountAggregateOutputType = {
+    id: number
+    userId: number
+    bookId: number
+    rating: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RatingAvgAggregateInputType = {
+    rating?: true
+  }
+
+  export type RatingSumAggregateInputType = {
+    rating?: true
+  }
+
+  export type RatingMinAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    rating?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RatingMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    rating?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RatingCountAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    rating?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RatingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rating to aggregate.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Ratings
+    **/
+    _count?: true | RatingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RatingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RatingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RatingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RatingMaxAggregateInputType
+  }
+
+  export type GetRatingAggregateType<T extends RatingAggregateArgs> = {
+        [P in keyof T & keyof AggregateRating]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRating[P]>
+      : GetScalarType<T[P], AggregateRating[P]>
+  }
+
+
+
+
+  export type RatingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithAggregationInput | RatingOrderByWithAggregationInput[]
+    by: RatingScalarFieldEnum[] | RatingScalarFieldEnum
+    having?: RatingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RatingCountAggregateInputType | true
+    _avg?: RatingAvgAggregateInputType
+    _sum?: RatingSumAggregateInputType
+    _min?: RatingMinAggregateInputType
+    _max?: RatingMaxAggregateInputType
+  }
+
+  export type RatingGroupByOutputType = {
+    id: string
+    userId: string
+    bookId: string
+    rating: number
+    createdAt: Date
+    updatedAt: Date
+    _count: RatingCountAggregateOutputType | null
+    _avg: RatingAvgAggregateOutputType | null
+    _sum: RatingSumAggregateOutputType | null
+    _min: RatingMinAggregateOutputType | null
+    _max: RatingMaxAggregateOutputType | null
+  }
+
+  type GetRatingGroupByPayload<T extends RatingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RatingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RatingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RatingGroupByOutputType[P]>
+            : GetScalarType<T[P], RatingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bookId" | "rating" | "createdAt" | "updatedAt", ExtArgs["result"]["rating"]>
+  export type RatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type RatingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type RatingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+
+  export type $RatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Rating"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      book: Prisma.$BookPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      bookId: string
+      rating: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["rating"]>
+    composites: {}
+  }
+
+  type RatingGetPayload<S extends boolean | null | undefined | RatingDefaultArgs> = $Result.GetResult<Prisma.$RatingPayload, S>
+
+  type RatingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RatingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RatingCountAggregateInputType | true
+    }
+
+  export interface RatingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Rating'], meta: { name: 'Rating' } }
+    /**
+     * Find zero or one Rating that matches the filter.
+     * @param {RatingFindUniqueArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RatingFindUniqueArgs>(args: SelectSubset<T, RatingFindUniqueArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUnique", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find one Rating that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RatingFindUniqueOrThrowArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RatingFindUniqueOrThrowArgs>(args: SelectSubset<T, RatingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first Rating that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindFirstArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RatingFindFirstArgs>(args?: SelectSubset<T, RatingFindFirstArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findFirst", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first Rating that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindFirstOrThrowArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RatingFindFirstOrThrowArgs>(args?: SelectSubset<T, RatingFindFirstOrThrowArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findFirstOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find zero or more Ratings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Ratings
+     * const ratings = await prisma.rating.findMany()
+     * 
+     * // Get first 10 Ratings
+     * const ratings = await prisma.rating.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ratingWithIdOnly = await prisma.rating.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RatingFindManyArgs>(args?: SelectSubset<T, RatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", ClientOptions>>
+
+    /**
+     * Create a Rating.
+     * @param {RatingCreateArgs} args - Arguments to create a Rating.
+     * @example
+     * // Create one Rating
+     * const Rating = await prisma.rating.create({
+     *   data: {
+     *     // ... data to create a Rating
+     *   }
+     * })
+     * 
+     */
+    create<T extends RatingCreateArgs>(args: SelectSubset<T, RatingCreateArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "create", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Create many Ratings.
+     * @param {RatingCreateManyArgs} args - Arguments to create many Ratings.
+     * @example
+     * // Create many Ratings
+     * const rating = await prisma.rating.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RatingCreateManyArgs>(args?: SelectSubset<T, RatingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Ratings and returns the data saved in the database.
+     * @param {RatingCreateManyAndReturnArgs} args - Arguments to create many Ratings.
+     * @example
+     * // Create many Ratings
+     * const rating = await prisma.rating.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Ratings and only return the `id`
+     * const ratingWithIdOnly = await prisma.rating.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RatingCreateManyAndReturnArgs>(args?: SelectSubset<T, RatingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "createManyAndReturn", ClientOptions>>
+
+    /**
+     * Delete a Rating.
+     * @param {RatingDeleteArgs} args - Arguments to delete one Rating.
+     * @example
+     * // Delete one Rating
+     * const Rating = await prisma.rating.delete({
+     *   where: {
+     *     // ... filter to delete one Rating
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RatingDeleteArgs>(args: SelectSubset<T, RatingDeleteArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "delete", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Update one Rating.
+     * @param {RatingUpdateArgs} args - Arguments to update one Rating.
+     * @example
+     * // Update one Rating
+     * const rating = await prisma.rating.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RatingUpdateArgs>(args: SelectSubset<T, RatingUpdateArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "update", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Delete zero or more Ratings.
+     * @param {RatingDeleteManyArgs} args - Arguments to filter Ratings to delete.
+     * @example
+     * // Delete a few Ratings
+     * const { count } = await prisma.rating.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RatingDeleteManyArgs>(args?: SelectSubset<T, RatingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ratings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Ratings
+     * const rating = await prisma.rating.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RatingUpdateManyArgs>(args: SelectSubset<T, RatingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ratings and returns the data updated in the database.
+     * @param {RatingUpdateManyAndReturnArgs} args - Arguments to update many Ratings.
+     * @example
+     * // Update many Ratings
+     * const rating = await prisma.rating.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Ratings and only return the `id`
+     * const ratingWithIdOnly = await prisma.rating.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RatingUpdateManyAndReturnArgs>(args: SelectSubset<T, RatingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
+
+    /**
+     * Create or update one Rating.
+     * @param {RatingUpsertArgs} args - Arguments to update or create a Rating.
+     * @example
+     * // Update or create a Rating
+     * const rating = await prisma.rating.upsert({
+     *   create: {
+     *     // ... data to create a Rating
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Rating we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RatingUpsertArgs>(args: SelectSubset<T, RatingUpsertArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "upsert", ClientOptions>, never, ExtArgs, ClientOptions>
+
+
+    /**
+     * Count the number of Ratings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingCountArgs} args - Arguments to filter Ratings to count.
+     * @example
+     * // Count the number of Ratings
+     * const count = await prisma.rating.count({
+     *   where: {
+     *     // ... the filter for the Ratings we want to count
+     *   }
+     * })
+    **/
+    count<T extends RatingCountArgs>(
+      args?: Subset<T, RatingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RatingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Rating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RatingAggregateArgs>(args: Subset<T, RatingAggregateArgs>): Prisma.PrismaPromise<GetRatingAggregateType<T>>
+
+    /**
+     * Group by Rating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RatingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RatingGroupByArgs['orderBy'] }
+        : { orderBy?: RatingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RatingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRatingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Rating model
+   */
+  readonly fields: RatingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Rating.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
+    book<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Rating model
+   */ 
+  interface RatingFieldRefs {
+    readonly id: FieldRef<"Rating", 'String'>
+    readonly userId: FieldRef<"Rating", 'String'>
+    readonly bookId: FieldRef<"Rating", 'String'>
+    readonly rating: FieldRef<"Rating", 'Int'>
+    readonly createdAt: FieldRef<"Rating", 'DateTime'>
+    readonly updatedAt: FieldRef<"Rating", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Rating findUnique
+   */
+  export type RatingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating findUniqueOrThrow
+   */
+  export type RatingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating findFirst
+   */
+  export type RatingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ratings.
+     */
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating findFirstOrThrow
+   */
+  export type RatingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ratings.
+     */
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating findMany
+   */
+  export type RatingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Ratings to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating create
+   */
+  export type RatingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Rating.
+     */
+    data: XOR<RatingCreateInput, RatingUncheckedCreateInput>
+  }
+
+  /**
+   * Rating createMany
+   */
+  export type RatingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Ratings.
+     */
+    data: RatingCreateManyInput | RatingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Rating createManyAndReturn
+   */
+  export type RatingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Ratings.
+     */
+    data: RatingCreateManyInput | RatingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rating update
+   */
+  export type RatingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Rating.
+     */
+    data: XOR<RatingUpdateInput, RatingUncheckedUpdateInput>
+    /**
+     * Choose, which Rating to update.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating updateMany
+   */
+  export type RatingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Ratings.
+     */
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyInput>
+    /**
+     * Filter which Ratings to update
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rating updateManyAndReturn
+   */
+  export type RatingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * The data used to update Ratings.
+     */
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyInput>
+    /**
+     * Filter which Ratings to update
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rating upsert
+   */
+  export type RatingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Rating to update in case it exists.
+     */
+    where: RatingWhereUniqueInput
+    /**
+     * In case the Rating found by the `where` argument doesn't exist, create a new Rating with this data.
+     */
+    create: XOR<RatingCreateInput, RatingUncheckedCreateInput>
+    /**
+     * In case the Rating was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RatingUpdateInput, RatingUncheckedUpdateInput>
+  }
+
+  /**
+   * Rating delete
+   */
+  export type RatingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter which Rating to delete.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating deleteMany
+   */
+  export type RatingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ratings to delete
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rating without action
+   */
+  export type RatingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Favorite
+   */
+
+  export type AggregateFavorite = {
+    _count: FavoriteCountAggregateOutputType | null
+    _min: FavoriteMinAggregateOutputType | null
+    _max: FavoriteMaxAggregateOutputType | null
+  }
+
+  export type FavoriteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FavoriteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    bookId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FavoriteCountAggregateOutputType = {
+    id: number
+    userId: number
+    bookId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FavoriteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FavoriteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FavoriteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    bookId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FavoriteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Favorite to aggregate.
+     */
+    where?: FavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favorites to fetch.
+     */
+    orderBy?: FavoriteOrderByWithRelationInput | FavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Favorites
+    **/
+    _count?: true | FavoriteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FavoriteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FavoriteMaxAggregateInputType
+  }
+
+  export type GetFavoriteAggregateType<T extends FavoriteAggregateArgs> = {
+        [P in keyof T & keyof AggregateFavorite]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFavorite[P]>
+      : GetScalarType<T[P], AggregateFavorite[P]>
+  }
+
+
+
+
+  export type FavoriteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavoriteWhereInput
+    orderBy?: FavoriteOrderByWithAggregationInput | FavoriteOrderByWithAggregationInput[]
+    by: FavoriteScalarFieldEnum[] | FavoriteScalarFieldEnum
+    having?: FavoriteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FavoriteCountAggregateInputType | true
+    _min?: FavoriteMinAggregateInputType
+    _max?: FavoriteMaxAggregateInputType
+  }
+
+  export type FavoriteGroupByOutputType = {
+    id: string
+    userId: string
+    bookId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: FavoriteCountAggregateOutputType | null
+    _min: FavoriteMinAggregateOutputType | null
+    _max: FavoriteMaxAggregateOutputType | null
+  }
+
+  type GetFavoriteGroupByPayload<T extends FavoriteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FavoriteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FavoriteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FavoriteGroupByOutputType[P]>
+            : GetScalarType<T[P], FavoriteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FavoriteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favorite"]>
+
+  export type FavoriteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favorite"]>
+
+  export type FavoriteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favorite"]>
+
+  export type FavoriteSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FavoriteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bookId" | "createdAt" | "updatedAt", ExtArgs["result"]["favorite"]>
+  export type FavoriteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type FavoriteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type FavoriteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+
+  export type $FavoritePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Favorite"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      book: Prisma.$BookPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      bookId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["favorite"]>
+    composites: {}
+  }
+
+  type FavoriteGetPayload<S extends boolean | null | undefined | FavoriteDefaultArgs> = $Result.GetResult<Prisma.$FavoritePayload, S>
+
+  type FavoriteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FavoriteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FavoriteCountAggregateInputType | true
+    }
+
+  export interface FavoriteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Favorite'], meta: { name: 'Favorite' } }
+    /**
+     * Find zero or one Favorite that matches the filter.
+     * @param {FavoriteFindUniqueArgs} args - Arguments to find a Favorite
+     * @example
+     * // Get one Favorite
+     * const favorite = await prisma.favorite.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FavoriteFindUniqueArgs>(args: SelectSubset<T, FavoriteFindUniqueArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findUnique", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find one Favorite that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FavoriteFindUniqueOrThrowArgs} args - Arguments to find a Favorite
+     * @example
+     * // Get one Favorite
+     * const favorite = await prisma.favorite.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FavoriteFindUniqueOrThrowArgs>(args: SelectSubset<T, FavoriteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first Favorite that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteFindFirstArgs} args - Arguments to find a Favorite
+     * @example
+     * // Get one Favorite
+     * const favorite = await prisma.favorite.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FavoriteFindFirstArgs>(args?: SelectSubset<T, FavoriteFindFirstArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findFirst", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first Favorite that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteFindFirstOrThrowArgs} args - Arguments to find a Favorite
+     * @example
+     * // Get one Favorite
+     * const favorite = await prisma.favorite.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FavoriteFindFirstOrThrowArgs>(args?: SelectSubset<T, FavoriteFindFirstOrThrowArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findFirstOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find zero or more Favorites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Favorites
+     * const favorites = await prisma.favorite.findMany()
+     * 
+     * // Get first 10 Favorites
+     * const favorites = await prisma.favorite.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const favoriteWithIdOnly = await prisma.favorite.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FavoriteFindManyArgs>(args?: SelectSubset<T, FavoriteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", ClientOptions>>
+
+    /**
+     * Create a Favorite.
+     * @param {FavoriteCreateArgs} args - Arguments to create a Favorite.
+     * @example
+     * // Create one Favorite
+     * const Favorite = await prisma.favorite.create({
+     *   data: {
+     *     // ... data to create a Favorite
+     *   }
+     * })
+     * 
+     */
+    create<T extends FavoriteCreateArgs>(args: SelectSubset<T, FavoriteCreateArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "create", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Create many Favorites.
+     * @param {FavoriteCreateManyArgs} args - Arguments to create many Favorites.
+     * @example
+     * // Create many Favorites
+     * const favorite = await prisma.favorite.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FavoriteCreateManyArgs>(args?: SelectSubset<T, FavoriteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Favorites and returns the data saved in the database.
+     * @param {FavoriteCreateManyAndReturnArgs} args - Arguments to create many Favorites.
+     * @example
+     * // Create many Favorites
+     * const favorite = await prisma.favorite.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Favorites and only return the `id`
+     * const favoriteWithIdOnly = await prisma.favorite.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FavoriteCreateManyAndReturnArgs>(args?: SelectSubset<T, FavoriteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "createManyAndReturn", ClientOptions>>
+
+    /**
+     * Delete a Favorite.
+     * @param {FavoriteDeleteArgs} args - Arguments to delete one Favorite.
+     * @example
+     * // Delete one Favorite
+     * const Favorite = await prisma.favorite.delete({
+     *   where: {
+     *     // ... filter to delete one Favorite
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FavoriteDeleteArgs>(args: SelectSubset<T, FavoriteDeleteArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "delete", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Update one Favorite.
+     * @param {FavoriteUpdateArgs} args - Arguments to update one Favorite.
+     * @example
+     * // Update one Favorite
+     * const favorite = await prisma.favorite.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FavoriteUpdateArgs>(args: SelectSubset<T, FavoriteUpdateArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "update", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Delete zero or more Favorites.
+     * @param {FavoriteDeleteManyArgs} args - Arguments to filter Favorites to delete.
+     * @example
+     * // Delete a few Favorites
+     * const { count } = await prisma.favorite.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FavoriteDeleteManyArgs>(args?: SelectSubset<T, FavoriteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Favorites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Favorites
+     * const favorite = await prisma.favorite.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FavoriteUpdateManyArgs>(args: SelectSubset<T, FavoriteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Favorites and returns the data updated in the database.
+     * @param {FavoriteUpdateManyAndReturnArgs} args - Arguments to update many Favorites.
+     * @example
+     * // Update many Favorites
+     * const favorite = await prisma.favorite.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Favorites and only return the `id`
+     * const favoriteWithIdOnly = await prisma.favorite.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FavoriteUpdateManyAndReturnArgs>(args: SelectSubset<T, FavoriteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
+
+    /**
+     * Create or update one Favorite.
+     * @param {FavoriteUpsertArgs} args - Arguments to update or create a Favorite.
+     * @example
+     * // Update or create a Favorite
+     * const favorite = await prisma.favorite.upsert({
+     *   create: {
+     *     // ... data to create a Favorite
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Favorite we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FavoriteUpsertArgs>(args: SelectSubset<T, FavoriteUpsertArgs<ExtArgs>>): Prisma__FavoriteClient<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "upsert", ClientOptions>, never, ExtArgs, ClientOptions>
+
+
+    /**
+     * Count the number of Favorites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteCountArgs} args - Arguments to filter Favorites to count.
+     * @example
+     * // Count the number of Favorites
+     * const count = await prisma.favorite.count({
+     *   where: {
+     *     // ... the filter for the Favorites we want to count
+     *   }
+     * })
+    **/
+    count<T extends FavoriteCountArgs>(
+      args?: Subset<T, FavoriteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FavoriteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Favorite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FavoriteAggregateArgs>(args: Subset<T, FavoriteAggregateArgs>): Prisma.PrismaPromise<GetFavoriteAggregateType<T>>
+
+    /**
+     * Group by Favorite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FavoriteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FavoriteGroupByArgs['orderBy'] }
+        : { orderBy?: FavoriteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FavoriteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFavoriteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Favorite model
+   */
+  readonly fields: FavoriteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Favorite.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FavoriteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
+    book<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Favorite model
+   */ 
+  interface FavoriteFieldRefs {
+    readonly id: FieldRef<"Favorite", 'String'>
+    readonly userId: FieldRef<"Favorite", 'String'>
+    readonly bookId: FieldRef<"Favorite", 'String'>
+    readonly createdAt: FieldRef<"Favorite", 'DateTime'>
+    readonly updatedAt: FieldRef<"Favorite", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Favorite findUnique
+   */
+  export type FavoriteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favorite to fetch.
+     */
+    where: FavoriteWhereUniqueInput
+  }
+
+  /**
+   * Favorite findUniqueOrThrow
+   */
+  export type FavoriteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favorite to fetch.
+     */
+    where: FavoriteWhereUniqueInput
+  }
+
+  /**
+   * Favorite findFirst
+   */
+  export type FavoriteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favorite to fetch.
+     */
+    where?: FavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favorites to fetch.
+     */
+    orderBy?: FavoriteOrderByWithRelationInput | FavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Favorites.
+     */
+    cursor?: FavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Favorites.
+     */
+    distinct?: FavoriteScalarFieldEnum | FavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * Favorite findFirstOrThrow
+   */
+  export type FavoriteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favorite to fetch.
+     */
+    where?: FavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favorites to fetch.
+     */
+    orderBy?: FavoriteOrderByWithRelationInput | FavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Favorites.
+     */
+    cursor?: FavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Favorites.
+     */
+    distinct?: FavoriteScalarFieldEnum | FavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * Favorite findMany
+   */
+  export type FavoriteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which Favorites to fetch.
+     */
+    where?: FavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Favorites to fetch.
+     */
+    orderBy?: FavoriteOrderByWithRelationInput | FavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Favorites.
+     */
+    cursor?: FavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Favorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Favorites.
+     */
+    skip?: number
+    distinct?: FavoriteScalarFieldEnum | FavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * Favorite create
+   */
+  export type FavoriteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Favorite.
+     */
+    data: XOR<FavoriteCreateInput, FavoriteUncheckedCreateInput>
+  }
+
+  /**
+   * Favorite createMany
+   */
+  export type FavoriteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Favorites.
+     */
+    data: FavoriteCreateManyInput | FavoriteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Favorite createManyAndReturn
+   */
+  export type FavoriteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * The data used to create many Favorites.
+     */
+    data: FavoriteCreateManyInput | FavoriteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Favorite update
+   */
+  export type FavoriteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Favorite.
+     */
+    data: XOR<FavoriteUpdateInput, FavoriteUncheckedUpdateInput>
+    /**
+     * Choose, which Favorite to update.
+     */
+    where: FavoriteWhereUniqueInput
+  }
+
+  /**
+   * Favorite updateMany
+   */
+  export type FavoriteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Favorites.
+     */
+    data: XOR<FavoriteUpdateManyMutationInput, FavoriteUncheckedUpdateManyInput>
+    /**
+     * Filter which Favorites to update
+     */
+    where?: FavoriteWhereInput
+    /**
+     * Limit how many Favorites to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Favorite updateManyAndReturn
+   */
+  export type FavoriteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * The data used to update Favorites.
+     */
+    data: XOR<FavoriteUpdateManyMutationInput, FavoriteUncheckedUpdateManyInput>
+    /**
+     * Filter which Favorites to update
+     */
+    where?: FavoriteWhereInput
+    /**
+     * Limit how many Favorites to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Favorite upsert
+   */
+  export type FavoriteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Favorite to update in case it exists.
+     */
+    where: FavoriteWhereUniqueInput
+    /**
+     * In case the Favorite found by the `where` argument doesn't exist, create a new Favorite with this data.
+     */
+    create: XOR<FavoriteCreateInput, FavoriteUncheckedCreateInput>
+    /**
+     * In case the Favorite was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FavoriteUpdateInput, FavoriteUncheckedUpdateInput>
+  }
+
+  /**
+   * Favorite delete
+   */
+  export type FavoriteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
+    /**
+     * Filter which Favorite to delete.
+     */
+    where: FavoriteWhereUniqueInput
+  }
+
+  /**
+   * Favorite deleteMany
+   */
+  export type FavoriteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Favorites to delete
+     */
+    where?: FavoriteWhereInput
+    /**
+     * Limit how many Favorites to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Favorite without action
+   */
+  export type FavoriteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Favorite
+     */
+    select?: FavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Favorite
+     */
+    omit?: FavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteInclude<ExtArgs> | null
   }
 
 
@@ -12235,13 +14732,38 @@ export namespace Prisma {
     thumbnailUrl: 'thumbnailUrl',
     language: 'language',
     pages: 'pages',
+    blurHash: 'blurHash',
     publishedAt: 'publishedAt',
     available: 'available',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    price: 'price'
+  };
+
+  export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
+
+
+  export const RatingScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    bookId: 'bookId',
+    rating: 'rating',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
+  export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
+
+
+  export const FavoriteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    bookId: 'bookId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
 
 
   export const LoanScalarFieldEnum: {
@@ -12557,6 +15079,8 @@ export namespace Prisma {
     notificationsSent?: NotificationListRelationFilter
     notificationsReceived?: NotificationListRelationFilter
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
+    ratting?: RatingListRelationFilter
+    favoriteUsers?: FavoriteListRelationFilter
     Loan?: LoanListRelationFilter
   }
 
@@ -12572,6 +15096,8 @@ export namespace Prisma {
     notificationsSent?: NotificationOrderByRelationAggregateInput
     notificationsReceived?: NotificationOrderByRelationAggregateInput
     profile?: ProfileOrderByWithRelationInput
+    ratting?: RatingOrderByRelationAggregateInput
+    favoriteUsers?: FavoriteOrderByRelationAggregateInput
     Loan?: LoanOrderByRelationAggregateInput
   }
 
@@ -12590,6 +15116,8 @@ export namespace Prisma {
     notificationsSent?: NotificationListRelationFilter
     notificationsReceived?: NotificationListRelationFilter
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
+    ratting?: RatingListRelationFilter
+    favoriteUsers?: FavoriteListRelationFilter
     Loan?: LoanListRelationFilter
   }, "id" | "email">
 
@@ -12828,19 +15356,23 @@ export namespace Prisma {
     publisherId?: StringFilter<"Book"> | string
     categoryId?: StringFilter<"Book"> | string
     fileUrl?: StringFilter<"Book"> | string
-    fileSize?: IntNullableFilter<"Book"> | number | null
+    fileSize?: StringNullableFilter<"Book"> | string | null
     fileFormat?: StringFilter<"Book"> | string
     thumbnailUrl?: StringFilter<"Book"> | string
     language?: StringFilter<"Book"> | string
-    pages?: IntNullableFilter<"Book"> | number | null
+    pages?: StringNullableFilter<"Book"> | string | null
+    blurHash?: StringNullableFilter<"Book"> | string | null
     publishedAt?: DateTimeNullableFilter<"Book"> | Date | string | null
     available?: BoolFilter<"Book"> | boolean
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
+    price?: StringFilter<"Book"> | string
     author?: XOR<AuthorScalarRelationFilter, AuthorWhereInput>
     publisher?: XOR<PublisherScalarRelationFilter, PublisherWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     loans?: LoanListRelationFilter
+    Rating?: RatingListRelationFilter
+    Favorite?: FavoriteListRelationFilter
   }
 
   export type BookOrderByWithRelationInput = {
@@ -12857,14 +15389,18 @@ export namespace Prisma {
     thumbnailUrl?: SortOrder
     language?: SortOrder
     pages?: SortOrderInput | SortOrder
+    blurHash?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     available?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
     author?: AuthorOrderByWithRelationInput
     publisher?: PublisherOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
     loans?: LoanOrderByRelationAggregateInput
+    Rating?: RatingOrderByRelationAggregateInput
+    Favorite?: FavoriteOrderByRelationAggregateInput
   }
 
   export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -12879,19 +15415,23 @@ export namespace Prisma {
     publisherId?: StringFilter<"Book"> | string
     categoryId?: StringFilter<"Book"> | string
     fileUrl?: StringFilter<"Book"> | string
-    fileSize?: IntNullableFilter<"Book"> | number | null
+    fileSize?: StringNullableFilter<"Book"> | string | null
     fileFormat?: StringFilter<"Book"> | string
     thumbnailUrl?: StringFilter<"Book"> | string
     language?: StringFilter<"Book"> | string
-    pages?: IntNullableFilter<"Book"> | number | null
+    pages?: StringNullableFilter<"Book"> | string | null
+    blurHash?: StringNullableFilter<"Book"> | string | null
     publishedAt?: DateTimeNullableFilter<"Book"> | Date | string | null
     available?: BoolFilter<"Book"> | boolean
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
+    price?: StringFilter<"Book"> | string
     author?: XOR<AuthorScalarRelationFilter, AuthorWhereInput>
     publisher?: XOR<PublisherScalarRelationFilter, PublisherWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     loans?: LoanListRelationFilter
+    Rating?: RatingListRelationFilter
+    Favorite?: FavoriteListRelationFilter
   }, "id" | "isbn">
 
   export type BookOrderByWithAggregationInput = {
@@ -12908,15 +15448,15 @@ export namespace Prisma {
     thumbnailUrl?: SortOrder
     language?: SortOrder
     pages?: SortOrderInput | SortOrder
+    blurHash?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     available?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
     _count?: BookCountOrderByAggregateInput
-    _avg?: BookAvgOrderByAggregateInput
     _max?: BookMaxOrderByAggregateInput
     _min?: BookMinOrderByAggregateInput
-    _sum?: BookSumOrderByAggregateInput
   }
 
   export type BookScalarWhereWithAggregatesInput = {
@@ -12931,15 +15471,140 @@ export namespace Prisma {
     publisherId?: StringWithAggregatesFilter<"Book"> | string
     categoryId?: StringWithAggregatesFilter<"Book"> | string
     fileUrl?: StringWithAggregatesFilter<"Book"> | string
-    fileSize?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    fileSize?: StringNullableWithAggregatesFilter<"Book"> | string | null
     fileFormat?: StringWithAggregatesFilter<"Book"> | string
     thumbnailUrl?: StringWithAggregatesFilter<"Book"> | string
     language?: StringWithAggregatesFilter<"Book"> | string
-    pages?: IntNullableWithAggregatesFilter<"Book"> | number | null
+    pages?: StringNullableWithAggregatesFilter<"Book"> | string | null
+    blurHash?: StringNullableWithAggregatesFilter<"Book"> | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Book"> | Date | string | null
     available?: BoolWithAggregatesFilter<"Book"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
+    price?: StringWithAggregatesFilter<"Book"> | string
+  }
+
+  export type RatingWhereInput = {
+    AND?: RatingWhereInput | RatingWhereInput[]
+    OR?: RatingWhereInput[]
+    NOT?: RatingWhereInput | RatingWhereInput[]
+    id?: StringFilter<"Rating"> | string
+    userId?: StringFilter<"Rating"> | string
+    bookId?: StringFilter<"Rating"> | string
+    rating?: IntFilter<"Rating"> | number
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    updatedAt?: DateTimeFilter<"Rating"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    book?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }
+
+  export type RatingOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    book?: BookOrderByWithRelationInput
+  }
+
+  export type RatingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RatingWhereInput | RatingWhereInput[]
+    OR?: RatingWhereInput[]
+    NOT?: RatingWhereInput | RatingWhereInput[]
+    userId?: StringFilter<"Rating"> | string
+    bookId?: StringFilter<"Rating"> | string
+    rating?: IntFilter<"Rating"> | number
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    updatedAt?: DateTimeFilter<"Rating"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    book?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }, "id">
+
+  export type RatingOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RatingCountOrderByAggregateInput
+    _avg?: RatingAvgOrderByAggregateInput
+    _max?: RatingMaxOrderByAggregateInput
+    _min?: RatingMinOrderByAggregateInput
+    _sum?: RatingSumOrderByAggregateInput
+  }
+
+  export type RatingScalarWhereWithAggregatesInput = {
+    AND?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
+    OR?: RatingScalarWhereWithAggregatesInput[]
+    NOT?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Rating"> | string
+    userId?: StringWithAggregatesFilter<"Rating"> | string
+    bookId?: StringWithAggregatesFilter<"Rating"> | string
+    rating?: IntWithAggregatesFilter<"Rating"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Rating"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Rating"> | Date | string
+  }
+
+  export type FavoriteWhereInput = {
+    AND?: FavoriteWhereInput | FavoriteWhereInput[]
+    OR?: FavoriteWhereInput[]
+    NOT?: FavoriteWhereInput | FavoriteWhereInput[]
+    id?: StringFilter<"Favorite"> | string
+    userId?: StringFilter<"Favorite"> | string
+    bookId?: StringFilter<"Favorite"> | string
+    createdAt?: DateTimeFilter<"Favorite"> | Date | string
+    updatedAt?: DateTimeFilter<"Favorite"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    book?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }
+
+  export type FavoriteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    book?: BookOrderByWithRelationInput
+  }
+
+  export type FavoriteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FavoriteWhereInput | FavoriteWhereInput[]
+    OR?: FavoriteWhereInput[]
+    NOT?: FavoriteWhereInput | FavoriteWhereInput[]
+    userId?: StringFilter<"Favorite"> | string
+    bookId?: StringFilter<"Favorite"> | string
+    createdAt?: DateTimeFilter<"Favorite"> | Date | string
+    updatedAt?: DateTimeFilter<"Favorite"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    book?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }, "id">
+
+  export type FavoriteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FavoriteCountOrderByAggregateInput
+    _max?: FavoriteMaxOrderByAggregateInput
+    _min?: FavoriteMinOrderByAggregateInput
+  }
+
+  export type FavoriteScalarWhereWithAggregatesInput = {
+    AND?: FavoriteScalarWhereWithAggregatesInput | FavoriteScalarWhereWithAggregatesInput[]
+    OR?: FavoriteScalarWhereWithAggregatesInput[]
+    NOT?: FavoriteScalarWhereWithAggregatesInput | FavoriteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Favorite"> | string
+    userId?: StringWithAggregatesFilter<"Favorite"> | string
+    bookId?: StringWithAggregatesFilter<"Favorite"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Favorite"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Favorite"> | Date | string
   }
 
   export type LoanWhereInput = {
@@ -13265,6 +15930,8 @@ export namespace Prisma {
     notificationsSent?: NotificationCreateNestedManyWithoutNotifierInput
     notificationsReceived?: NotificationCreateNestedManyWithoutNotifyingInput
     profile?: ProfileCreateNestedOneWithoutUserInput
+    ratting?: RatingCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteCreateNestedManyWithoutUserInput
     Loan?: LoanCreateNestedManyWithoutUserInput
   }
 
@@ -13280,6 +15947,8 @@ export namespace Prisma {
     notificationsSent?: NotificationUncheckedCreateNestedManyWithoutNotifierInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutNotifyingInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    ratting?: RatingUncheckedCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     Loan?: LoanUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -13295,6 +15964,8 @@ export namespace Prisma {
     notificationsSent?: NotificationUpdateManyWithoutNotifierNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutNotifyingNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
+    ratting?: RatingUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUpdateManyWithoutUserNestedInput
     Loan?: LoanUpdateManyWithoutUserNestedInput
   }
 
@@ -13310,6 +15981,8 @@ export namespace Prisma {
     notificationsSent?: NotificationUncheckedUpdateManyWithoutNotifierNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutNotifyingNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    ratting?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -13578,19 +16251,23 @@ export namespace Prisma {
     description?: string | null
     isbn: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     author: AuthorCreateNestedOneWithoutBooksInput
     publisher: PublisherCreateNestedOneWithoutBooksInput
     category: CategoryCreateNestedOneWithoutBooksInput
     loans?: LoanCreateNestedManyWithoutBookInput
+    Rating?: RatingCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateInput = {
@@ -13602,16 +16279,20 @@ export namespace Prisma {
     publisherId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    Rating?: RatingUncheckedCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookUpdateInput = {
@@ -13620,19 +16301,23 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isbn?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     author?: AuthorUpdateOneRequiredWithoutBooksNestedInput
     publisher?: PublisherUpdateOneRequiredWithoutBooksNestedInput
     category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
     loans?: LoanUpdateManyWithoutBookNestedInput
+    Rating?: RatingUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateInput = {
@@ -13644,16 +16329,20 @@ export namespace Prisma {
     publisherId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    Rating?: RatingUncheckedUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookCreateManyInput = {
@@ -13665,15 +16354,17 @@ export namespace Prisma {
     publisherId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
   }
 
   export type BookUpdateManyMutationInput = {
@@ -13682,15 +16373,17 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isbn?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookUncheckedUpdateManyInput = {
@@ -13702,13 +16395,130 @@ export namespace Prisma {
     publisherId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RatingCreateInput = {
+    id?: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRattingInput
+    book: BookCreateNestedOneWithoutRatingInput
+  }
+
+  export type RatingUncheckedCreateInput = {
+    id?: string
+    userId: string
+    bookId: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RatingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRattingNestedInput
+    book?: BookUpdateOneRequiredWithoutRatingNestedInput
+  }
+
+  export type RatingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingCreateManyInput = {
+    id?: string
+    userId: string
+    bookId: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RatingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFavoriteUsersInput
+    book: BookCreateNestedOneWithoutFavoriteInput
+  }
+
+  export type FavoriteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    bookId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavoriteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFavoriteUsersNestedInput
+    book?: BookUpdateOneRequiredWithoutFavoriteNestedInput
+  }
+
+  export type FavoriteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteCreateManyInput = {
+    id?: string
+    userId: string
+    bookId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavoriteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14123,6 +16933,18 @@ export namespace Prisma {
     isNot?: ProfileWhereInput | null
   }
 
+  export type RatingListRelationFilter = {
+    every?: RatingWhereInput
+    some?: RatingWhereInput
+    none?: RatingWhereInput
+  }
+
+  export type FavoriteListRelationFilter = {
+    every?: FavoriteWhereInput
+    some?: FavoriteWhereInput
+    none?: FavoriteWhereInput
+  }
+
   export type LoanListRelationFilter = {
     every?: LoanWhereInput
     some?: LoanWhereInput
@@ -14130,6 +16952,14 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RatingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FavoriteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14454,17 +17284,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type AuthorScalarRelationFilter = {
     is?: AuthorWhereInput
     isNot?: AuthorWhereInput
@@ -14494,15 +17313,12 @@ export namespace Prisma {
     thumbnailUrl?: SortOrder
     language?: SortOrder
     pages?: SortOrder
+    blurHash?: SortOrder
     publishedAt?: SortOrder
     available?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type BookAvgOrderByAggregateInput = {
-    fileSize?: SortOrder
-    pages?: SortOrder
+    price?: SortOrder
   }
 
   export type BookMaxOrderByAggregateInput = {
@@ -14519,10 +17335,12 @@ export namespace Prisma {
     thumbnailUrl?: SortOrder
     language?: SortOrder
     pages?: SortOrder
+    blurHash?: SortOrder
     publishedAt?: SortOrder
     available?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
   }
 
   export type BookMinOrderByAggregateInput = {
@@ -14539,31 +17357,76 @@ export namespace Prisma {
     thumbnailUrl?: SortOrder
     language?: SortOrder
     pages?: SortOrder
+    blurHash?: SortOrder
     publishedAt?: SortOrder
     available?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
   }
 
-  export type BookSumOrderByAggregateInput = {
-    fileSize?: SortOrder
-    pages?: SortOrder
+  export type BookScalarRelationFilter = {
+    is?: BookWhereInput
+    isNot?: BookWhereInput
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+  export type RatingCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RatingAvgOrderByAggregateInput = {
+    rating?: SortOrder
+  }
+
+  export type RatingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RatingMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RatingSumOrderByAggregateInput = {
+    rating?: SortOrder
+  }
+
+  export type FavoriteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FavoriteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FavoriteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumLoanStatusFilter<$PrismaModel = never> = {
@@ -14571,11 +17434,6 @@ export namespace Prisma {
     in?: $Enums.LoanStatus[] | ListEnumLoanStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.LoanStatus[] | ListEnumLoanStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumLoanStatusFilter<$PrismaModel> | $Enums.LoanStatus
-  }
-
-  export type BookScalarRelationFilter = {
-    is?: BookWhereInput
-    isNot?: BookWhereInput
   }
 
   export type LoanCountOrderByAggregateInput = {
@@ -14770,6 +17628,20 @@ export namespace Prisma {
     connect?: ProfileWhereUniqueInput
   }
 
+  export type RatingCreateNestedManyWithoutUserInput = {
+    create?: XOR<RatingCreateWithoutUserInput, RatingUncheckedCreateWithoutUserInput> | RatingCreateWithoutUserInput[] | RatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutUserInput | RatingCreateOrConnectWithoutUserInput[]
+    createMany?: RatingCreateManyUserInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type FavoriteCreateNestedManyWithoutUserInput = {
+    create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
+    createMany?: FavoriteCreateManyUserInputEnvelope
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+  }
+
   export type LoanCreateNestedManyWithoutUserInput = {
     create?: XOR<LoanCreateWithoutUserInput, LoanUncheckedCreateWithoutUserInput> | LoanCreateWithoutUserInput[] | LoanUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutUserInput | LoanCreateOrConnectWithoutUserInput[]
@@ -14795,6 +17667,20 @@ export namespace Prisma {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
     connect?: ProfileWhereUniqueInput
+  }
+
+  export type RatingUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RatingCreateWithoutUserInput, RatingUncheckedCreateWithoutUserInput> | RatingCreateWithoutUserInput[] | RatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutUserInput | RatingCreateOrConnectWithoutUserInput[]
+    createMany?: RatingCreateManyUserInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type FavoriteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
+    createMany?: FavoriteCreateManyUserInputEnvelope
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
   }
 
   export type LoanUncheckedCreateNestedManyWithoutUserInput = {
@@ -14850,6 +17736,34 @@ export namespace Prisma {
     update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput>
   }
 
+  export type RatingUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RatingCreateWithoutUserInput, RatingUncheckedCreateWithoutUserInput> | RatingCreateWithoutUserInput[] | RatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutUserInput | RatingCreateOrConnectWithoutUserInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutUserInput | RatingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RatingCreateManyUserInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutUserInput | RatingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutUserInput | RatingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type FavoriteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
+    upsert?: FavoriteUpsertWithWhereUniqueWithoutUserInput | FavoriteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FavoriteCreateManyUserInputEnvelope
+    set?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    disconnect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    delete?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    update?: FavoriteUpdateWithWhereUniqueWithoutUserInput | FavoriteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FavoriteUpdateManyWithWhereWithoutUserInput | FavoriteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
+  }
+
   export type LoanUpdateManyWithoutUserNestedInput = {
     create?: XOR<LoanCreateWithoutUserInput, LoanUncheckedCreateWithoutUserInput> | LoanCreateWithoutUserInput[] | LoanUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutUserInput | LoanCreateOrConnectWithoutUserInput[]
@@ -14900,6 +17814,34 @@ export namespace Prisma {
     delete?: ProfileWhereInput | boolean
     connect?: ProfileWhereUniqueInput
     update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RatingUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RatingCreateWithoutUserInput, RatingUncheckedCreateWithoutUserInput> | RatingCreateWithoutUserInput[] | RatingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutUserInput | RatingCreateOrConnectWithoutUserInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutUserInput | RatingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RatingCreateManyUserInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutUserInput | RatingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutUserInput | RatingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type FavoriteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
+    upsert?: FavoriteUpsertWithWhereUniqueWithoutUserInput | FavoriteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FavoriteCreateManyUserInputEnvelope
+    set?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    disconnect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    delete?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    update?: FavoriteUpdateWithWhereUniqueWithoutUserInput | FavoriteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FavoriteUpdateManyWithWhereWithoutUserInput | FavoriteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
   }
 
   export type LoanUncheckedUpdateManyWithoutUserNestedInput = {
@@ -15036,6 +17978,20 @@ export namespace Prisma {
     connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
   }
 
+  export type RatingCreateNestedManyWithoutBookInput = {
+    create?: XOR<RatingCreateWithoutBookInput, RatingUncheckedCreateWithoutBookInput> | RatingCreateWithoutBookInput[] | RatingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBookInput | RatingCreateOrConnectWithoutBookInput[]
+    createMany?: RatingCreateManyBookInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type FavoriteCreateNestedManyWithoutBookInput = {
+    create?: XOR<FavoriteCreateWithoutBookInput, FavoriteUncheckedCreateWithoutBookInput> | FavoriteCreateWithoutBookInput[] | FavoriteUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutBookInput | FavoriteCreateOrConnectWithoutBookInput[]
+    createMany?: FavoriteCreateManyBookInputEnvelope
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+  }
+
   export type LoanUncheckedCreateNestedManyWithoutBookInput = {
     create?: XOR<LoanCreateWithoutBookInput, LoanUncheckedCreateWithoutBookInput> | LoanCreateWithoutBookInput[] | LoanUncheckedCreateWithoutBookInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutBookInput | LoanCreateOrConnectWithoutBookInput[]
@@ -15043,12 +17999,18 @@ export namespace Prisma {
     connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type RatingUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<RatingCreateWithoutBookInput, RatingUncheckedCreateWithoutBookInput> | RatingCreateWithoutBookInput[] | RatingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBookInput | RatingCreateOrConnectWithoutBookInput[]
+    createMany?: RatingCreateManyBookInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type FavoriteUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<FavoriteCreateWithoutBookInput, FavoriteUncheckedCreateWithoutBookInput> | FavoriteCreateWithoutBookInput[] | FavoriteUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutBookInput | FavoriteCreateOrConnectWithoutBookInput[]
+    createMany?: FavoriteCreateManyBookInputEnvelope
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
   }
 
   export type AuthorUpdateOneRequiredWithoutBooksNestedInput = {
@@ -15089,6 +18051,34 @@ export namespace Prisma {
     deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
   }
 
+  export type RatingUpdateManyWithoutBookNestedInput = {
+    create?: XOR<RatingCreateWithoutBookInput, RatingUncheckedCreateWithoutBookInput> | RatingCreateWithoutBookInput[] | RatingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBookInput | RatingCreateOrConnectWithoutBookInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutBookInput | RatingUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: RatingCreateManyBookInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutBookInput | RatingUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutBookInput | RatingUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type FavoriteUpdateManyWithoutBookNestedInput = {
+    create?: XOR<FavoriteCreateWithoutBookInput, FavoriteUncheckedCreateWithoutBookInput> | FavoriteCreateWithoutBookInput[] | FavoriteUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutBookInput | FavoriteCreateOrConnectWithoutBookInput[]
+    upsert?: FavoriteUpsertWithWhereUniqueWithoutBookInput | FavoriteUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: FavoriteCreateManyBookInputEnvelope
+    set?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    disconnect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    delete?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    update?: FavoriteUpdateWithWhereUniqueWithoutBookInput | FavoriteUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: FavoriteUpdateManyWithWhereWithoutBookInput | FavoriteUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
+  }
+
   export type LoanUncheckedUpdateManyWithoutBookNestedInput = {
     create?: XOR<LoanCreateWithoutBookInput, LoanUncheckedCreateWithoutBookInput> | LoanCreateWithoutBookInput[] | LoanUncheckedCreateWithoutBookInput[]
     connectOrCreate?: LoanCreateOrConnectWithoutBookInput | LoanCreateOrConnectWithoutBookInput[]
@@ -15101,6 +18091,90 @@ export namespace Prisma {
     update?: LoanUpdateWithWhereUniqueWithoutBookInput | LoanUpdateWithWhereUniqueWithoutBookInput[]
     updateMany?: LoanUpdateManyWithWhereWithoutBookInput | LoanUpdateManyWithWhereWithoutBookInput[]
     deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type RatingUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<RatingCreateWithoutBookInput, RatingUncheckedCreateWithoutBookInput> | RatingCreateWithoutBookInput[] | RatingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBookInput | RatingCreateOrConnectWithoutBookInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutBookInput | RatingUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: RatingCreateManyBookInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutBookInput | RatingUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutBookInput | RatingUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type FavoriteUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<FavoriteCreateWithoutBookInput, FavoriteUncheckedCreateWithoutBookInput> | FavoriteCreateWithoutBookInput[] | FavoriteUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: FavoriteCreateOrConnectWithoutBookInput | FavoriteCreateOrConnectWithoutBookInput[]
+    upsert?: FavoriteUpsertWithWhereUniqueWithoutBookInput | FavoriteUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: FavoriteCreateManyBookInputEnvelope
+    set?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    disconnect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    delete?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+    update?: FavoriteUpdateWithWhereUniqueWithoutBookInput | FavoriteUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: FavoriteUpdateManyWithWhereWithoutBookInput | FavoriteUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutRattingInput = {
+    create?: XOR<UserCreateWithoutRattingInput, UserUncheckedCreateWithoutRattingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRattingInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookCreateNestedOneWithoutRatingInput = {
+    create?: XOR<BookCreateWithoutRatingInput, BookUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: BookCreateOrConnectWithoutRatingInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRattingNestedInput = {
+    create?: XOR<UserCreateWithoutRattingInput, UserUncheckedCreateWithoutRattingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRattingInput
+    upsert?: UserUpsertWithoutRattingInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRattingInput, UserUpdateWithoutRattingInput>, UserUncheckedUpdateWithoutRattingInput>
+  }
+
+  export type BookUpdateOneRequiredWithoutRatingNestedInput = {
+    create?: XOR<BookCreateWithoutRatingInput, BookUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: BookCreateOrConnectWithoutRatingInput
+    upsert?: BookUpsertWithoutRatingInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutRatingInput, BookUpdateWithoutRatingInput>, BookUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type UserCreateNestedOneWithoutFavoriteUsersInput = {
+    create?: XOR<UserCreateWithoutFavoriteUsersInput, UserUncheckedCreateWithoutFavoriteUsersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFavoriteUsersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookCreateNestedOneWithoutFavoriteInput = {
+    create?: XOR<BookCreateWithoutFavoriteInput, BookUncheckedCreateWithoutFavoriteInput>
+    connectOrCreate?: BookCreateOrConnectWithoutFavoriteInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutFavoriteUsersNestedInput = {
+    create?: XOR<UserCreateWithoutFavoriteUsersInput, UserUncheckedCreateWithoutFavoriteUsersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFavoriteUsersInput
+    upsert?: UserUpsertWithoutFavoriteUsersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFavoriteUsersInput, UserUpdateWithoutFavoriteUsersInput>, UserUncheckedUpdateWithoutFavoriteUsersInput>
+  }
+
+  export type BookUpdateOneRequiredWithoutFavoriteNestedInput = {
+    create?: XOR<BookCreateWithoutFavoriteInput, BookUncheckedCreateWithoutFavoriteInput>
+    connectOrCreate?: BookCreateOrConnectWithoutFavoriteInput
+    upsert?: BookUpsertWithoutFavoriteInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutFavoriteInput, BookUpdateWithoutFavoriteInput>, BookUncheckedUpdateWithoutFavoriteInput>
   }
 
   export type UserCreateNestedOneWithoutLoanInput = {
@@ -15509,33 +18583,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumLoanStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.LoanStatus | EnumLoanStatusFieldRefInput<$PrismaModel>
     in?: $Enums.LoanStatus[] | ListEnumLoanStatusFieldRefInput<$PrismaModel>
@@ -15564,6 +18611,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     notificationsReceived?: NotificationCreateNestedManyWithoutNotifyingInput
     profile?: ProfileCreateNestedOneWithoutUserInput
+    ratting?: RatingCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteCreateNestedManyWithoutUserInput
     Loan?: LoanCreateNestedManyWithoutUserInput
   }
 
@@ -15578,6 +18627,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutNotifyingInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    ratting?: RatingUncheckedCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     Loan?: LoanUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -15597,6 +18648,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     notificationsSent?: NotificationCreateNestedManyWithoutNotifierInput
     profile?: ProfileCreateNestedOneWithoutUserInput
+    ratting?: RatingCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteCreateNestedManyWithoutUserInput
     Loan?: LoanCreateNestedManyWithoutUserInput
   }
 
@@ -15611,6 +18664,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     notificationsSent?: NotificationUncheckedCreateNestedManyWithoutNotifierInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    ratting?: RatingUncheckedCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     Loan?: LoanUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -15641,6 +18696,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notificationsReceived?: NotificationUpdateManyWithoutNotifyingNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
+    ratting?: RatingUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUpdateManyWithoutUserNestedInput
     Loan?: LoanUpdateManyWithoutUserNestedInput
   }
 
@@ -15655,6 +18712,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutNotifyingNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    ratting?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -15680,6 +18739,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notificationsSent?: NotificationUpdateManyWithoutNotifierNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
+    ratting?: RatingUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUpdateManyWithoutUserNestedInput
     Loan?: LoanUpdateManyWithoutUserNestedInput
   }
 
@@ -15694,6 +18755,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notificationsSent?: NotificationUncheckedUpdateManyWithoutNotifierNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    ratting?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -15782,6 +18845,56 @@ export namespace Prisma {
   export type ProfileCreateOrConnectWithoutUserInput = {
     where: ProfileWhereUniqueInput
     create: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type RatingCreateWithoutUserInput = {
+    id?: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    book: BookCreateNestedOneWithoutRatingInput
+  }
+
+  export type RatingUncheckedCreateWithoutUserInput = {
+    id?: string
+    bookId: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutUserInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutUserInput, RatingUncheckedCreateWithoutUserInput>
+  }
+
+  export type RatingCreateManyUserInputEnvelope = {
+    data: RatingCreateManyUserInput | RatingCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FavoriteCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    book: BookCreateNestedOneWithoutFavoriteInput
+  }
+
+  export type FavoriteUncheckedCreateWithoutUserInput = {
+    id?: string
+    bookId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavoriteCreateOrConnectWithoutUserInput = {
+    where: FavoriteWhereUniqueInput
+    create: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput>
+  }
+
+  export type FavoriteCreateManyUserInputEnvelope = {
+    data: FavoriteCreateManyUserInput | FavoriteCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type LoanCreateWithoutUserInput = {
@@ -15894,6 +19007,61 @@ export namespace Prisma {
     profilePictures?: ProfilePictureUncheckedUpdateManyWithoutProfileNestedInput
   }
 
+  export type RatingUpsertWithWhereUniqueWithoutUserInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutUserInput, RatingUncheckedUpdateWithoutUserInput>
+    create: XOR<RatingCreateWithoutUserInput, RatingUncheckedCreateWithoutUserInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutUserInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutUserInput, RatingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutUserInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RatingScalarWhereInput = {
+    AND?: RatingScalarWhereInput | RatingScalarWhereInput[]
+    OR?: RatingScalarWhereInput[]
+    NOT?: RatingScalarWhereInput | RatingScalarWhereInput[]
+    id?: StringFilter<"Rating"> | string
+    userId?: StringFilter<"Rating"> | string
+    bookId?: StringFilter<"Rating"> | string
+    rating?: IntFilter<"Rating"> | number
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    updatedAt?: DateTimeFilter<"Rating"> | Date | string
+  }
+
+  export type FavoriteUpsertWithWhereUniqueWithoutUserInput = {
+    where: FavoriteWhereUniqueInput
+    update: XOR<FavoriteUpdateWithoutUserInput, FavoriteUncheckedUpdateWithoutUserInput>
+    create: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput>
+  }
+
+  export type FavoriteUpdateWithWhereUniqueWithoutUserInput = {
+    where: FavoriteWhereUniqueInput
+    data: XOR<FavoriteUpdateWithoutUserInput, FavoriteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FavoriteUpdateManyWithWhereWithoutUserInput = {
+    where: FavoriteScalarWhereInput
+    data: XOR<FavoriteUpdateManyMutationInput, FavoriteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FavoriteScalarWhereInput = {
+    AND?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
+    OR?: FavoriteScalarWhereInput[]
+    NOT?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
+    id?: StringFilter<"Favorite"> | string
+    userId?: StringFilter<"Favorite"> | string
+    bookId?: StringFilter<"Favorite"> | string
+    createdAt?: DateTimeFilter<"Favorite"> | Date | string
+    updatedAt?: DateTimeFilter<"Favorite"> | Date | string
+  }
+
   export type LoanUpsertWithWhereUniqueWithoutUserInput = {
     where: LoanWhereUniqueInput
     update: XOR<LoanUpdateWithoutUserInput, LoanUncheckedUpdateWithoutUserInput>
@@ -15934,6 +19102,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     notificationsSent?: NotificationCreateNestedManyWithoutNotifierInput
     notificationsReceived?: NotificationCreateNestedManyWithoutNotifyingInput
+    ratting?: RatingCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteCreateNestedManyWithoutUserInput
     Loan?: LoanCreateNestedManyWithoutUserInput
   }
 
@@ -15948,6 +19118,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     notificationsSent?: NotificationUncheckedCreateNestedManyWithoutNotifierInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutNotifyingInput
+    ratting?: RatingUncheckedCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteUncheckedCreateNestedManyWithoutUserInput
     Loan?: LoanUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -16024,6 +19196,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notificationsSent?: NotificationUpdateManyWithoutNotifierNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutNotifyingNestedInput
+    ratting?: RatingUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUpdateManyWithoutUserNestedInput
     Loan?: LoanUpdateManyWithoutUserNestedInput
   }
 
@@ -16038,6 +19212,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notificationsSent?: NotificationUncheckedUpdateManyWithoutNotifierNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutNotifyingNestedInput
+    ratting?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -16242,6 +19418,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RatingCreateWithoutBookInput = {
+    id?: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRattingInput
+  }
+
+  export type RatingUncheckedCreateWithoutBookInput = {
+    id?: string
+    userId: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutBookInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutBookInput, RatingUncheckedCreateWithoutBookInput>
+  }
+
+  export type RatingCreateManyBookInputEnvelope = {
+    data: RatingCreateManyBookInput | RatingCreateManyBookInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FavoriteCreateWithoutBookInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFavoriteUsersInput
+  }
+
+  export type FavoriteUncheckedCreateWithoutBookInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavoriteCreateOrConnectWithoutBookInput = {
+    where: FavoriteWhereUniqueInput
+    create: XOR<FavoriteCreateWithoutBookInput, FavoriteUncheckedCreateWithoutBookInput>
+  }
+
+  export type FavoriteCreateManyBookInputEnvelope = {
+    data: FavoriteCreateManyBookInput | FavoriteCreateManyBookInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AuthorUpsertWithoutBooksInput = {
     update: XOR<AuthorUpdateWithoutBooksInput, AuthorUncheckedUpdateWithoutBooksInput>
     create: XOR<AuthorCreateWithoutBooksInput, AuthorUncheckedCreateWithoutBooksInput>
@@ -16343,6 +19569,422 @@ export namespace Prisma {
     data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyWithoutBookInput>
   }
 
+  export type RatingUpsertWithWhereUniqueWithoutBookInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutBookInput, RatingUncheckedUpdateWithoutBookInput>
+    create: XOR<RatingCreateWithoutBookInput, RatingUncheckedCreateWithoutBookInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutBookInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutBookInput, RatingUncheckedUpdateWithoutBookInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutBookInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutBookInput>
+  }
+
+  export type FavoriteUpsertWithWhereUniqueWithoutBookInput = {
+    where: FavoriteWhereUniqueInput
+    update: XOR<FavoriteUpdateWithoutBookInput, FavoriteUncheckedUpdateWithoutBookInput>
+    create: XOR<FavoriteCreateWithoutBookInput, FavoriteUncheckedCreateWithoutBookInput>
+  }
+
+  export type FavoriteUpdateWithWhereUniqueWithoutBookInput = {
+    where: FavoriteWhereUniqueInput
+    data: XOR<FavoriteUpdateWithoutBookInput, FavoriteUncheckedUpdateWithoutBookInput>
+  }
+
+  export type FavoriteUpdateManyWithWhereWithoutBookInput = {
+    where: FavoriteScalarWhereInput
+    data: XOR<FavoriteUpdateManyMutationInput, FavoriteUncheckedUpdateManyWithoutBookInput>
+  }
+
+  export type UserCreateWithoutRattingInput = {
+    id?: string
+    gender: $Enums.GENDER
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notificationsSent?: NotificationCreateNestedManyWithoutNotifierInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutNotifyingInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    favoriteUsers?: FavoriteCreateNestedManyWithoutUserInput
+    Loan?: LoanCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRattingInput = {
+    id?: string
+    gender: $Enums.GENDER
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notificationsSent?: NotificationUncheckedCreateNestedManyWithoutNotifierInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutNotifyingInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    favoriteUsers?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRattingInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRattingInput, UserUncheckedCreateWithoutRattingInput>
+  }
+
+  export type BookCreateWithoutRatingInput = {
+    id?: string
+    title: string
+    description?: string | null
+    isbn: string
+    fileUrl: string
+    fileSize?: string | null
+    fileFormat?: string
+    thumbnailUrl: string
+    language?: string
+    pages?: string | null
+    blurHash?: string | null
+    publishedAt?: Date | string | null
+    available?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: string
+    author: AuthorCreateNestedOneWithoutBooksInput
+    publisher: PublisherCreateNestedOneWithoutBooksInput
+    category: CategoryCreateNestedOneWithoutBooksInput
+    loans?: LoanCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateWithoutRatingInput = {
+    id?: string
+    title: string
+    description?: string | null
+    isbn: string
+    authorId: string
+    publisherId: string
+    categoryId: string
+    fileUrl: string
+    fileSize?: string | null
+    fileFormat?: string
+    thumbnailUrl: string
+    language?: string
+    pages?: string | null
+    blurHash?: string | null
+    publishedAt?: Date | string | null
+    available?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: string
+    loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookCreateOrConnectWithoutRatingInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutRatingInput, BookUncheckedCreateWithoutRatingInput>
+  }
+
+  export type UserUpsertWithoutRattingInput = {
+    update: XOR<UserUpdateWithoutRattingInput, UserUncheckedUpdateWithoutRattingInput>
+    create: XOR<UserCreateWithoutRattingInput, UserUncheckedCreateWithoutRattingInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRattingInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRattingInput, UserUncheckedUpdateWithoutRattingInput>
+  }
+
+  export type UserUpdateWithoutRattingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notificationsSent?: NotificationUpdateManyWithoutNotifierNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutNotifyingNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    favoriteUsers?: FavoriteUpdateManyWithoutUserNestedInput
+    Loan?: LoanUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRattingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notificationsSent?: NotificationUncheckedUpdateManyWithoutNotifierNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutNotifyingNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    favoriteUsers?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BookUpsertWithoutRatingInput = {
+    update: XOR<BookUpdateWithoutRatingInput, BookUncheckedUpdateWithoutRatingInput>
+    create: XOR<BookCreateWithoutRatingInput, BookUncheckedCreateWithoutRatingInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutRatingInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutRatingInput, BookUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type BookUpdateWithoutRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
+    fileFormat?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    available?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
+    author?: AuthorUpdateOneRequiredWithoutBooksNestedInput
+    publisher?: PublisherUpdateOneRequiredWithoutBooksNestedInput
+    category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
+    loans?: LoanUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    publisherId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
+    fileFormat?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    available?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
+    loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUncheckedUpdateManyWithoutBookNestedInput
+  }
+
+  export type UserCreateWithoutFavoriteUsersInput = {
+    id?: string
+    gender: $Enums.GENDER
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notificationsSent?: NotificationCreateNestedManyWithoutNotifierInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutNotifyingInput
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    ratting?: RatingCreateNestedManyWithoutUserInput
+    Loan?: LoanCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFavoriteUsersInput = {
+    id?: string
+    gender: $Enums.GENDER
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notificationsSent?: NotificationUncheckedCreateNestedManyWithoutNotifierInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutNotifyingInput
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    ratting?: RatingUncheckedCreateNestedManyWithoutUserInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFavoriteUsersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFavoriteUsersInput, UserUncheckedCreateWithoutFavoriteUsersInput>
+  }
+
+  export type BookCreateWithoutFavoriteInput = {
+    id?: string
+    title: string
+    description?: string | null
+    isbn: string
+    fileUrl: string
+    fileSize?: string | null
+    fileFormat?: string
+    thumbnailUrl: string
+    language?: string
+    pages?: string | null
+    blurHash?: string | null
+    publishedAt?: Date | string | null
+    available?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: string
+    author: AuthorCreateNestedOneWithoutBooksInput
+    publisher: PublisherCreateNestedOneWithoutBooksInput
+    category: CategoryCreateNestedOneWithoutBooksInput
+    loans?: LoanCreateNestedManyWithoutBookInput
+    Rating?: RatingCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateWithoutFavoriteInput = {
+    id?: string
+    title: string
+    description?: string | null
+    isbn: string
+    authorId: string
+    publisherId: string
+    categoryId: string
+    fileUrl: string
+    fileSize?: string | null
+    fileFormat?: string
+    thumbnailUrl: string
+    language?: string
+    pages?: string | null
+    blurHash?: string | null
+    publishedAt?: Date | string | null
+    available?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: string
+    loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    Rating?: RatingUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookCreateOrConnectWithoutFavoriteInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutFavoriteInput, BookUncheckedCreateWithoutFavoriteInput>
+  }
+
+  export type UserUpsertWithoutFavoriteUsersInput = {
+    update: XOR<UserUpdateWithoutFavoriteUsersInput, UserUncheckedUpdateWithoutFavoriteUsersInput>
+    create: XOR<UserCreateWithoutFavoriteUsersInput, UserUncheckedCreateWithoutFavoriteUsersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFavoriteUsersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFavoriteUsersInput, UserUncheckedUpdateWithoutFavoriteUsersInput>
+  }
+
+  export type UserUpdateWithoutFavoriteUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notificationsSent?: NotificationUpdateManyWithoutNotifierNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutNotifyingNestedInput
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    ratting?: RatingUpdateManyWithoutUserNestedInput
+    Loan?: LoanUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFavoriteUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notificationsSent?: NotificationUncheckedUpdateManyWithoutNotifierNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutNotifyingNestedInput
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    ratting?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type BookUpsertWithoutFavoriteInput = {
+    update: XOR<BookUpdateWithoutFavoriteInput, BookUncheckedUpdateWithoutFavoriteInput>
+    create: XOR<BookCreateWithoutFavoriteInput, BookUncheckedCreateWithoutFavoriteInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutFavoriteInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutFavoriteInput, BookUncheckedUpdateWithoutFavoriteInput>
+  }
+
+  export type BookUpdateWithoutFavoriteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
+    fileFormat?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    available?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
+    author?: AuthorUpdateOneRequiredWithoutBooksNestedInput
+    publisher?: PublisherUpdateOneRequiredWithoutBooksNestedInput
+    category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
+    loans?: LoanUpdateManyWithoutBookNestedInput
+    Rating?: RatingUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutFavoriteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isbn?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    publisherId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
+    fileFormat?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    available?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
+    loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    Rating?: RatingUncheckedUpdateManyWithoutBookNestedInput
+  }
+
   export type UserCreateWithoutLoanInput = {
     id?: string
     gender: $Enums.GENDER
@@ -16355,6 +19997,8 @@ export namespace Prisma {
     notificationsSent?: NotificationCreateNestedManyWithoutNotifierInput
     notificationsReceived?: NotificationCreateNestedManyWithoutNotifyingInput
     profile?: ProfileCreateNestedOneWithoutUserInput
+    ratting?: RatingCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLoanInput = {
@@ -16369,6 +20013,8 @@ export namespace Prisma {
     notificationsSent?: NotificationUncheckedCreateNestedManyWithoutNotifierInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutNotifyingInput
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    ratting?: RatingUncheckedCreateNestedManyWithoutUserInput
+    favoriteUsers?: FavoriteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLoanInput = {
@@ -16382,18 +20028,22 @@ export namespace Prisma {
     description?: string | null
     isbn: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     author: AuthorCreateNestedOneWithoutBooksInput
     publisher: PublisherCreateNestedOneWithoutBooksInput
     category: CategoryCreateNestedOneWithoutBooksInput
+    Rating?: RatingCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutLoansInput = {
@@ -16405,15 +20055,19 @@ export namespace Prisma {
     publisherId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
+    Rating?: RatingUncheckedCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutLoansInput = {
@@ -16444,6 +20098,8 @@ export namespace Prisma {
     notificationsSent?: NotificationUpdateManyWithoutNotifierNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutNotifyingNestedInput
     profile?: ProfileUpdateOneWithoutUserNestedInput
+    ratting?: RatingUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoanInput = {
@@ -16458,6 +20114,8 @@ export namespace Prisma {
     notificationsSent?: NotificationUncheckedUpdateManyWithoutNotifierNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutNotifyingNestedInput
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    ratting?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    favoriteUsers?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BookUpsertWithoutLoansInput = {
@@ -16477,18 +20135,22 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isbn?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     author?: AuthorUpdateOneRequiredWithoutBooksNestedInput
     publisher?: PublisherUpdateOneRequiredWithoutBooksNestedInput
     category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
+    Rating?: RatingUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutLoansInput = {
@@ -16500,15 +20162,19 @@ export namespace Prisma {
     publisherId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
+    Rating?: RatingUncheckedUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookCreateWithoutAuthorInput = {
@@ -16517,18 +20183,22 @@ export namespace Prisma {
     description?: string | null
     isbn: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     publisher: PublisherCreateNestedOneWithoutBooksInput
     category: CategoryCreateNestedOneWithoutBooksInput
     loans?: LoanCreateNestedManyWithoutBookInput
+    Rating?: RatingCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutAuthorInput = {
@@ -16539,16 +20209,20 @@ export namespace Prisma {
     publisherId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    Rating?: RatingUncheckedCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutAuthorInput = {
@@ -16589,15 +20263,17 @@ export namespace Prisma {
     publisherId?: StringFilter<"Book"> | string
     categoryId?: StringFilter<"Book"> | string
     fileUrl?: StringFilter<"Book"> | string
-    fileSize?: IntNullableFilter<"Book"> | number | null
+    fileSize?: StringNullableFilter<"Book"> | string | null
     fileFormat?: StringFilter<"Book"> | string
     thumbnailUrl?: StringFilter<"Book"> | string
     language?: StringFilter<"Book"> | string
-    pages?: IntNullableFilter<"Book"> | number | null
+    pages?: StringNullableFilter<"Book"> | string | null
+    blurHash?: StringNullableFilter<"Book"> | string | null
     publishedAt?: DateTimeNullableFilter<"Book"> | Date | string | null
     available?: BoolFilter<"Book"> | boolean
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
+    price?: StringFilter<"Book"> | string
   }
 
   export type BookCreateWithoutPublisherInput = {
@@ -16606,18 +20282,22 @@ export namespace Prisma {
     description?: string | null
     isbn: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     author: AuthorCreateNestedOneWithoutBooksInput
     category: CategoryCreateNestedOneWithoutBooksInput
     loans?: LoanCreateNestedManyWithoutBookInput
+    Rating?: RatingCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutPublisherInput = {
@@ -16628,16 +20308,20 @@ export namespace Prisma {
     authorId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    Rating?: RatingUncheckedCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutPublisherInput = {
@@ -16672,18 +20356,22 @@ export namespace Prisma {
     description?: string | null
     isbn: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     author: AuthorCreateNestedOneWithoutBooksInput
     publisher: PublisherCreateNestedOneWithoutBooksInput
     loans?: LoanCreateNestedManyWithoutBookInput
+    Rating?: RatingCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutCategoryInput = {
@@ -16694,16 +20382,20 @@ export namespace Prisma {
     authorId: string
     publisherId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
     loans?: LoanUncheckedCreateNestedManyWithoutBookInput
+    Rating?: RatingUncheckedCreateNestedManyWithoutBookInput
+    Favorite?: FavoriteUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutCategoryInput = {
@@ -16746,6 +20438,21 @@ export namespace Prisma {
     notifierId: string
     type: $Enums.NotificationType
     read?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RatingCreateManyUserInput = {
+    id?: string
+    bookId: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavoriteCreateManyUserInput = {
+    id?: string
+    bookId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16809,6 +20516,51 @@ export namespace Prisma {
     notifierId?: StringFieldUpdateOperationsInput | string
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    book?: BookUpdateOneRequiredWithoutRatingNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    book?: BookUpdateOneRequiredWithoutFavoriteNestedInput
+  }
+
+  export type FavoriteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16921,6 +20673,21 @@ export namespace Prisma {
     status?: $Enums.LoanStatus
   }
 
+  export type RatingCreateManyBookInput = {
+    id?: string
+    userId: string
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FavoriteCreateManyBookInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type LoanUpdateWithoutBookInput = {
     id?: StringFieldUpdateOperationsInput | string
     loanDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16948,6 +20715,51 @@ export namespace Prisma {
     status?: EnumLoanStatusFieldUpdateOperationsInput | $Enums.LoanStatus
   }
 
+  export type RatingUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRattingNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFavoriteUsersNestedInput
+  }
+
+  export type FavoriteUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BookCreateManyAuthorInput = {
     id?: string
     title: string
@@ -16956,15 +20768,17 @@ export namespace Prisma {
     publisherId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
   }
 
   export type BookUpdateWithoutAuthorInput = {
@@ -16973,18 +20787,22 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isbn?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     publisher?: PublisherUpdateOneRequiredWithoutBooksNestedInput
     category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
     loans?: LoanUpdateManyWithoutBookNestedInput
+    Rating?: RatingUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutAuthorInput = {
@@ -16995,16 +20813,20 @@ export namespace Prisma {
     publisherId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    Rating?: RatingUncheckedUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateManyWithoutAuthorInput = {
@@ -17015,15 +20837,17 @@ export namespace Prisma {
     publisherId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookCreateManyPublisherInput = {
@@ -17034,15 +20858,17 @@ export namespace Prisma {
     authorId: string
     categoryId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
   }
 
   export type BookUpdateWithoutPublisherInput = {
@@ -17051,18 +20877,22 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isbn?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     author?: AuthorUpdateOneRequiredWithoutBooksNestedInput
     category?: CategoryUpdateOneRequiredWithoutBooksNestedInput
     loans?: LoanUpdateManyWithoutBookNestedInput
+    Rating?: RatingUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutPublisherInput = {
@@ -17073,16 +20903,20 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    Rating?: RatingUncheckedUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateManyWithoutPublisherInput = {
@@ -17093,15 +20927,17 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookCreateManyCategoryInput = {
@@ -17112,15 +20948,17 @@ export namespace Prisma {
     authorId: string
     publisherId: string
     fileUrl: string
-    fileSize?: number | null
+    fileSize?: string | null
     fileFormat?: string
     thumbnailUrl: string
     language?: string
-    pages?: number | null
+    pages?: string | null
+    blurHash?: string | null
     publishedAt?: Date | string | null
     available?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: string
   }
 
   export type BookUpdateWithoutCategoryInput = {
@@ -17129,18 +20967,22 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isbn?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     author?: AuthorUpdateOneRequiredWithoutBooksNestedInput
     publisher?: PublisherUpdateOneRequiredWithoutBooksNestedInput
     loans?: LoanUpdateManyWithoutBookNestedInput
+    Rating?: RatingUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutCategoryInput = {
@@ -17151,16 +20993,20 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     publisherId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
     loans?: LoanUncheckedUpdateManyWithoutBookNestedInput
+    Rating?: RatingUncheckedUpdateManyWithoutBookNestedInput
+    Favorite?: FavoriteUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateManyWithoutCategoryInput = {
@@ -17171,15 +21017,17 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     publisherId?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    fileSize?: NullableStringFieldUpdateOperationsInput | string | null
     fileFormat?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     language?: StringFieldUpdateOperationsInput | string
-    pages?: NullableIntFieldUpdateOperationsInput | number | null
+    pages?: NullableStringFieldUpdateOperationsInput | string | null
+    blurHash?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     available?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: StringFieldUpdateOperationsInput | string
   }
 
 

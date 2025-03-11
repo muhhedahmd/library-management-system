@@ -1,0 +1,238 @@
+export interface Book {
+    id: string
+    title: string
+    author: string
+    description: string
+    price: number
+    coverImage: string
+    category: string
+    publisher: string
+    publicationDate: string
+    isbn: string
+    pages: number
+    language: string
+    format: string
+    rating: number
+    reviewCount: number
+  }
+  
+  
+export const books: Book[] = [
+  {
+    id: "1",
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    description:
+      "Set in the Jazz Age on Long Island, the novel depicts narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.",
+    price: 12.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fiction",
+    publisher: "Scribner",
+    publicationDate: "1925-04-10",
+    isbn: "9780743273565",
+    pages: 180,
+    language: "English",
+    format: "Paperback",
+    rating: 4.5,
+    reviewCount: 1243,
+  },
+  {
+    id: "2",
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    description:
+      "The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it. 'To Kill A Mockingbird' became both an instant bestseller and a critical success when it was first published in 1960.",
+    price: 14.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fiction",
+    publisher: "Harper Perennial",
+    publicationDate: "1960-07-11",
+    isbn: "9780061120084",
+    pages: 336,
+    language: "English",
+    format: "Paperback",
+    rating: 4.8,
+    reviewCount: 2547,
+  },
+  {
+    id: "3",
+    title: "1984",
+    author: "George Orwell",
+    description:
+      "Among the seminal texts of the 20th century, Nineteen Eighty-Four is a rare work that grows more haunting as its futuristic purgatory becomes more real.",
+    price: 11.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Science Fiction",
+    publisher: "Signet Classic",
+    publicationDate: "1949-06-08",
+    isbn: "9780451524935",
+    pages: 328,
+    language: "English",
+    format: "Paperback",
+    rating: 4.7,
+    reviewCount: 1876,
+  },
+  {
+    id: "4",
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    description:
+      "Since its immediate success in 1813, Pride and Prejudice has remained one of the most popular novels in the English language.",
+    price: 9.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Romance",
+    publisher: "Penguin Classics",
+    publicationDate: "1813-01-28",
+    isbn: "9780141439518",
+    pages: 480,
+    language: "English",
+    format: "Paperback",
+    rating: 4.6,
+    reviewCount: 1543,
+  },
+  {
+    id: "5",
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    description:
+      "Bilbo Baggins is a hobbit who enjoys a comfortable, unambitious life, rarely traveling any farther than his pantry or cellar. But his contentment is disturbed when the wizard Gandalf and a company of dwarves arrive on his doorstep.",
+    price: 15.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fantasy",
+    publisher: "Houghton Mifflin Harcourt",
+    publicationDate: "1937-09-21",
+    isbn: "9780547928227",
+    pages: 320,
+    language: "English",
+    format: "Hardcover",
+    rating: 4.7,
+    reviewCount: 2134,
+  },
+  {
+    id: "6",
+    title: "The Catcher in the Rye",
+    author: "J.D. Salinger",
+    description:
+      "The hero-narrator of The Catcher in the Rye is an ancient child of sixteen, a native New Yorker named Holden Caulfield. Through circumstances that tend to preclude adult, secondhand description, he leaves his prep school in Pennsylvania and goes underground in New York City for three days.",
+    price: 10.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fiction",
+    publisher: "Little, Brown and Company",
+    publicationDate: "1951-07-16",
+    isbn: "9780316769488",
+    pages: 277,
+    language: "English",
+    format: "Paperback",
+    rating: 4.3,
+    reviewCount: 1765,
+  },
+  {
+    id: "7",
+    title: "The Lord of the Rings",
+    author: "J.R.R. Tolkien",
+    description:
+      "One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them.",
+    price: 29.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fantasy",
+    publisher: "Mariner Books",
+    publicationDate: "1954-07-29",
+    isbn: "9780544003415",
+    pages: 1216,
+    language: "English",
+    format: "Paperback",
+    rating: 4.9,
+    reviewCount: 3254,
+  },
+  {
+    id: "8",
+    title: "Harry Potter and the Philosopher's Stone",
+    author: "J.K. Rowling",
+    description:
+      "Harry Potter has never even heard of Hogwarts when the letters start dropping on the doormat at number four, Privet Drive. Addressed in green ink on yellowish parchment with a purple seal, they are swiftly confiscated by his grisly aunt and uncle.",
+    price: 16.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fantasy",
+    publisher: "Bloomsbury",
+    publicationDate: "1997-06-26",
+    isbn: "9781408855652",
+    pages: 352,
+    language: "English",
+    format: "Paperback",
+    rating: 4.8,
+    reviewCount: 4321,
+  },
+  {
+    id: "9",
+    title: "The Alchemist",
+    author: "Paulo Coelho",
+    description:
+      "Paulo Coelho's masterpiece tells the mystical story of Santiago, an Andalusian shepherd boy who yearns to travel in search of a worldly treasure. His quest will lead him to riches far different—and far more satisfying—than he ever imagined.",
+    price: 13.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Fiction",
+    publisher: "HarperOne",
+    publicationDate: "1988-01-01",
+    isbn: "9780062315007",
+    pages: 208,
+    language: "English",
+    format: "Paperback",
+    rating: 4.6,
+    reviewCount: 2876,
+  },
+  {
+    id: "10",
+    title: "Brave New World",
+    author: "Aldous Huxley",
+    description:
+      "Aldous Huxley's profoundly important classic of world literature, Brave New World is a searching vision of an unequal, technologically-advanced future where humans are genetically bred, socially indoctrinated, and pharmaceutically anesthetized to passively uphold an authoritarian ruling order.",
+    price: 12.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Science Fiction",
+    publisher: "Harper Perennial",
+    publicationDate: "1932-01-01",
+    isbn: "9780060850524",
+    pages: 288,
+    language: "English",
+    format: "Paperback",
+    rating: 4.5,
+    reviewCount: 1987,
+  },
+  {
+    id: "11",
+    title: "The Da Vinci Code",
+    author: "Dan Brown",
+    description:
+      "While in Paris, Harvard symbologist Robert Langdon is awakened by a phone call in the dead of the night. The elderly curator of the Louvre has been murdered inside the museum, his body covered in baffling symbols.",
+    price: 14.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Mystery",
+    publisher: "Anchor",
+    publicationDate: "2003-03-18",
+    isbn: "9780307474278",
+    pages: 489,
+    language: "English",
+    format: "Paperback",
+    rating: 4.2,
+    reviewCount: 2543,
+  },
+  {
+    id: "12",
+    title: "The Hunger Games",
+    author: "Suzanne Collins",
+    description:
+      "In the ruins of a place once known as North America lies the nation of Panem, a shining Capitol surrounded by twelve outlying districts. The Capitol is harsh and cruel and keeps the districts in line by forcing them all to send one boy and one girl between the ages of twelve and eighteen to participate in the annual Hunger Games.",
+    price: 13.99,
+    coverImage: "/placeholder.svg?height=600&width=400",
+    category: "Young Adult",
+    publisher: "Scholastic Press",
+    publicationDate: "2008-09-14",
+    isbn: "9780439023481",
+    pages: 374,
+    language: "English",
+    format: "Paperback",
+    rating: 4.7,
+    reviewCount: 3124,
+  },
+]
+
