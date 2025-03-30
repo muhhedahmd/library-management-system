@@ -18,9 +18,10 @@ export const authOptions: AuthOptions = {
       },
       authorize: async (credentials) => {
         try {
-
+          const env = process.env.NEXT_PUBLIC_API!
+       
           const response = await axios.post(
-            "http://localhost:3000/api/users/Login",
+            `${env}api/users/Login`,
             credentials,
           );
 
@@ -64,9 +65,11 @@ export const authOptions: AuthOptions = {
         console.log("credentials next auth", credentials);
         if (!credentials) return
 
+        const env = process.env.NEXT_PUBLIC_API!
+
         try {
           const response = await axios.post(
-            "http://localhost:3000/api/users/signup",
+            `${env}api/users/signup`,
             credentials,
             {
               headers: {
