@@ -7,9 +7,12 @@ import BookDetails from "./bookDetails"
 import { Separator } from "@/components/ui/separator"
 import { BooksRes } from "@/Types"
 import prisma from "@/lib/prisma"
+// import BookRecommendations from "./book-recommendations"
+// import ReadingHistoryCard from "./reading-history-card"
 
 
 async function getBookDetails(id: string) {
+
 
   const book = await prisma.book.findUnique({
     where: { id },
@@ -67,7 +70,6 @@ async function getBookDetails(id: string) {
   const splitIntoTagsTitle = book.title.split(" ")
   const splitIntoCate = book.category.name.split(" ")
   const simmlerCategory = await prisma.category.findMany({
-
     distinct: "name",
     where: {
 
@@ -144,6 +146,11 @@ export default async function BookPage({ params }: { params: { id: string } }) {
 
   const { similarBooks, popularBooks } = data
 
+  // Find the main cover and thumbnail
+  // const mainCover = book.bookCovers.find((cover) => cover.type === "Image") || book.bookCovers[0]
+  // const thumbnail = book.bookCovers.find((cover) => cover.type === "THUMBNAIL")
+
+  // Calculate reading stats
 
 
   return (
