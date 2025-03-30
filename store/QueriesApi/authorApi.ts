@@ -1,7 +1,6 @@
 // import { ShapeOfUserSearchMention } from "@/app/api/users/mentions/route";
 // import { ShapeOFminmalUserType } from "@/app/api/users/singleuser/route";
-import { authorSchema } from "@/app/_comonents/ZodScheams";
-import { ProfileWithPic, UserData } from "@/Types";
+import { authorSchema } from "@/app/_components/ZodScheams";
 import { Author } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -11,6 +10,7 @@ interface AuthorsResponse {
     hasMore: boolean; // Indicates if there are more items to fetch
 }
 export const apiAuthor = createApi({
+
     reducerPath: "authors",
     baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
     endpoints: (build) => ({
@@ -33,9 +33,7 @@ export const apiAuthor = createApi({
 
 
             serializeQueryArgs({
-                endpointDefinition,
                 endpointName,
-                queryArgs
             }) {
                 return endpointName
             },
@@ -59,7 +57,7 @@ export const apiAuthor = createApi({
                 method: "POST",
                 body: body,
             }),
-            async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({  }, { dispatch, queryFulfilled }) {
                 try {
                     const { data: createdCategory } = await queryFulfilled;
                     // Update the cache with the newly created category

@@ -1,8 +1,8 @@
 // import { ShapeOfUserSearchMention } from "@/app/api/users/mentions/route";
 // import { ShapeOFminmalUserType } from "@/app/api/users/singleuser/route";
-import { categorySchema, publisherSchema } from "@/app/_comonents/ZodScheams";
-import { ProfileWithPic, UserData } from "@/Types";
-import { Author, Category, Publisher } from "@prisma/client";
+import {  publisherSchema } from "@/app/_components/ZodScheams";
+// import { ProfileWithPic, UserData } from "@/Types";
+import {  Publisher } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface PublisherResponse {
@@ -28,9 +28,9 @@ export const apiPublisher = createApi({
 
             },
             serializeQueryArgs({
-                endpointDefinition,
+                // endpointDefinition,
                 endpointName,
-                queryArgs
+                // queryArgs
             }) {
                 return endpointName
             },
@@ -42,6 +42,9 @@ export const apiPublisher = createApi({
                 currentCache.data.push(...newItems.data); // Append new items to the existing list
                 currentCache.hasMore = newItems.hasMore; // Update the hasMore flag
             },
+            forceRefetch: ({ currentArg, previousArg }) => {
+                 return currentArg?.pgnum !== previousArg?.pgnum
+            },
 
 
 
@@ -52,7 +55,7 @@ export const apiPublisher = createApi({
                 method: "POST",
                 body: body,
             }),
-            async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({  }, { dispatch, queryFulfilled }) {
                 try {
                     const { data: createdCategory } = await queryFulfilled;
                     // Update the cache with the newly created category

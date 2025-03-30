@@ -200,3 +200,53 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+.trans{
+  transition: all 1s ease-in-out;
+
+}
+
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #666 transparent;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+/* Hide scrollbar buttons/arrows */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* For Firefox - hide scrollbar buttons */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #666 transparent;
+  scrollbar-arrow-color: transparent;
+}

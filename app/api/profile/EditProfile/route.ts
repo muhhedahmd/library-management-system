@@ -15,11 +15,6 @@ export const PUT = async (
     req: Request,
 
 ) => {
-    console.log({
-        api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!,
-        cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!,
-        api_secret: process.env.CLOUDINARY_API_SECRET!,
-      })
 
     const session = (await getServerSession(authOptions)) as CustomSession;
     const userId = session?.user?.id;

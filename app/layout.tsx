@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/store/storeProvider";
-import UserSessionProvider from "./_comonents/UserSessionProvider";
-import NavBar from "./_comonents/navBar";
+import UserSessionProvider from "./_components/UserSessionProvider";
 import { Toaster } from "sonner";
-import { Header } from "./_comonents/header-books";
+import { Header } from "./_components/header-books";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { CartProvider } from "./_comonents/cart/cart-provider";
-import { Sidebar } from "./_comonents/side-bar";
+import { CartProvider } from "./_components/cart/cart-provider";
+import { Sidebar } from "./_components/side-bar";
+import InnerBody from "./Body";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,29 +33,37 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
         <StoreProvider>
           <UserSessionProvider />
           <SidebarProvider>
             <CartProvider>
 
-              <div className="flex flex-col justify-start mx-auto items-center">
-                <div className="w-full container sm:w-[87vw]">
+              <InnerBody>
+                <Sidebar />
 
-                  <Header />
+                <div className="flex justify-start items-center flex-col">
+
+                    <div className="w-full sticky top-0 z-20 container sm:w-[87vw]">
+
+                    <Header />
+
+                  </div>
+
+                  <div className="w-full">
+                    
+
+                    {children}
+                  </div>
                 </div>
+              </InnerBody>
 
-      <Sidebar />
-                <div className="w-full">
-
-                  {children}
-                </div>
-                <Toaster />
-              </div>
             </CartProvider>
           </SidebarProvider>
         </StoreProvider>
+        <Toaster />
       </body>
     </html>
   );

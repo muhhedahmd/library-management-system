@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
-import { z } from "zod"
 import { authOptions } from "@/lib/authOption"
 import { CustomSession } from "@/Types"
 import prisma from "@/lib/prisma"
-import { authorSchema } from "@/app/_comonents/ZodScheams"
+import { authorSchema } from "@/app/_components/ZodScheams"
 
 // Schema for author creation
 

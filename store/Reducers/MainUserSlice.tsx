@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "@prisma/client"; // Assuming you're using Prisma's User model
 import { RootState } from "../store";
 import { UserData } from "@/Types";
 

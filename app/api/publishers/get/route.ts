@@ -8,6 +8,8 @@ export async function GET(req :Request) {
     const pgSize = +(searchParams.get("pgsize") ?? 10);
     try {
       const publishers = await prisma.publisher.findMany({
+
+        distinct: "name",
         orderBy: {
           name: "asc",
         },

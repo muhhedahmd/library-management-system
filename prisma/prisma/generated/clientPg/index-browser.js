@@ -176,20 +176,43 @@ exports.Prisma.BookScalarFieldEnum = {
   description: 'description',
   isbn: 'isbn',
   authorId: 'authorId',
+  userId: 'userId',
   publisherId: 'publisherId',
   categoryId: 'categoryId',
   fileUrl: 'fileUrl',
   fileSize: 'fileSize',
   fileFormat: 'fileFormat',
-  thumbnailUrl: 'thumbnailUrl',
   language: 'language',
   pages: 'pages',
-  blurHash: 'blurHash',
+  key: 'key',
+  fileHash: 'fileHash',
   publishedAt: 'publishedAt',
+  price: 'price',
   available: 'available',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  price: 'price'
+  keywords: 'keywords',
+  popularity: 'popularity',
+  averageRating: 'averageRating',
+  totalRatings: 'totalRatings',
+  totalFavorites: 'totalFavorites'
+};
+
+exports.Prisma.BookCoverScalarFieldEnum = {
+  id: 'id',
+  fileUrl: 'fileUrl',
+  name: 'name',
+  fileSize: 'fileSize',
+  width: 'width',
+  height: 'height',
+  fileFormat: 'fileFormat',
+  key: 'key',
+  type: 'type',
+  fileHash: 'fileHash',
+  blurHash: 'blurHash',
+  bookId: 'bookId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RatingScalarFieldEnum = {
@@ -197,6 +220,7 @@ exports.Prisma.RatingScalarFieldEnum = {
   userId: 'userId',
   bookId: 'bookId',
   rating: 'rating',
+  review: 'review',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -226,7 +250,8 @@ exports.Prisma.AuthorScalarFieldEnum = {
   nationality: 'nationality',
   birthdate: 'birthdate',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  popularity: 'popularity'
 };
 
 exports.Prisma.PublisherScalarFieldEnum = {
@@ -242,7 +267,77 @@ exports.Prisma.CategoryScalarFieldEnum = {
   name: 'name',
   description: 'description',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  parentId: 'parentId'
+};
+
+exports.Prisma.ReadingHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  startedAt: 'startedAt',
+  lastReadAt: 'lastReadAt',
+  finishedAt: 'finishedAt',
+  pagesRead: 'pagesRead',
+  readingTimeMinutes: 'readingTimeMinutes',
+  completed: 'completed',
+  abandonedAt: 'abandonedAt',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserPreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  categoryId: 'categoryId',
+  authorId: 'authorId',
+  weight: 'weight',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RecommendationLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  algorithm: 'algorithm',
+  score: 'score',
+  clicked: 'clicked',
+  interacted: 'interacted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PurchaseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  purchaseDate: 'purchaseDate',
+  price: 'price',
+  quantity: 'quantity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  checkoutId: 'checkoutId'
+};
+
+exports.Prisma.BillingAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  street: 'street',
+  city: 'city',
+  state: 'state',
+  postalCode: 'postalCode',
+  country: 'country',
+  CheckoutId: 'CheckoutId'
+};
+
+exports.Prisma.CheckoutScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  checkoutDate: 'checkoutDate',
+  dueDate: 'dueDate',
+  returnDate: 'returnDate',
+  totalPrice: 'totalPrice'
 };
 
 exports.Prisma.SortOrder = {
@@ -287,6 +382,11 @@ exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN'
 };
 
+exports.bookcoverType = exports.$Enums.bookcoverType = {
+  THUMBNAIL: 'THUMBNAIL',
+  Image: 'Image'
+};
+
 exports.LoanStatus = exports.$Enums.LoanStatus = {
   ACTIVE: 'ACTIVE',
   RETURNED: 'RETURNED'
@@ -298,12 +398,19 @@ exports.Prisma.ModelName = {
   Profile: 'Profile',
   ProfilePicture: 'ProfilePicture',
   Book: 'Book',
+  bookCover: 'bookCover',
   Rating: 'Rating',
   Favorite: 'Favorite',
   Loan: 'Loan',
   Author: 'Author',
   Publisher: 'Publisher',
-  Category: 'Category'
+  Category: 'Category',
+  ReadingHistory: 'ReadingHistory',
+  UserPreference: 'UserPreference',
+  RecommendationLog: 'RecommendationLog',
+  purchase: 'purchase',
+  billingAddress: 'billingAddress',
+  Checkout: 'Checkout'
 };
 
 /**

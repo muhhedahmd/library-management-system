@@ -8,6 +8,8 @@ import { apiAuthor } from './QueriesApi/authorApi';
 import { apiCategory } from './QueriesApi/categoryApi';
 import { apiPublisher } from './QueriesApi/publisherApi';
 import paggnitionSlice from "./Slices/paggnitionSlice"
+import { apiBook } from './QueriesApi/booksApi';
+import { recommendationApi } from './QueriesApi/recommendationApi';
 
 export const makeStore = () => {
   return configureStore({
@@ -17,6 +19,8 @@ export const makeStore = () => {
       [apiAuthor.reducerPath] : apiAuthor.reducer,
       [apiCategory.reducerPath] : apiCategory.reducer,
       [apiPublisher.reducerPath] : apiPublisher.reducer,
+      [apiBook.reducerPath] : apiBook.reducer,
+      [recommendationApi.reducerPath] : recommendationApi.reducer,
       pagination :paggnitionSlice,
 
 
@@ -31,6 +35,8 @@ export const makeStore = () => {
     .concat(apiAuthor.middleware)
     .concat(apiCategory.middleware)
     .concat(apiPublisher.middleware)
+    .concat(apiBook.middleware)
+    .concat(recommendationApi.middleware)
 
     // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(serializableCheck({
     //   ignoredActions: ['persist/PERSIST'], // ignore the PERSIST action
@@ -40,6 +46,7 @@ export const makeStore = () => {
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const store = makeStore();
 
 export type RootState = ReturnType<typeof store.getState>;

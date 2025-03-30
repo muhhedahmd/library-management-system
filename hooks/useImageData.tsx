@@ -37,6 +37,7 @@ const useImageFile = (file: File | null): ImageMetadata => {
 
     const loadImage = async () => {
       try {
+
         setIsLoading(true);
         setError(null);
 
@@ -67,7 +68,9 @@ const useImageFile = (file: File | null): ImageMetadata => {
         };
 
         img.src = url;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
+
         if (!isMounted) return;
         setError('Error processing image');
         setIsLoading(false);

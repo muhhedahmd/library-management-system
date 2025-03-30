@@ -51,6 +51,14 @@ export const apiUser = createApi({
         }
 
       },
+    }),
+    GetUser: build.query<UserData, {
+
+      userId?: string
+    }>({
+      query: ({ userId: userId }) => {
+        return { url: "api/users/get-user", params: { userId } }
+      }
     })
 
   }),
@@ -59,6 +67,7 @@ export const apiUser = createApi({
 // Export the generated hooks
 export const {
   useUpdateProfileMutation,
-  useGetUserProfileQuery
+    useGetUserProfileQuery,
+    useGetUserQuery
 } =
   apiUser;

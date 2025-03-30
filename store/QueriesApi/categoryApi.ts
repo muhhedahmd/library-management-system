@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { categorySchema } from "@/app/_comonents/ZodScheams";
-import { Category } from "@prisma/client";
+import { categorySchema } from "@/app/_components/ZodScheams";
+// import { Category } from "@prisma/client";
+import { categoryWithchildren } from "@/Types";
 
 interface CategoriesResponse {
-  data: Category[]; // List of categories
+  data: categoryWithchildren[]; // List of categories
   hasMore: boolean; // Indicates if there are more items to fetch
 }
 
@@ -18,13 +19,13 @@ export const apiCategory = createApi({
         params: { pgnum, pgsize },
       }),
       serializeQueryArgs({
-        endpointDefinition  ,
+        // endpointDefinition  ,
         endpointName ,
-        queryArgs
+        // queryArgs
       }){
         return endpointName
       },
-      transformResponse: (response: Category[], meta, arg) => {
+      transformResponse: (response: categoryWithchildren[], meta, arg) => {
         const hasMore = response.length === arg.pgsize; // If the response length equals the page size, there might be more items
         return { data: response, hasMore };
       },
@@ -36,13 +37,15 @@ export const apiCategory = createApi({
     }),
 
     // Create a new category
-    createCategory: build.mutation<Category, { body: typeof categorySchema._type }>({
+    createCategory: build.mutation<categoryWithchildren, { body: typeof categorySchema._type }>({
       query: ({ body }) => ({
         url: "api/categories/create",
         method: "POST",
         body: body,
       }),
-      async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ 
+        // body
+       }, { dispatch, queryFulfilled }) {
         try {
           const { data: createdCategory } = await queryFulfilled;
           // Update the cache with the newly created category
@@ -54,6 +57,7 @@ export const apiCategory = createApi({
         } catch (error) {
           console.error("Failed to create category:", error);
         }
+      
       },
     }),
   }),

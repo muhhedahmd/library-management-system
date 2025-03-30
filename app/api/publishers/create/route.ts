@@ -5,7 +5,7 @@ import { z } from "zod"
 import { authOptions } from "@/lib/authOption"
 import { CustomSession } from "@/Types"
 import prisma from "@/lib/prisma"
-import { publisherSchema } from "@/app/_comonents/ZodScheams"
+import { publisherSchema } from "@/app/_components/ZodScheams"
 
 // Schema for publisher creation
 

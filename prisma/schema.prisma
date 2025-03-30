@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
-   output   = "./prisma/generated/clientPg" 
+  output   = "./prisma/generated/clientPg" 
+
 }
 
 datasource db {
@@ -37,24 +38,34 @@ model Notification {
 }
 
 enum GENDER {
-  MALE 
+  MALE
   FEMALE
 }
+
 model User {
-  id                    String         @id @default(cuid())
+  id                    String              @id @default(cuid())
   gender                GENDER
   name                  String
-  email                 String         @unique
+  email                 String              @unique
   password              String
-  notificationsSent     Notification[] @relation("UserNotifier")
-  notificationsReceived Notification[] @relation("UserNotifying")
-  role                  UserRole       @default(MEMBER)
+  notificationsSent     Notification[]      @relation("UserNotifier")
+  notificationsReceived Notification[]      @relation("UserNotifying")
+  role                  UserRole            @default(MEMBER)
   profile               Profile?
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @updatedAt
-  ratting           Rating[]
-  favoriteUsers    Favorite[]
-  Loan                  Loan[]
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  ratings               Rating[]            @relation("UserRatings") // Renamed from ratting
+  favoriteBooks         Favorite[]          @relation("UserFavorites") // Renamed from favoriteUsers
+  loans                 Loan[]              @relation("UserLoans") // Renamed from Loan
+  readingHistory        ReadingHistory[]    @relation("UserReadingHistory")
+  userPreferences       UserPreference[]    @relation("UserPreferences")
+  // similarityScores      UserSimilarity[] @relation("UserSimilarityScores")
+  books                 Book[]
+  recommendationLogs    RecommendationLog[] @relation("UserRecommendations")
+  purchase              purchase[]          @relation("UserPurchases")
+  billingAddress        billingAddress[]    @relation("UserAddresses")
+  Checkout              Checkout[]
+
   @@map("users")
 }
 
@@ -70,7 +81,8 @@ model Profile {
   updatedAt       DateTime         @updatedAt
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   profilePictures ProfilePicture[]
-  website           Json?            @default("{}")
+  website         Json?            @default("{}")
+
   @@map("profile")
 }
 
@@ -98,105 +110,309 @@ model ProfilePicture {
 }
 
 model Book {
-  id           String    @id @default(cuid())
-  title        String
-  description  String?
-  isbn         String    @unique
-  authorId     String
-  author       Author    @relation(fields: [authorId], references: [id])
-  publisherId  String
-  publisher    Publisher @relation(fields: [publisherId], references: [id])
-  categoryId   String
-  category     Category  @relation(fields: [categoryId], references: [id])
-  fileUrl      String // URL to the PDF file
-  fileSize     String?// Size of the PDF file in bytes
-  fileFormat   String    @default("PDF")
-  thumbnailUrl String // URL to the book's thumbnail image
-  language     String    @default("English")
-  pages        String?
-  blurHash String?
-  publishedAt  DateTime?
-  available    Boolean   @default(true)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  loans        Loan[]
-  Rating  Rating[]
-  Favorite Favorite[]
-  price   String @default("0.00")
+  id                 String              @id @default(cuid())
+  title              String
+  description        String?
+  isbn               String              @unique
+  authorId           String
+  userId             String
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  author             Author              @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  publisherId        String
+  publisher          Publisher           @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  categoryId         String
+  category           Category            @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  fileUrl            String // URL to the PDF file
+  fileSize           String? // Size of the PDF file in bytes
+  fileFormat         String              @default("PDF")
+  language           String              @default("English")
+  pages              String?
+  key                String?
+  fileHash           String?
+  publishedAt        DateTime?
+  price              Float               @default(0.00)
+  available          Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  loans              Loan[]              @relation("BookLoans")
+  ratings            Rating[]            @relation("BookRatings")
+  favorites          Favorite[]          @relation("BookFavorites")
+  bookCovers         bookCover[]         @relation("BookCovers")
+  readingHistory     ReadingHistory[]    @relation("BookReadingHistory")
+  keywords           String[] // Added for better content-based filtering
+  popularity         Float               @default(0) // Calculated popularity score
+  // similarBooks      BookSimilarity[]  @relation("SimilarBooks")
+  recommendationLogs RecommendationLog[] @relation("BookRecommendations")
+  // New fields for recommendation
+  averageRating      Float               @default(0) // Pre-calculated average rating
+  totalRatings       Int                 @default(0) // Count of ratings
+  totalFavorites     Int                 @default(0) // Count of favorites
+  purchase           purchase[]          @relation("BookPurchases")
+
   @@map("books")
 }
-// ratting
-model Rating {
-  id           String    @id @default(cuid())
-  userId     String
-  user       User       @relation(fields: [userId], references: [id])
+
+enum bookcoverType {
+  THUMBNAIL
+  Image
+}
+
+model bookCover {
+  id         String        @id @default(cuid())
+  fileUrl    String // URL to the PDF file
+  name       String?       @default("Book cover")
+  fileSize   String? // Size of the PDF file in bytes
+  width      Int?
+  height     Int?
+  fileFormat String        @default("PDF")
+  key        String?
+  type       bookcoverType
+  fileHash   String?
+  blurHash   String?
   bookId     String
-  book       Book       @relation(fields: [bookId], references: [id])
-  rating     Int       @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  book       Book          @relation("BookCovers", fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+// Rating model - renamed relation fields for clarity
+model Rating {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation("UserRatings", fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book     @relation("BookRatings", fields: [bookId], references: [id], onDelete: Cascade)
+  rating    Int      @default(0)
+  review    String? // Added field for text reviews
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId]) // Ensure a user can only rate a book once
+  @@index([bookId, rating]) // Index for faster recommendation queries
   @@map("ratings")
 }
 
 model Favorite {
-  id         String     @id @default(cuid())
-  userId     String
-  user       User       @relation(fields: [userId], references: [id])
-  bookId     String
-  book       Book       @relation(fields: [bookId], references: [id])
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation("UserFavorites", fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book     @relation("BookFavorites", fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId]) // Ensure a user can only favorite a book once
+  @@index([userId]) // Index for faster queries
+  @@index([bookId]) // Index for faster queries
   @@map("favorites")
 }
 
+// Loan model - renamed relation fields for clarity
 model Loan {
   id         String     @id @default(cuid())
   userId     String
-  user       User       @relation(fields: [userId], references: [id])
+  user       User       @relation("UserLoans", fields: [userId], references: [id], onDelete: Cascade)
   bookId     String
-  book       Book       @relation(fields: [bookId], references: [id])
+  book       Book       @relation("BookLoans", fields: [bookId], references: [id], onDelete: Cascade)
   loanDate   DateTime   @default(now())
   dueDate    DateTime
   returnDate DateTime?
   status     LoanStatus @default(ACTIVE)
+
+  @@index([userId]) // Index for faster queries
+  @@index([bookId]) // Index for faster queries
   @@map("loans")
 }
 
 model Author {
-  id          String    @id @default(cuid())
-  name        String
-  bio         String? // Author's biography
-  nationality String? // Author's nationality
-  birthdate   DateTime? // Author's birthdate
-  books       Book[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id             String           @id @default(cuid())
+  name           String
+  bio            String? // Author's biography
+  nationality    String? // Author's nationality
+  birthdate      DateTime? // Author's birthdate
+  books          Book[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  popularity     Float            @default(0) // Added for recommendation purposes
+  UserPreference UserPreference[]
+
   @@map("authors")
 }
-
 
 model Publisher {
   id        String   @id @default(cuid())
   name      String
-  website   String? 
+  website   String?
   books     Book[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@map("publishers")
 }
 
 model Category {
-  id          String   @id @default(cuid())
-  name        String
-  description String? 
-  books       Book[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String           @id @default(cuid())
+  name           String
+  description    String?
+  books          Book[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  parentId       String? // Added for hierarchical categories
+  parent         Category?        @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children       Category[]       @relation("CategoryHierarchy")
+  UserPreference UserPreference[]
+
   @@map("categories")
-  }
+}
 
 enum LoanStatus {
   ACTIVE
   RETURNED
 }
-// extra
+
+// NEW MODELS FOR RECOMMENDATION SYSTEM
+
+// Track detailed reading history and progress
+model ReadingHistory {
+  id                 String    @id @default(cuid())
+  userId             String
+  user               User      @relation("UserReadingHistory", fields: [userId], references: [id], onDelete: Cascade)
+  bookId             String
+  book               Book      @relation("BookReadingHistory", fields: [bookId], references: [id], onDelete: Cascade)
+  startedAt          DateTime  @default(now())
+  lastReadAt         DateTime  @default(now())
+  finishedAt         DateTime?
+  pagesRead          Int       @default(0)
+  readingTimeMinutes Int       @default(0)
+  completed          Boolean   @default(false)
+  abandonedAt        DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@unique([userId, bookId])
+  @@index([userId, lastReadAt])
+  @@map("reading_history")
+}
+
+// Store user preferences for recommendation
+
+model UserPreference {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation("UserPreferences", fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  authorId   String?
+  author     Author?   @relation(fields: [authorId], references: [id])
+  weight     Float     @default(1.0) // Preference weight (1-10)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([userId, categoryId, authorId])
+  @@map("user_preferences")
+}
+
+// Store similarity scores between users for collaborative filtering
+// model UserSimilarity {
+//   id            String   @id @default(cuid())
+//   userId        String
+//   user          User     @relation("UserSimilarityScores", fields: [userId], references: [id], onDelete: Cascade)
+//   similarUserId String
+//   similarUser   User     @relation("UserSimilarityScores", fields: [similarUserId], references: [id], onDelete: Cascade)
+//   score         Float    // Similarity score between users
+//   lastCalculated DateTime @default(now())
+//   createdAt     DateTime @default(now())
+//   updatedAt     DateTime @updatedAt
+
+//   @@unique([userId, similarUserId])
+//   @@index([userId, score(sort: Desc)])
+//   @@map("user_similarities")
+// }
+
+// Store similarity scores between books
+
+// model BookSimilarity {
+//   id            String   @id @default(cuid())
+//   bookId        String
+//   book          Book     @relation("SimilarBooks", fields: [bookId], references: [id], onDelete: Cascade)
+//   similarBookId String
+//   similarBook   Book     @relation("SimilarBooks", fields: [similarBookId], references: [id], onDelete: Cascade)
+//   score         Float    // Similarity score between books
+//   lastCalculated DateTime @default(now())
+//   createdAt     DateTime @default(now())
+//   updatedAt     DateTime @updatedAt
+
+//   @@unique([bookId, similarBookId])
+//   @@index([bookId, score(sort: Desc)])
+//   @@map("book_similarities")
+// }
+
+// Log recommendations for analysis and improvement
+
+model RecommendationLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation("UserRecommendations", fields: [userId], references: [id], onDelete: Cascade)
+  bookId     String
+  book       Book     @relation("BookRecommendations", fields: [bookId], references: [id], onDelete: Cascade)
+  algorithm  String
+  score      Float
+  clicked    Boolean  @default(false)
+  interacted Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@map("recommendation_logs")
+}
+
+model purchase {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation("UserPurchases", fields: [userId], references: [id], onDelete: Cascade)
+  bookId       String
+  book         Book     @relation("BookPurchases", fields: [bookId], references: [id], onDelete: Cascade)
+  purchaseDate DateTime @default(now())
+  price        Float
+  quantity     Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  checkoutId   String
+  checkout     Checkout @relation(fields: [checkoutId], references: [id], onDelete: Cascade)
+
+  @@index([userId, purchaseDate])
+  @@map("purchases")
+}
+
+model billingAddress {
+  id         String @id @default(cuid())
+  userId     String
+  user       User   @relation("UserAddresses", fields: [userId], references: [id], onDelete: Cascade)
+  street     String
+  city       String
+  state      String
+  postalCode String
+  country    String
+
+  // Checkout Checkout? @relation("checkout-billingAddress")
+  CheckoutId String?   @unique
+  Checkout   Checkout? @relation(fields: [CheckoutId], references: [id], onDelete: SetNull)
+}
+
+// check out model 
+model Checkout {
+  id           String          @id @default(cuid())
+  userId       String
+  User         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checkoutDate DateTime        @default(now())
+  // billingAddress billingAddress?
+  purchase     purchase[]
+  address      billingAddress?
+  dueDate      DateTime
+  returnDate   DateTime?
+  totalPrice   Float
+  // status     CheckoutStatus @default(ACTIVE)
+
+  @@index([userId])
+  @@map("checkouts")
+}

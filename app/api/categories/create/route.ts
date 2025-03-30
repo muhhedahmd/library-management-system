@@ -4,7 +4,7 @@ import { z } from "zod"
 import { authOptions } from "@/lib/authOption"
 import { CustomSession } from "@/Types"
 import prisma from "@/lib/prisma"
-import { categorySchema } from "@/app/_comonents/ZodScheams"
+import { categorySchema } from "@/app/_components/ZodScheams"
 
 // Schema for category creation
 
