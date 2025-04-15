@@ -36,9 +36,11 @@ export async function GET(req: Request) {
 
     return NextResponse.json(parentsWithChildren)
   } catch (error) {
-    console.error("Error fetching categories:", error)
+    console.log("Error fetching categories:", error)
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Internal server error"  , 
+        error
+      },
       { status: 500 }
     )
   }
