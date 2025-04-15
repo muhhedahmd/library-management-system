@@ -26,21 +26,21 @@ export const authOptions: AuthOptions = {
           );
 
           if (response.status === 200) {
-            // console.log("Response Data:", response.data);
+            console.log("Response Data:", response.data);
             return response.data;
           }
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error : any)  {
-          console.log(error)
 
-          // throw new Error(
-          //   JSON.stringify({
-          //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          //     errors: error.response.data as unknown as any ,
-          //     status: 400,
-          //     ok: false,
-          //   })
-          // )
+
+          throw new Error(
+            JSON.stringify({
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              errors: error.response.data as unknown as any ,
+              status: 400,
+              ok: false,
+            })
+          )
           //   console.log(error.response.data)
 
           // return null

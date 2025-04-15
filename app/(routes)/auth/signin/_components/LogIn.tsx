@@ -63,8 +63,8 @@ const LogIn = () => {
       }).then((res) => {
 
         if (res?.ok === true) {
+          router.push(`/books`)
           if(cachedUser){
-            router.push(`/books`)
           }else {
 
             // router.push(`/profile/${res?.user?.id}`)

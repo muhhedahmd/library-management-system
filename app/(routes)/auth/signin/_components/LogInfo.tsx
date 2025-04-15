@@ -82,7 +82,7 @@ export default function AuthForm() {
     if (await trigger()) {
       console.log({data})
       await signIn("signup", {
-        redirect: true,
+        redirect: false,
         ...data , 
         gender : GenderValue , 
         role : RoleValue
