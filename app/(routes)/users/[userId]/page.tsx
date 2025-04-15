@@ -14,6 +14,7 @@ import { useGetBooklibraryQuery } from '@/store/QueriesApi/booksApi'
 import { BooksRes } from '@/Types'
 import Image from 'next/image'
 import Link from 'next/link'
+import { formatDistance } from 'date-fns'
 
 
 const Page = ({ params }: { params: Promise<{ userId: string }> }
@@ -72,11 +73,11 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }
 
         <div className="flex w-full  flex-col  md:flex-row justify-center items-start gap-6">
 
-          <Card className="w-full sm:sticky static top-[4.5rem] md:w-1/3">
+          <Card className="w-full sm:sticky static  md:w-1/3">
             <CardHeader className="flex flex-col items-center text-center pb-2">
               <Avatar className="h-24 w-24 mb-4 bg-muted">
 
-                <AvatarImage src={user?.profile?.profilePictures[0]?.secureUrl || ""} alt={user?.name} />
+                <AvatarImage src={user?.profile?.profilePictures[0]?.secureUrl || ""} alt={user?.name || ""} />
                 <AvatarFallback>
                   <UserIcon className='w-10 h-10' />
                 </AvatarFallback>
@@ -99,54 +100,14 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <span>Joined {JSON.stringify(user?.createdAt)}</span>
+                  <span>Joined { formatDistance(new Date(user?.createdAt || new Date() ), new Date(), { addSuffix: true })} </span>
                 </div>
 
               </div>
 
               <Separator />
 
-              <div className="grid grid-cols-2 gap-4 pt-2">
-                {user?.role === "ADMIN" ? (
-                  <>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Books Managed</p>
-                      {/* <p className="text-xl font-medium">{CachedUser.stats.booksManaged}</p> */}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Members</p>
-                      {/* <p className="text-xl font-medium">{CachedUser.stats.MEMBERsOverseeing}</p> */}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Active Loans</p>
-                      {/* <p className="text-xl font-medium">{CachedUser.stats.activeLoans}</p> */}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Overdue</p>
-                      {/* <p className="text-xl font-medium text-destructive">{CachedUser.stats.overdue}</p> */}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground flex justify-start gap-2 items-center">Totql favorite</p>
-                      {/* <p className="text-xl font-medium">{CachedUser.stats.booksLoaned}</p> */}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Current Loans</p>
-                      {/* <p className="text-xl font-medium">{CachedUser.stats.currentlyBorrowed}</p> */}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Avg reading time</p>
-                      {/* <p className="text-xl font-medium">{CachedUser.stats.reservations}</p> */}
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground">Overdue</p>
-                      {/* <p className="text-xl font-medium text-destructive">{CachedUser.stats.overdue}</p> */}
-                    </div>
-                  </>
-                )}
-              </div>
+      
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
 
@@ -163,7 +124,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }
             {user?.role === "ADMIN" &&
 
 
-              <AdminContent />
+              <AdminContent userId={userIdParam}  />
 
             }
             {user?.role === "MEMBER" &&
@@ -178,7 +139,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }
                     <CardHeader className=' md:hidden flex p-2 pl-[1.4rem] sticky top-[4em]  z-20 rounded-md rounded-b-none  backdrop-blur-3xl  flex-row gap-2 justify-start items-center'>
                       <Avatar className="h-12 w-12  bg-muted">
 
-                        <AvatarImage src={user?.profile?.profilePictures[0]?.secureUrl || ""} alt={user?.name} />
+                        <AvatarImage src={user?.profile?.profilePictures[0]?.secureUrl || ""} alt={user?.name || ""} />
                         <AvatarFallback>
                           <UserIcon className='w-5 h-5' />
                         </AvatarFallback>
@@ -198,7 +159,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }
                     <div className='  grid md:grid-cols-2  py-4 gap-4 max-w-5xl overflow-x-auto'>
 
                       {
-                        !books && !books?.length && ( isBooksLoading || isBooksFetching) ?
+                        (!books || !books.length) && ( isBooksLoading || isBooksFetching) ?
 
                           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 22, 11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 22, 11]?.map((item, i) => (
                             <LibraryCardLoader key={i} />

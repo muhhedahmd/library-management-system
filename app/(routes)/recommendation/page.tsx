@@ -8,11 +8,8 @@ export const metadata: Metadata = {
 
 export default function RecommendationsPage() {
   return (
-    <div className="container py-10">
-      <h1 className="text-3xl font-bold mb-6">Your Personalized Recommendations</h1>
-      <p className="text-muted-foreground mb-8">
-        Discover books tailored to your interests, reading history, and what similar readers enjoy.
-      </p>
+    <div className=" mx-auto  mt-2">
+ 
 
       <RecommendationSection />
     </div>

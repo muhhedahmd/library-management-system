@@ -1,4 +1,5 @@
 "use client"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -11,7 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { isLoading, userResponse } from "@/store/Reducers/MainUserSlice"
-import { CircleUser, LoaderCircle, LogOut, Settings, UserCircle } from "lucide-react"
+import { AvatarFallback } from "@radix-ui/react-avatar"
+import { CircleUser, LoaderCircle, LogOut,  UserCircle } from "lucide-react"
 import { signOut } from "next-auth/react"
 import Link from "next/link"
 import { useSelector } from "react-redux"
@@ -41,7 +43,16 @@ export function DropdownMenuDemo() {
 
         <DropdownMenuTrigger asChild>
           <button className=" min-w-max min-h-max hover:bg-secondary p-2  pt-2 pb-2  rounded-lg transition-all border-none outline-none  border-white  " >
+            <Avatar>
+              <AvatarImage
+              src={CachedUser.profile.profilePictures[0].secureUrl || ""}
+              />
+              <AvatarFallback>
             <CircleUser className="w-6 h-6 font-normal" />
+
+              </AvatarFallback>
+            </Avatar>
+            
           </button>
 
         </DropdownMenuTrigger>
@@ -57,21 +68,9 @@ export function DropdownMenuDemo() {
               <DropdownMenuShortcut><UserCircle className="w-4 h-4" /></DropdownMenuShortcut>
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
-              <Link className="w-full" href={"/profile?=Settings"}>
-                Settings
-              </Link>
-              <DropdownMenuShortcut><Settings className="w-4 h-4" /></DropdownMenuShortcut>
-            </DropdownMenuItem>
-
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
 
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>GitHub</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
-          <DropdownMenuSeparator />
           <DropdownMenuItem
 
             onClick={() => signOut()}
@@ -79,8 +78,8 @@ export function DropdownMenuDemo() {
 
           >
             <Button
-
-              className="hover:bg-primary"
+            size={"sm"}
+              className="hover:bg-none p-0"
               variant={"ghost"}
             >
 

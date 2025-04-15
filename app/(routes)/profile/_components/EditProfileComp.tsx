@@ -5,33 +5,39 @@ import { ProfilePicture } from '@prisma/client';
 import { Briefcase, Calendar, Earth, Edit, FileText, Loader2, Pencil, Phone, PlusCircle, Trash, User2, UserCircle2, UserPenIcon } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm, FormProvider } from 'react-hook-form'; // Import FormProvider
-import { useSelector } from 'react-redux';
-import { ProfileWithPic } from '@/Types';
+import { useDispatch, useSelector } from 'react-redux';
+import { ProfileWithPic, UserData } from '@/Types';
 import useImageFile from '@/hooks/useImageData';
-// const EditableField  = dynamic( ()=> import("@/app/_comonents/EditableField")  ,{
-//     ssr : false
 
-// } )
 import EditableField from '@/app/_components/EditableField';
 import { ProfileSchema } from '@/app/_components/ZodScheams';
-import { userResponse } from '@/store/Reducers/MainUserSlice';
+import { userResponse, editUser } from '@/store/Reducers/MainUserSlice';
 import CropperModal from '@/app/_components/cropSingle';
 import PhotoViewrComp from '@/app/_components/PhotoViewr';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import AutocompleteMultiValue from '@/app/_components/AutoCompleteMulti';
 import { useUpdateProfileMutation } from '@/store/QueriesApi/ProfileQuery';
 import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 
 const MainInfoEdit = ({
     blurProfile,
     profileData,
 }: {
-    profileData: ProfileWithPic | undefined;
+    profileData: ProfileWithPic | null;
     blurProfile: ProfilePicture | null;
 }) => {
-    
-    const CachedUser = useSelector(userResponse)!;
 
+    const CachedUser = useSelector(userResponse)!;
+    // const isLoadingEditUser = useSelector(isLoadingEditUser)
+
+    // const { page: catePage, hasMore: CateHasMore } = useSelector(
+    //     (state: RootState) => state.pagination.PaginationCategory,
+    //   )
+    const { update: updateSession, data: session } = useSession()
+
+    const dispatch = useDispatch()
     const form = useForm<typeof ProfileSchema._type>({
         defaultValues: {
             bio: profileData?.title || "",
@@ -46,10 +52,11 @@ const MainInfoEdit = ({
         resolver: zodResolver(ProfileSchema), // Add Zod resolver for validation
     });
 
-    
+
     const [editProfile, {
         isLoading: editStatus,
     }] = useUpdateProfileMutation()
+
     const [blurProfileToUpdate, setBlurProfileToUpdate] = useState<ProfilePicture | null>(null);
     const [openDilogCropProfile, SetopenDilogCropProfile] = useState<boolean>(false);
     const [croppedImageProfile, setCroppedImageProfile] = useState<File | null>(null);
@@ -65,6 +72,7 @@ const MainInfoEdit = ({
     const ProfileButtonClick = () => {
         ProfilePicInputRef.current?.click();
     };
+
 
     const onSubmit = async () => {
         const data = form.getValues()
@@ -84,26 +92,60 @@ const MainInfoEdit = ({
                     }
                 });
 
-                formData.append("userId" , CachedUser.id)
-
+                formData.append("userId", CachedUser.id)
+                const updataname = form.getValues("name")!
                 editProfile(formData).then((res) => {
-                    console.log({ res })
-                    toast("Profile Updated" ,{
-                    style :{
-                        background : ""
-                    },
-                    className:"bg-emerald-500",
-                    //   title: ,
-                      description: "Your profile has been updated successfully.",
-                    //   variant: "success",
 
-                    })
+                    if (res.data) {
+                        toast("Profile Updated", {
+                            style: {
+                                background: ""
+                            },
+                            className: "bg-emerald-500",
+                            //   title: ,
+                            description: "Your profile has been updated successfully.",
+                            //   variant: "success",
+                        })
 
+                        const profileData = {
+                            ...res.data,
+                        }
+
+                        if (CachedUser && updataname) {
+                            console.log(CachedUser);
+                            const user = {
+                                name: updataname,
+                                id: CachedUser.id,
+                                createdAt: CachedUser.createdAt,
+                                updatedAt: CachedUser.updatedAt,
+                                email: CachedUser.email,
+                                role: CachedUser.role,
+                                Gender: CachedUser.Gender,
+                                profile: {
+                                    ...profileData
+                                },
+                                user: {
+                                    id: CachedUser.id
+                                }
+
+                            } as UserData
+                            dispatch(editUser(user))
+
+                        }
+                        updateSession({
+                            ...session?.user,
+                            name: updataname,
+                            profile: profileData
+                        }).then(() => {
+                            console.log("Session Updated");
+                        })
+                        console.log({ data: res.data })
+                    }
                 }
                 ).catch(() => {
-                    toast( "Error",{
-                      description: "There was an error updating your profile.",
-                        className : "bg-destructive"
+                    toast("Error", {
+                        description: "There was an error updating your profile.",
+                        className: "bg-destructive"
                     })
                 })
                 //   Router.push("/maintimeline")
@@ -116,7 +158,9 @@ const MainInfoEdit = ({
             }
         }
 
+
     };
+
 
 
     return (
@@ -209,7 +253,7 @@ const MainInfoEdit = ({
                         control={form.control}
                         disabled={editStatus}
                         name="website"
-                        render={({  }) => (
+                        render={({ }) => (
                             <FormItem className="w-full">
                                 <div className="flex justify-start items-center gap-2">
                                     <Earth size={18} />
@@ -232,7 +276,11 @@ const MainInfoEdit = ({
                             </FormItem>
                         )}
                     />
-                    <EditableField editStatus={editStatus} control={form.control} name="title" icon={<Briefcase size={18} />} label="Title" placeholder={profileData?.title || ""} />
+                    <div>
+                    <EditableField editStatus={editStatus} control={form.control} name="title" 
+                    icon={<Briefcase size={18} />} 
+                    label="Title" placeholder={profileData?.title || ""} />
+                    </div>
                     <EditableField editStatus={editStatus} control={form.control} type='text' name="PhoneNumber" icon={<Phone size={18} />} label="Phone Number" placeholder={profileData?.phoneNumber?.toString() || ""} />
                     <EditableField editStatus={editStatus} control={form.control} name="birthdate" icon={<Calendar size={18} />} label="Birthday" type="date" placeholder={""} />
 
@@ -263,13 +311,13 @@ const MainInfoEdit = ({
                 {/* Submit Button */}
                 <div className="mt-6 flex justify-end">
                     <Button type="submit" className='cursor-pointer' onClick={() => onSubmit()} disabled={editStatus}>
-                     
-                     {
-                        editStatus ? 
-                        <Loader2 className='animate-spin w-4 h-4'/>
-                     :
-                        "Save Changes"
-                    }
+
+                        {
+                            editStatus ?
+                                <Loader2 className='animate-spin w-4 h-4' />
+                                :
+                                "Save Changes"
+                        }
                     </Button>
                 </div>
             </form>

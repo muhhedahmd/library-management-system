@@ -1,12 +1,6 @@
-import { decode, getToken } from "next-auth/jwt";
+import {  getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import * as jose from "jose";
-import { User } from "@prisma/client";
-
-const jwtConfig = {
-  secret: new TextEncoder().encode(process.env.NEXTAUTH_SECRET)!,
-};
 
 export default withAuth(
   async function middleware(Request: NextRequest) {
@@ -19,9 +13,7 @@ export default withAuth(
       raw: true,
     });
 
-    const ProtectedRoute = ["/product","/profile" ,
-      // "/api" ,
-       "/maintimeline",  "/todo" , "/chat" , "/profilee", "/upload", "/users" , "/posts"];
+    const ProtectedRoute = ["/profile" ,  "/checkout",  "/todo" , "/recommendation" , "/profile", "/upload", "/users" , "/posts"];
     const AuthRoute = pathname.startsWith("/api/auth");
     const isProtectedRoute = ProtectedRoute.some((route) => {
       return pathname.startsWith(route);
@@ -32,7 +24,9 @@ export default withAuth(
     }
 
     if (!isAuth && isProtectedRoute) {
-      return NextResponse.redirect(new URL("auth/signin", Request.url));
+      // Add callback URL to redirect back after signin
+      const callbackUrl = encodeURIComponent(Request.url)
+      return NextResponse.redirect(new URL(`auth/signin?callbackUrl=${callbackUrl}`, Request.url));
     }
 
     
@@ -56,7 +50,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized({ token, req }) {
+      authorized({ }) {
         // console.log("Authorizedmethotoken"  ,token)
         // console.log("req"  ,JSON.stringify(req))
         return true;

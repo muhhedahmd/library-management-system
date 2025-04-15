@@ -17,7 +17,7 @@ export default async function LibraryLayout({
   }
 
   return (
-    <div className="flex h-[90vh] container  mt-4 flex-col md:flex-row">
+    <div className="flex h-[90vh]   mt-4 flex-col md:flex-row">
       <div className="hidden lg:flex h-[90vh]" >
         <LibrarySidebar />
       </div>

@@ -22,7 +22,7 @@ const {cart } =useCart()
   }
 
   return (
-    <div className="container mx-auto py-10 px-4">
+    <div className=" mx-auto py-10 px-4 pt-4 relative">
       <div className="mb-6">
         <Link href="/cart" className="text-muted-foreground hover:text-foreground flex items-center">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -32,11 +32,12 @@ const {cart } =useCart()
 
       <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3   gap-8">
         <div className="lg:col-span-2">
           <CheckoutForm />
         </div>
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 ">
+          
           <OrderSummary cart={{
              items:cart ,
              subtotal: cart.reduce((acc, item) => acc + item.price * item.quantity, 0),

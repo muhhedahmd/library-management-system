@@ -26,7 +26,7 @@ export default function BookRecommendations({ similarBooks, popularBooks }: Book
       <TabsContent value="similar" className="pt-6">
         <div className="flex   gap-6 overflow-x-auto pb-4">
           {similarBooks?.map((book) => (
-            book && <div key={book.id} className="min-w-[200px]">
+            book && <div key={book.id} className="w-[250px]">
               <BookCard book={book} />
             </div>
           ))}
@@ -36,7 +36,7 @@ export default function BookRecommendations({ similarBooks, popularBooks }: Book
       <TabsContent value="popular" className="pt-6">
         <div className="flex   gap-6 overflow-x-auto pb-4">
           {popularBooks?.map((book) => (
-            book && <div key={book.id} className="min-w-[250px]">
+            book && <div key={book.id} className="w-[250px]">
               {/*  eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <BookCard key={book.id} book={book as any as BooksRes} />
             </div>

@@ -2,14 +2,14 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { usePathname } from "next/navigation"
-import { BookOpen, Menu, Search } from "lucide-react"
+import { BookOpen, Menu } from "lucide-react"
 import { useSidebar } from "@/components/ui/sidebar"
 import { CartDrawer } from "./cart/cart-drawer"
 import { ThemeToggle } from "./ThemeToggle"
 import { DropdownMenuDemo } from "./UserLogDropMenuNav"
 import { cn } from "@/lib/utils"
+import HeaderSerach from "./HeaderSerach"
 
 export function Header() {
   const pathname = usePathname()
@@ -20,8 +20,8 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+    <header className="sticky w-full top-0 z-50  border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className=" flex h-16 items-center">
         {/* Always show the toggle button on mobile, and on desktop when sidebar is collapsed */}
         <Button
           variant="ghost"
@@ -56,10 +56,9 @@ export function Header() {
         <div className={cn("flex-1 flex items-center gap-4 md:gap-6 justify-between md:justify-start" ,
             //  open && "ml-10"
              )}>
-          <div className="relative w-full max-w-sm hidden md:flex">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search for books..." className="w-full pl-8" />
-          </div>
+              <HeaderSerach 
+              
+              />
 
           <nav
             className={cn(
@@ -70,32 +69,40 @@ export function Header() {
           >
             <Link
               href="/"
-              className={`font-medium ${
+              className={`font-medium text-[15px]  ${
                 pathname === "/" ? "text-foreground" : "text-muted-foreground"
               } transition-colors hover:text-foreground`}
             >
               Home
             </Link>
-            <Link
+            {/* <Link
               href="/categories"
               className={`font-medium ${
                 pathname === "/categories" ? "text-foreground" : "text-muted-foreground"
               } transition-colors hover:text-foreground`}
             >
               Categories
-            </Link>
+            </Link> */}
             <Link
-              href="/bestsellers"
-              className={`font-medium ${
-                pathname === "/bestsellers" ? "text-foreground" : "text-muted-foreground"
+              href="/discover?tab=bestsellers"
+              className={`font-medium text-[15px] ${
+                pathname === "discover/bestsellers" ? "text-foreground" : "text-muted-foreground"
               } transition-colors hover:text-foreground`}
             >
               Bestsellers
             </Link>
             <Link
-              href="/new-releases"
-              className={`font-medium ${
-                pathname === "/new-releases" ? "text-foreground" : "text-muted-foreground"
+              href="/discover?tab=top-rated"
+              className={`font-medium text-[15px] ${
+                pathname === "discover/top-rated" ? "text-foreground" : "text-muted-foreground"
+              } transition-colors hover:text-foreground`}
+            >
+              Top rated
+            </Link>
+            <Link
+              href="/discover?tab=new-releases"
+              className={`font-medium text-[15px] ${
+                pathname === "discover/new-releases" ? "text-foreground" : "text-muted-foreground"
               } transition-colors hover:text-foreground`}
             >
               New Releases
@@ -105,7 +112,12 @@ export function Header() {
 
         {/* Right side controls always visible */}
         <div className="flex items-center gap-2 ml-auto">
+          <div
+          className="hidden md:block"
+          >
+
           <ThemeToggle />
+          </div>
           <CartDrawer />
           <DropdownMenuDemo />
         </div>

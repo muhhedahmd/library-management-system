@@ -1,13 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ArrowLeftCircle, Calendar, Edit, Mail, Phone, Settings, User } from "lucide-react"
+import { ArrowLeftCircle } from "lucide-react"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 
 import MemberContent from "../_components/MemberContent"
 import AdminContent from "../_components/AdminContent"
@@ -86,17 +82,20 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
   const { isLoading: isLoadingProfile, data: profileData, } = useGetUserProfileQuery({
     userId: userIdParam
   })
+  console.log({profileData})
 
   const Router = useRouter()
   const [scoreProfile, setScoreProfile] = useState(0);
 
-  const [isInCreateBook, setisInCreateBook] = useState(false)
+  const [, setisInCreateBook] = useState(false)
   useEffect(() => {
 
     const InCreateBook = _searchParams.get('books')
     setisInCreateBook(InCreateBook ? true : false)
 
   }, [_searchParams])
+
+
   useEffect(() => {
     if (!profileData) return;
 
@@ -106,7 +105,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
       bio: profileData.bio,
       birthdate: profileData.birthdate,
       phoneNumber: profileData.phoneNumber,
-      website: Object.values(profileData.website).length,
+      website: profileData?.website ? Object.values(profileData?.website).length : 0,
       ProfilePicture: profileData.profilePictures.length,
     }).map((item) => {
       if (item !== "" && item !== null && item !== undefined && item !== 0) {
@@ -138,7 +137,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
   if (IsLoading || !CachedUser || isLoadingProfile) {
     return (
-      <div className="container mx-auto py-6 px-4 mt-[-12] md:px-6 max-w-5xl">
+      <div className=" mx-auto w-full py-6 px-4 mt-[-12] md:px-6 ">
         <FullSkeletonLoader />
       </div>
     );
@@ -151,7 +150,9 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
   // const CachedUser.role = CachedUser.role === "ADMIN" ? mockCachedUser.ADMIN : mockCachedUser.MEMBER
 
-  if (!CachedUser) return
+  if (!CachedUser) return <div>
+    user not found
+  </div>
   // const user  = CachedUser
 
 
@@ -165,115 +166,16 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
   return (
     <>
 
-      <div className=" flex container justify-center items-center">
+      <div className=" flex  w-full justify-center items-center">
 
-
-        <div className=" w-full md:w-[100%]  flex justify-between items-center py-6 px-4 mt-[-12]  ">
+        <div className=" w-full md:w-[100%]  flex justify-between items-center  px-4 mt-[-12]  ">
 
           <div className="flex w-full  flex-col  md:flex-row justify-center items-start gap-6">
             {/* Left column - Profile info */}
-            {
-              !isInCreateBook
-              &&
-              <Card className="w-full sticky sm:static top-5 md:w-1/3">
-                <CardHeader className="flex flex-col items-center text-center pb-2">
-                  <Avatar className="h-24 w-24 mb-4">
-                    <AvatarImage src={blurProfile?.secureUrl || ""} alt={CachedUser.name!} />
-                    <AvatarFallback>
-                      {CachedUser.name!
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <CardTitle className="text-xl">{CachedUser.name}</CardTitle>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant={CachedUser.role === "ADMIN" ? "destructive" : "secondary"}>{CachedUser.role}</Badge>
-                    {CachedUser.role === "MEMBER" && <Badge variant="outline">{"silver"}</Badge>}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
-                      <span>{CachedUser.email}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span>{profileData?.phoneNumber}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span>Joined {JSON.stringify(CachedUser?.createdAt)}</span>
-                    </div>
-                    {CachedUser.role === "MEMBER" && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <User className="h-4 w-4 text-muted-foreground" />
-                        {/* <span>ID: {CachedUser.MEMBERshipId}</span> */}
-                      </div>
-                    )}
-                  </div>
-
-                  <Separator />
-
-                  <div className="grid grid-cols-2 gap-4 pt-2">
-                    {CachedUser.role === "ADMIN" ? (
-                      <>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Books Managed</p>
-                          {/* <p className="text-xl font-medium">{CachedUser.stats.booksManaged}</p> */}
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Members</p>
-                          {/* <p className="text-xl font-medium">{CachedUser.stats.MEMBERsOverseeing}</p> */}
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Active Loans</p>
-                          {/* <p className="text-xl font-medium">{CachedUser.stats.activeLoans}</p> */}
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Overdue</p>
-                          {/* <p className="text-xl font-medium text-destructive">{CachedUser.stats.overdue}</p> */}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Books Loaned</p>
-                          {/* <p className="text-xl font-medium">{CachedUser.stats.booksLoaned}</p> */}
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Current Loans</p>
-                          {/* <p className="text-xl font-medium">{CachedUser.stats.currentlyBorrowed}</p> */}
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Reservations</p>
-                          {/* <p className="text-xl font-medium">{CachedUser.stats.reservations}</p> */}
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs text-muted-foreground">Overdue</p>
-                          {/* <p className="text-xl font-medium text-destructive">{CachedUser.stats.overdue}</p> */}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-                <CardFooter className="flex flex-col gap-2">
-                  <Button variant="outline" onClick={() => setEditBg(true)} className="w-full" size="sm">
-                    <Edit className="mr-2 h-4 w-4" />
-                    Edit Profile
-                  </Button>
-                  <Button variant="outline" className="w-full" size="sm">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Account Settings
-                  </Button>
-                </CardFooter>
-
-              </Card>
-            }
+  
 
             {/* Right column - role specific content */}
-            <div className={cn("w-full md:w-2/3 sticky top-0 space-y-6",
+            <div className={cn("w-full md:w-full sticky top-0 space-y-6",
 
 
               openManageBooks && "w-full md:w-full"
@@ -372,7 +274,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                     </div>
 
                     <TabsInfo
-                      profileData={profileData}
+                      profileData={profileData || null}
                       blurProfile={blurProfile || null}
 
 
@@ -394,7 +296,9 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <AdminContent setOpenManageBooks={setOpenManageBooks} />
+                    <AdminContent
+                    userId={userIdParam}
+                    setOpenManageBooks={setOpenManageBooks} />
                   </motion.div>
                 </AnimatePresence>
               }

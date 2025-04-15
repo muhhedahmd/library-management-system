@@ -1,46 +1,11 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 
 const FullSkeletonLoader = () => (
   
-    <div className="flex flex-col relative md:flex-row justify-between items-start gap-6">
-      {/* Left Column - Profile Info Skeleton */}
-      <Card className="w-full static md:sticky top-[1rem] md:w-1/3">
-        <CardHeader className="flex flex-col items-center text-center pb-2">
-          {/* Avatar Skeleton */}
-          <div className="animate-wave bg-muted/50 h-24 w-24 rounded-full mb-4" />
-          {/* Name Skeleton */}
-          <div className="animate-wave rounded-xl bg-muted/50 h-6 w-48 mb-2" />
-          {/* Role Skeleton */}
-          <div className="animate-wave rounded-xl bg-muted/50 h-4 w-32" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Contact Info Skeleton */}
-          <div className="space-y-2">
-            <div className="animate-wave rounded-xl bg-muted/50 h-4 w-64" />
-            <div className="animate-wave rounded-xl bg-muted/50 h-4 w-64" />
-            <div className="animate-wave rounded-xl bg-muted/50 h-4 w-64" />
-          </div>
-          <Separator />
-          {/* Stats Skeleton */}
-          <div className="grid grid-cols-2 gap-4 pt-2">
-            {[...Array(4)].map((_, index) => (
-              <div key={index} className="space-y-1">
-                <div className="animate-wave rounded-xl bg-muted/50 h-4 w-20" />
-                <div className="animate-wave rounded-xl bg-muted/50 h-4 w-12" />
-              </div>
-            ))}
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-2">
-          {/* Buttons Skeleton */}
-          <div className="animate-wave rounded-xl bg-muted/50 h-6 w-full" />
-          <div className="animate-wave rounded-xl bg-muted/50 h-6 w-full" />
-        </CardFooter>
-      </Card>
-  
-      {/* Right Column - Role-Specific Content Skeleton */}
-      <div className="w-full md:w-2/3 space-y-6">
+    // <div className="flex flex-col w-full relative md:flex-row justify-between items-start gap-6">
+
+      <div className="w-full  space-y-6">
         {/* Currently Borrowed Books Skeleton */}
         <Card>
           <CardHeader>
@@ -126,6 +91,6 @@ const FullSkeletonLoader = () => (
           </CardContent>
         </Card>
       </div>
-    </div>
+    // </div>
   );
   export default FullSkeletonLoader

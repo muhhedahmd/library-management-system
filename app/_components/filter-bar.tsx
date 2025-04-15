@@ -62,6 +62,8 @@ export function FilterBar({ className }: FilterBarProps) {
   // Extract unique values for filters
 
 
+
+
   const { page: AuthorPages, hasMore: AuthorHasMore } = useSelector(
     (state: RootState) => state.pagination.PaginationCategory,
   )
@@ -71,7 +73,7 @@ export function FilterBar({ className }: FilterBarProps) {
     // isFetching: isFetchingAuthor,
   } = useGetAuthorsQuery({ pgnum: AuthorPages, pgsize: limit })
   const loadMoreAuthor = () => {
-    if (Authors.hasMore) {
+    if (Authors?.hasMore) {
       dispatch(setAuthorPagination({ page: AuthorPages + 1, hasMore: AuthorHasMore }))
     }
   }
@@ -85,7 +87,7 @@ export function FilterBar({ className }: FilterBarProps) {
   } = useGetPublisherQuery({ pgnum: publisherPages, pgsize: limit })
   console.log(publisher)
   const loadMorePublisher = () => {
-    if ( publisher.hasMore) {
+    if (publisher?.hasMore) {
       console.log("loadMorePublisher")
       dispatch(setPublisherPagination({ page: publisherPages + 1, hasMore: publisherHasMore }))
     }
@@ -136,17 +138,17 @@ export function FilterBar({ className }: FilterBarProps) {
 
   // Handle category change
   const handleCategoryChange = (value: string) => {
-    updateFilters({ category: value === "all" ? null : value })
+    updateFilters({ categoryId: value === "all" ? null : value })
   }
 
   // Handle author change
   const handleChangeAuthors = (value: string) => {
-    updateFilters({ author: value === "all" ? null : value })
+    updateFilters({ authorId: value === "all" ? null : value })
   }
 
   // // Handle publisher change
   const handleChangePublisher = (value: string) => {
-    updateFilters({ publisher: value === "all" ? null : value })
+    updateFilters({ publisherId: value === "all" ? null : value })
   }
 
   // Handle price range change
@@ -179,6 +181,16 @@ export function FilterBar({ className }: FilterBarProps) {
     }))
   }
 
+
+  const [recentCategoryId , setRecentCategoryId] = useState<string | null>(null)
+  useEffect(()=>{
+    const categoryId = searchParams.get("categoryId")
+    if(categoryId){
+      setRecentCategoryId(categoryId)
+    }
+  },[searchParams])
+  console.log({recentCategoryId , searchParams} ,recentCategoryId)
+
   return (
     <div className={cn("flex flex-col sm:flex-row gap-4", className)}>
       <div className="flex-1 flex flex-col sm:flex-row gap-4">
@@ -197,13 +209,15 @@ export function FilterBar({ className }: FilterBarProps) {
           </SelectContent>
         </Select>
 
-   
+
         <Select
-          value={searchParams.get("category") || "all"} onValueChange={handleCategoryChange}
+
+          value={recentCategoryId || searchParams.get("categoryId") || "all"} 
+          onValueChange={handleCategoryChange}
 
         >
           <SelectTrigger className="min-w-[100px]">
-            <SelectValue placeholder={""} />
+            <SelectValue placeholder={recentCategoryId ? recentCategoryId : "Select Category"} />
           </SelectTrigger>
           <SelectContent className="max-h-[300px]">
             <InfiniteScroll
@@ -223,6 +237,7 @@ export function FilterBar({ className }: FilterBarProps) {
                   <div key={category.id} className="space-y-1">
                     {/* Parent category */}
                     <div className="flex items-center gap-2">
+
                       <button
                         type="button"
                         onClick={() => toggleCategory(category.id)}
@@ -235,7 +250,7 @@ export function FilterBar({ className }: FilterBarProps) {
                         />
                       </button>
                       <SelectItem
-                        value={category.name}
+                        value={category.id}
                         className="flex-1 cursor-pointer">
                         <span className="font-medium">
                           {category.name.length > 25 ? `${category.name.substring(0, 25)}...` : category.name}
@@ -245,11 +260,14 @@ export function FilterBar({ className }: FilterBarProps) {
 
                     {/* Children categories */}
                     {expandedCategories[category.id] && category.children.length > 0 && (
+
                       <div className="ml-6 pl-2 border-l border-muted space-y-1">
+
                         {category.children.map((child) => (
                           <SelectItem
-                          
-                            value={child.name}
+
+
+                            value={child.id}
                             key={`${child.id}`} // Unique key combining parent and child IDs
                             className="py-1 text-sm"
                           >
@@ -283,29 +301,17 @@ export function FilterBar({ className }: FilterBarProps) {
 
               <div className="space-y-2">
                 <Label>Author</Label>
-    
+
                 <FilterSelect
-                onValueChange={handleChangeAuthors}
-    
-              categories={Authors?.data}
+                  onValueChange={handleChangeAuthors}
+
+                  categories={Authors?.data || []}
                   hasMore={AuthorHasMore}
                   loadMore={loadMoreAuthor}
                   placeholder="Select Author..."
 
                 />
-                {/* <Select value={searchParams.get("author") || "all"} onValueChange={handleAuthorChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Author" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Authors</SelectItem>
-                    {authors.map((author) => (
-                      <SelectItem key={author} value={author}>
-                        {author}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
+
               </div>
 
               <div className="space-y-2">
@@ -313,14 +319,14 @@ export function FilterBar({ className }: FilterBarProps) {
 
                 <FilterSelect
                   onValueChange={handleChangePublisher}
-                  categories={publisher?.data}
+                  categories={publisher?.data || []}
                   hasMore={publisherHasMore}
                   loadMore={loadMorePublisher}
                   placeholder="Select publisher..."
 
                 />
 
-              
+
               </div>
 
               <Separator />

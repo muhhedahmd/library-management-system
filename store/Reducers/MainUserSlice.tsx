@@ -26,6 +26,8 @@ export const mainUserSlice = createSlice({
     editUser: (state, action: PayloadAction<Partial<UserData>>) => {
       if (state.user) {
         state.user = { ...state.user, ...action.payload }; // Update the user data
+      }else {
+        state.user = action.payload as UserData;
       }
     },
 
@@ -38,4 +40,7 @@ export const mainUserSlice = createSlice({
 export const { setUser, editUser, deleteUser } = mainUserSlice.actions;
 export const userResponse = (state: RootState) => state.mainUserSlice.user; // Access the user
 export const isLoading = (state: RootState) => state.mainUserSlice.isLoading; // Access isLoading
+//edit user
+export const editUserResponse = (state: RootState) => state.mainUserSlice.user; // Access the user
+export const isLoadingEditUser = (state: RootState) => state.mainUserSlice.isLoading; // Access isLoading
 export default mainUserSlice.reducer;

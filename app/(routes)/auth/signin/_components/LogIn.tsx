@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { userResponse } from '@/store/Reducers/MainUserSlice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2Icon, Lock, Mail } from 'lucide-react'
 import { signIn } from 'next-auth/react'
@@ -9,9 +10,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 import { z } from 'zod'
 
 const LogIn = () => {
+  const cachedUser = useSelector(userResponse);
+
   const router = useRouter()
   const formSchema = z.object({
     email: z.string().email(
@@ -34,12 +38,8 @@ const LogIn = () => {
 
       resolver: zodResolver(formSchema),
       defaultValues: {
-        //   Role :"MEMBER" ,
-        //   grnder :"MALE",
-        //   name: "",
         email: "",
         password: "",
-        //   confirmPassword: "",
 
       },
     }
@@ -56,12 +56,22 @@ const LogIn = () => {
     try {
 
       await signIn("sigin", {
+
         redirect: false,
         ...data
 
       }).then((res) => {
+
         if (res?.ok === true) {
-          router.push("/profile")
+          if(cachedUser){
+            router.push(`/books`)
+          }else {
+
+            // router.push(`/profile/${res?.user?.id}`)
+          }
+
+
+          // router.push(`/profile/${res.}`)
           setError("Loged in sucessfully")
 
 
@@ -83,7 +93,7 @@ const LogIn = () => {
       }).catch((err) => {
         console.log(err)
       })
-      console.log(signIn)
+
       setIsLoading(false)
 
 

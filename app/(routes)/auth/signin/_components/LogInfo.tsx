@@ -19,6 +19,7 @@ import { GENDER, UserRole } from "@prisma/client"
 import { RoleSelect } from "./SelectRole"
 import LogIn from "./LogIn"
 
+import { useRouter } from "next/navigation"
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -39,8 +40,9 @@ export default function AuthForm() {
   const [tabState, setTabState] = useState("register")
   const [GenderValue, setGenderValue] = useState<GENDER>("MALE")
   const [RoleValue, setRoleValue] = useState<UserRole>("MEMBER")
+  // const isLoading = useSelector(isLoading);
+  const router = useRouter();
   const {
-
     register,
     handleSubmit,
     trigger,
@@ -50,6 +52,7 @@ export default function AuthForm() {
     setValue
   } = useForm<FormData>({
     
+
     resolver: zodResolver(formSchema),
     defaultValues: {
       Role :"MEMBER" ,
@@ -83,9 +86,12 @@ export default function AuthForm() {
         ...data , 
         gender : GenderValue , 
         role : RoleValue
+      
         ,
-      }).then((res) => {
-        console.log(res)
+      }).then(() => {
+        router.push(`/books`)
+        
+        
       }).catch((err) => {
 
         console.log(err)
@@ -93,7 +99,6 @@ export default function AuthForm() {
     
     reset()
   }
-
 }
 
   return (

@@ -1,5 +1,5 @@
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormItem,  FormMessage } from '@/components/ui/form';
 import React from 'react';
 import { z } from 'zod';
 import { Input } from '@/components/ui/input';
@@ -27,16 +27,18 @@ const EditableField = ({
 }) => {
   return (
     <div className={className}>
+             <p className=" text-sm py-2 flex items-center gap-2">
+              {icon}
+              {label}
+            </p>
       <FormField
         // disabled={editStatus}
         name={name}
         control={control}
         render={({ field }) => (
           <FormItem className="space-y-2 relative">
-            <FormLabel className="flex items-center gap-2">
-              {icon}
-              {label}
-            </FormLabel>
+
+     
             <FormControl>
               {type === "textarea" ? (
                 <Textarea
@@ -44,6 +46,7 @@ const EditableField = ({
                   placeholder={placeholder}
                   {...field}
                 />
+                
               ) : type === "date" ? (
                 <Input
                   // disabled={editStatus}

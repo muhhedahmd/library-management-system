@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOption";
 import { CustomSession, ProfileWithPic } from "@/Types";
+import { ProfilePicture } from "@prisma/client";
 
 export const PUT = async (
     req: Request,
@@ -26,11 +27,13 @@ export const PUT = async (
 
     // Extract form data
     const bio = formData.get("bio") as string;
+    const name = formData.get("name") as string;
     const birthdate = formData.get("birthdate") as string;
     const phoneNumber = formData.get("PhoneNumber")?.toString() || null ;
     const profile_picture = formData.get("profile_picture") as File;
     const websiteValue = formData.get("website") as string;
     const title = formData.get("title") as string;
+
 
     // Find user and profile in parallel
     const [selectUser, findUserProfile] = await Promise.all([
@@ -44,6 +47,16 @@ export const PUT = async (
             { message: "This user does not exist" },
             { status: 400 }
         );
+    }
+    if(name){
+        await prisma.user.update({
+            where:{
+                id:userId
+            },
+            data:{
+                name
+            }
+        })
     }
 
     const uploadImage = async (file: File, username: string) => {
@@ -139,7 +152,6 @@ export const PUT = async (
             });
 
             const data = {
-                profileId: updateProfileId,
                 format: imageRes.type,
                 secureUrl: imageRes.secure_url,
                 publicId: imageRes.public_id,
@@ -151,8 +163,8 @@ export const PUT = async (
                 height: imageRes.height,
                 width: imageRes.width,
                 url: imageRes.secure_url,
-                HashBlur: blurhash,
-            };
+                hashBlur: blurhash,
+            } as ProfilePicture
 
             if (existingProfilePicture) {
                 // Update existing profile picture

@@ -8,19 +8,19 @@ html {
 
 @media (max-width: 1200px), (max-height: 800px) {
   html {
-      font-size: 14px; /* Adjust font size for smaller screens or shorter heights */
+      font-size: 14.5px; /* Adjust font size for smaller screens or shorter heights */
   }
 }
 
 @media (max-width: 768px), (max-height: 600px) {
   html {
-      font-size: 14px; /* Smaller font size for smaller viewports */
+      font-size: 15px; /* Smaller font size for smaller viewports */
   }
 }
 
 @media (max-width: 480px), (max-height: 400px) {
   html {
-      font-size: 13px; /* For very small screens or very short heights */
+      font-size: 15px; /* For very small screens or very short heights */
   }
 }
 
@@ -249,4 +249,25 @@ input[type="number"] {
   scrollbar-width: thin;
   scrollbar-color: #666 transparent;
   scrollbar-arrow-color: transparent;
+}
+
+
+
+.containerEdited {
+  width: 100%;
+  @media (width >= 40rem /* 640px */) {
+      max-width: 40rem /* 640px */;
+  }
+  @media (width >= 48rem /* 768px */) {
+      max-width: 48rem /* 768px */;
+  }
+  @media (width >= 64rem /* 1024px */) {
+      max-width: 64rem /* 1024px */;
+  }
+  @media (width >= 80rem /* 1280px */) {
+      max-width: 80rem /* 1280px */;
+  }
+  @media (width >= 96rem /* 1536px */) {
+      max-width: 85vw /* 1536px */;
+  }
 }

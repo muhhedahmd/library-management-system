@@ -88,6 +88,40 @@ export type UserData = {
 
 }
 
+export interface Preference {
+    id: string
+    weight: number
+    categoryId: string | null
+    authorId: string | null
+    category?: {
+      id: string
+      name: string
+    } | null
+    author?: {
+      id: string
+      name: string
+    } | null
+  }
+  export interface EditedUserPrefrances {
+    
+        categoryId: string | null;
+        category?: {
+            id: string
+            name: string
+          } | null ,
+          author?: {
+            id: string
+            name: string
+          } | null
+    
+        userId: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        authorId: string | null;
+        weight: number;
+    
+  }
 export type categoryWithchildren = ({
     children: {
         id: string;
@@ -107,6 +141,7 @@ export type categoryWithchildren = ({
 })
 
 export type BooksRes = (
+
 
     {
         id: string
@@ -130,7 +165,20 @@ export type BooksRes = (
         available: boolean
         createdAt: Date
         updatedAt: Date
-        category: Category
+        CountBooks?: number
+        category: {
+            parent: {
+                id: string;
+                name: string;
+            } | null;
+        } & {
+            createdAt: Date;
+            id: string;
+            description: string | null;
+            updatedAt: Date;
+            name: string;
+            parentId: string | null;
+        }
         author: Author
         keywords: string[]
         publisher: Publisher
@@ -142,7 +190,71 @@ export type BooksRes = (
         bookCovers: bookCover[]
     }
 )
+
+export type BooksResForAnalytics = (
+
+    {
+        id: string
+        title: string
+        description: string | null
+        isbn: string
+        authorId: string
+        userId: string
+        purchase: {
+
+            id: string;
+            userId: string;
+            bookId: string;
+            purchaseDate: Date;
+            price: number;
+            quantity: number;
+            createdAt: Date;
+            updatedAt: Date;
+            checkoutId: string;
+            user: {
+                id: string;
+                name: string;
+                email: string;
+                role: UserRole;
+                createdAt: Date;
+                updatedAt: Date;
+                profile: {
+                    profilePictures: ProfilePicture[]
+                } | null
+        }
+        }[] | null
+        publisherId: string
+        categoryId: string
+        fileUrl: string
+        fileSize: string | null
+        fileFormat: string
+        language: string
+        pages: string | null
+        key: string | null
+        fileHash: string | null
+        publishedAt: Date | null
+        price: number
+        available: boolean
+        createdAt: Date
+        updatedAt: Date
+        CountBooks?: number
+
+        category:  Category
+        author: Author
+        publisher: Publisher
+        ratings: Rating[],
+        bookCovers: bookCover[]
+     
+
+        keywords: string[]
+        popularity: number
+        averageRating: number
+        totalRatings: number
+        totalFavorites: number,
+    }
+)
 export type orderBy = "popularity" |
+    "readingHistory" |
     "publishedAt" |
     "price" |
     "favorites" |
@@ -271,3 +383,32 @@ export type  ReadingHistoryForBook =  {
       }
     
   }
+
+
+  export type Statics = {
+    favoriteAggregate: {
+        _count: number | null,      
+        _max: {
+            createdAt: Date | null
+        }
+    },
+    purchaseAggregate: {
+        _count: number | null,
+        _sum: {
+            price: number | null
+        }
+    },
+    ratingAggregate: {
+        _count: number | null,
+        _avg: {
+            rating: number | null
+        }
+    },
+    readingHistoryAggregate: {
+        _count: number | null
+    }   
+    
+    
+    
+    
+}

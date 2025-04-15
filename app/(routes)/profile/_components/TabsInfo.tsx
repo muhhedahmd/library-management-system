@@ -14,7 +14,7 @@ export function TabsInfo( {
     blurProfile ,
   profileData   
 }  :{
-        profileData: ProfileWithPic | undefined
+        profileData: ProfileWithPic | null
     
     blurProfile : ProfilePicture | null
 }) {
@@ -25,7 +25,8 @@ export function TabsInfo( {
                 {/* <TabsTrigger value="contactInfo">Contact info </TabsTrigger> */}
                 <TabsTrigger value="securityInfo">Security info</TabsTrigger>
             </TabsList>
-            <TabsContent  value="mainInfo" className="h-full mt-3">
+            <TabsContent  value="mainInfo" className="p-2 h-full mt-3">
+              
                 <MainInfoEdit
                 profileData={profileData}
 

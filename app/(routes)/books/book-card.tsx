@@ -40,7 +40,13 @@ export function BookCard({ book }: BookCardProps) {
 
   }
 
+  const AvgRating  = book?.averageRating || 
+  book?.ratings?.reduce((acc , cur)=>{
+    return acc + +cur.rating
+  }  , 0) / book?.ratings?.length || 0  
 
+
+  
 
 
   return (
@@ -50,13 +56,13 @@ export function BookCard({ book }: BookCardProps) {
         <div className="group relative aspect-square w-full overflow-hidden  ">          {
           BookThumbanil ?
             <BlurredImage
-              alt={BookThumbanil.name}
+              alt={BookThumbanil.name || ""}
               className={"w-full h-full"}
-              height={BookThumbanil?.height}
-              width={BookThumbanil?.width}
+              height={BookThumbanil?.height || 0 }
+              width={BookThumbanil?.width || 0}
               imageUrl={BookThumbanil?.fileUrl}
               quality={100}
-              blurhash={BookThumbanil?.blurHash}
+              blurhash={BookThumbanil?.blurHash || ""}
             />
             :
             <div
@@ -64,7 +70,24 @@ export function BookCard({ book }: BookCardProps) {
               <ImageIcon className="w-6 h-6 " />
             </div>
         }
-          <Badge className="absolute top-2 right-2">{book.category.name}</Badge>
+          <Badge onClick={(e)=>{
+            e.preventDefault()
+            e.stopPropagation()
+          }} className="absolute top-2 right-2">{
+          book.category.parentId  !== null ? 
+          <>
+          <p className="cursor-pointer rounded-sm hover:underline transition-all duration-200" onClick={() => router.push(`/books?categoryId=${book.category.parentId}`)}>
+            {book?.category?.parent?.name && book?.category?.parent?.name?.length > 20 ? book?.category?.parent?.name?.slice(0, 20) + "..." : book?.category?.parent?.name} 
+            </p> / <p className=" cursor-pointer hover:underline rounded-sm transition-all duration-200" onClick={() => router.push(`/books?categoryId=${book.category.id}`)}>
+            {book.category.name.length > 10 ? book.category.name.slice(0, 10) + "..." : book.category.name}
+            </p>
+          </>
+           : <p className="cursor-pointer rounded-md" onClick={() => router.push(`/books?categoryId=${book.category.id}`)}>
+            {book.category.name.length > 20 ? book.category.name.slice(0, 20) + "..." : book.category.name}
+            </p>
+          }
+
+          </Badge>
           <div
             onClick={(e) => {
               e.preventDefault()
@@ -86,8 +109,9 @@ export function BookCard({ book }: BookCardProps) {
                 allowHalf
                 readonly
                 maxStars={5}
+                
 
-                initialRating={3.5}
+                initialRating={AvgRating}
               />
 
 
@@ -95,13 +119,6 @@ export function BookCard({ book }: BookCardProps) {
             <div className="flex flex-col gap-3 mt-3 ml-2">
 
 
-              {/* <Badge>
-                <p>
-                  pages: {
-                    book.totalRatings
-                  }
-                </p>
-              </Badge> */}
 
             </div>
           </div>
@@ -111,7 +128,7 @@ export function BookCard({ book }: BookCardProps) {
           <h3 className="font-semibold line-clamp-1 mb-1">{book.title}</h3>
           <p className="text-sm text-muted-foreground mb-2">{book.author.name}</p>
           <div className="mt-auto">
-            <p className="font-bold text-primary">{book.price}</p>
+            <p className="font-bold text-primary">${book.price}</p>
           </div>
         </CardContent>
 

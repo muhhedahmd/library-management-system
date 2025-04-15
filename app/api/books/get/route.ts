@@ -9,9 +9,9 @@ export async function GET(req: Request) {
 
     const skip = +(searchParams.get("skip") ?? 0);
     const take = +(searchParams.get("take") ?? 10);
-    const category = searchParams.get("category") as string;
-    const publisher = searchParams.get("publisher") as string;
-    const author = searchParams.get("author") as string;
+    const categoryId = searchParams.get("categoryId") as string;
+    const publisherId = searchParams.get("publisherId") as string;
+    const authorId = searchParams.get("authorId") as string;
     const orderByField = searchParams.get("orderByField") as orderBy;
     const orderByDir = searchParams.get("orderByDir") as orderByDirection;
     const price = +(searchParams.get("price") ?? 0)
@@ -25,6 +25,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "You must be logged in" }, { status: 401 })
     }
 
+    console.log({categoryId, publisherId, authorId})
 
     const userID = session.user.id
 
@@ -32,9 +33,16 @@ export async function GET(req: Request) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const where: any = {};
 
-        if (category) where.category = { name: category };
-        if (publisher) where.publisher = { name: publisher };
-        if (author) where.author = { name: author };
+        if (categoryId) where.category = { id: {
+                equals : categoryId || ""
+            }
+         };
+        if (publisherId) where.publisher = { id: {
+            equal : publisherId || ""
+        } };
+        if (authorId) where.author = { id:  {
+            equals : authorId || ""
+        } };
 
         if (price) {
             where.price = MoreOrLessPrice == 1
@@ -46,14 +54,38 @@ export async function GET(req: Request) {
             where.price = { gte: minPrice, lte: maxPrice }
         }
 
+        
+
+        
+
+
+        if (categoryId) {
+         
+            const getChildCategories = await prisma.category.findMany({
+                where: {
+                    parentId: categoryId
+                }
+            })
+            where.category = { id: { in: [...getChildCategories.map((category) => category.id) , categoryId]} }
+        }
+        
+
 
         const orderBy = orderByField && orderByDir ? { [orderByField]: orderByDir } : undefined;
 
+        console.log(
+            {
+                orderBy , 
+            },
+            where
+        )
 
-        const books: BooksRes[] = await prisma.book.findMany({
+
+        const books : BooksRes[] = await prisma.book.findMany({
             distinct: ["id"],
             where: {
-                ...where,
+              ...where
+                
 
             },
             include: {
@@ -63,7 +95,17 @@ export async function GET(req: Request) {
                         userId: userID
                     }
                 },
-                category: true,
+                category: {
+                    include: {
+                        parent: {
+                            select: {
+                                name: true,
+                                id: true
+
+                            }
+                        }
+                    },
+                },
                 ratings: true,
                 author: true,
                 publisher: true,

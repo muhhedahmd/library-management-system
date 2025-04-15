@@ -111,8 +111,15 @@ export const authOptions: AuthOptions = {
     secret: process.env.JWT_SECRET!,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user  ,trigger , session}) {
       // console.log("User Data in JWT:", user, token); // Debug log
+     
+      if (trigger === "update" && session) {
+        // Update the token with new data
+        console.log("Session Data in JWT:", {session , token} , session.user);
+        return { ...session}
+      }
+
       return { ...token, ...user };
     },
     async session({ session, token, }) {

@@ -1,6 +1,7 @@
 // import { ShapeOfUserSearchMention } from "@/app/api/users/mentions/route";
 // import { ShapeOFminmalUserType } from "@/app/api/users/singleuser/route";
-import { ProfileWithPic, UserData } from "@/Types";
+import { EditedUserPrefrances, Preference, ProfileWithPic, UserData } from "@/Types";
+import { UserPreference } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiUser = createApi({
@@ -12,8 +13,6 @@ export const apiUser = createApi({
       userId?: string
     }>({
       query: ({ userId: userId }) => {
-
-
         return {
           url: "api/profile",
           params: {
@@ -33,21 +32,27 @@ export const apiUser = createApi({
           body: formData
         }
       },
-      async onQueryStarted(queryArgument, {dispatch ,queryFulfilled}) {
+      async onQueryStarted(queryArgument, { dispatch, queryFulfilled, getState }) {
+
+        console.log({
+          getState,
+          queryFulfilled,
+          dispatch,
+          queryArgument
+        })
         try {
           const data = await queryFulfilled
+
           dispatch(apiUser.util.updateQueryData("GetUserProfile", { userId: queryArgument.get("userId") as string }
             , (draft) => {
-              if (draft.userId === queryArgument.get("userId")) {
-                return data.data
-              } else {
-                return null
-              }
+
+              Object.assign(draft, data.data)
             }))
 
 
         } catch (error) {
-          throw new Error(error)
+          console.log(error)
+          // throw new Error(`error`)
         }
 
       },
@@ -60,6 +65,17 @@ export const apiUser = createApi({
         return { url: "api/users/get-user", params: { userId } }
       }
     })
+    , getUserPreferences: build.query<prefrancesResponse
+      , void
+    >({
+      query: () => {
+        return {
+          url: "api/users/preferances"
+        }
+
+      }
+
+    })
 
   }),
 });
@@ -67,7 +83,17 @@ export const apiUser = createApi({
 // Export the generated hooks
 export const {
   useUpdateProfileMutation,
-    useGetUserProfileQuery,
-    useGetUserQuery
+  useGetUserProfileQuery,
+  useGetUserQuery,
+  useGetUserPreferencesQuery
 } =
   apiUser;
+
+type prefrancesResponse = {
+  preferences: {
+
+    categories: Preference[],
+    authors: Preference[],
+    Combination  :EditedUserPrefrances[]
+  }
+} 

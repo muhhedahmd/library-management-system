@@ -26,24 +26,23 @@ const PDFReader = dynamic(() => import("@/app/(routes)/books/[id]/read/readingVi
 // Helper function to generate dummy content for demonstration
 
 
-export default function ReadPage({ BookId }: {
-    BookId: string,
-
+export default function ReadPage({ id }: {
+    id: string,
 }) {
 
 
     const { data: book, isLoading, isFetching } = useGetSingleBookQuery({
-        bookId: BookId
+        bookId: id
     })
 
     const { data: ReadingHistory, isLoading: isLoadingReading,
         isFetching: isLoadingReadingHistory
     } = useReadingTimeOfBookQuery({
-        bookId: BookId
+        bookId: id
     })
 
     const averageReadingTime =
-        book?.readingHistory?.length > 0
+        book?.readingHistory?.length && book?.readingHistory?.length > 0
             ? book?.readingHistory.reduce((sum, history) => sum + (history.readingTimeMinutes || 0), 0) /
             book?.readingHistory?.length
             : 0
@@ -59,7 +58,7 @@ export default function ReadPage({ BookId }: {
     if (!book?.purchase?.length) {
         return <div>
             <h1>Book not purchased yet</h1>
-            <button onClick={() => redirect(`/books/${book.id}/purchase`)}>Purchase Book</button>
+            <button onClick={() => redirect(`/books/${book?.id}/purchase`)}>Purchase Book</button>
         </div>
     }
 
@@ -131,7 +130,7 @@ export default function ReadPage({ BookId }: {
                                                 </div>
                                                 <Progress color="#0f00f" value={
 
-                                                    Math.round((ReadingHistory?.pagesRead / + book.pages) * 100)
+                                                    Math.round((ReadingHistory?.pagesRead / +( book?.pages || 0)) * 100)
                                                 } className="h-2" />
                                             </div>
 

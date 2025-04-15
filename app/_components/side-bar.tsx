@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Book, BookOpen, ChevronRight, Home, Library, ListFilter, Loader2, LoaderCircle, ShoppingCart, Star, Tag } from "lucide-react"
+import { Book, BookOpen, ChevronRight, ChevronsUp, ChevronUp, Home, Library, ListFilter, Loader2, LoaderCircle, ShoppingCart, Smile, Star, Tag } from "lucide-react"
 import {
   Sidebar as ShadcnSidebar,
   SidebarContent,
@@ -25,6 +25,7 @@ import { useGetCategoriesQuery } from "@/store/QueriesApi/categoryApi"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { isLoading, userResponse } from "@/store/Reducers/MainUserSlice"
+import { ThemeToggle } from "./ThemeToggle"
 
 // Extract unique categories
 
@@ -51,13 +52,11 @@ export function Sidebar() {
     isLoading: isLoadingCategories,
     isFetching: isFetchingCate,
   } = useGetCategoriesQuery({ pgnum: 0, pgsize: limit })
+
   const pathname = usePathname()
-  console.log(expandedCategories,
-    `expandedCategories: , ${JSON.stringify(expandedCategories)}`
-    , pathname
- 
-  )
-  console.log(categories)
+  const [toggleCategoryMenu, setToggleCategoryMenu] = useState(false)
+  // console.log(categories)
+
 
   const CachedUser = useSelector(userResponse)
   const IsLoading = useSelector(isLoading)
@@ -65,7 +64,7 @@ export function Sidebar() {
 
 
   return (
-    <div className={cn("relative z-100  ",)}>
+    <div className={cn("relative z-100    text-[19px]",)}>
 
       <ShadcnSidebar variant="floating" >
 
@@ -86,7 +85,7 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === "/"}>
                 <Link href="/">
                   <Home className="h-5 w-5" />
-                  <span>Home</span>
+                  <span className="text-[18px] font-semibold">Home</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -94,18 +93,26 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === "/library"}>
                 <Link href="/library">
                   <Book className="h-5 w-5" />
-                  <span>My library</span>
+                  <span className="text-[17px] font-semibold ">My library</span>
                 </Link>
               </SidebarMenuButton>
-            </SidebarMenuItem>  
+            </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/categories"}>
-                <Link href="/books/categories">
-                  <Tag className="h-5 w-5" />
-                  <span>Categories</span>
-                </Link>
+              <SidebarMenuButton asChild className=" pl-0 overflow-hidden" >
+                <div className="flex items-center  w-full gap-2">
+                  <Button variant="ghost" className="w-full font-normal    justify-between transition-all duration-200" onClick={() => {
+                    setToggleCategoryMenu(!toggleCategoryMenu)
+                  }}>
+                    <div className="flex items-center gap-2">
+
+                      <Tag className="h-5 w-5" />
+                      <p className="text-[17px] font-semibold ">Categories</p>
+                    </div>
+                    <ChevronUp className={`h-4 w-4 text-muted-foreground transition-transform ${toggleCategoryMenu ? "rotate-180" : ""}`} />
+                  </Button>
+                </div>
               </SidebarMenuButton>
-              <SidebarMenuSub>
+              <SidebarMenuSub className={`h-0 overflow-hidden transition-all duration-200 ${toggleCategoryMenu ? "h-auto" : ""}`}>
                 {isLoadingCategories || isFetchingCate ? (
                   <SidebarMenuSubItem>
                     <div className="flex items-center justify-center py-2">
@@ -133,14 +140,14 @@ export function Sidebar() {
                           <SidebarMenuSubButton
 
                             onClick={() => {
-                              router.push(`/books?category=${category.name}`)
+                              router.push(`/books?categoryId=${category.id}`)
                             }}
                             asChild
                             // href={}
-                            isActive={pathname === `/books?category=${category.name}`}
+                            isActive={pathname === `/books?categoryId=${category.id}`}
                             className="flex-1 cursor-pointer"
                           >
-                            <span className=" min-w-max">
+                            <span className=" text-[17px] min-w-max font-semibold ">
 
                               {category.name.length > 15 ? category.name.substring(0, 15) + "..." : category.name}
 
@@ -158,13 +165,13 @@ export function Sidebar() {
                           <SidebarMenuSubItem key={`${category.id}-${child.id}`} className="ml-6 pl-2 border-l border-muted">
                             <SidebarMenuSubButton
                               onClick={() => {
-                                router.push(`/books?category=${child.name}`)
+                                router.push(`/books?categoryId=${child.id}`)
                               }}
                               asChild
-                              isActive={pathname === `/books?category=${child.name}`}
+                              isActive={pathname === `/books?categoryId=${child.id}`}
                               className="py-1 mt-1 text-sm"
                             >
-                              <span className=" min-w-max">{child.name.length > 15 ? child.name.substring(0, 15) + "..." : child.name}</span>
+                              <span className=" min-w-max font-semibold ">{child.name.length > 15 ? child.name.substring(0, 15) + "..." : child.name}</span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -175,25 +182,45 @@ export function Sidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={pathname === "/bestsellers"}>
-                <Link href="/bestsellers">
+                <Link href="/discover?tab=bestsellers">
                   <Star className="h-5 w-5" />
-                  <span>Bestsellers</span>
+                  <span className="text-[17px] font-semibold ">Bestsellers</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/new-releases"}>
-                <Link href="/new-releases">
+              <SidebarMenuButton asChild isActive={pathname === "/bestsellers"}>
+                <Link href="/discover?tab=top-rated">
+                  <ChevronsUp className="h-5 w-5" />
+                  <span className="text-[17px] font-semibold ">Top rated</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+              
+              asChild isActive={pathname === "/new-releases"}>
+                <Link href="/discover?tab=new-releases">
                   <Library className="h-5 w-5" />
-                  <span>New Releases</span>
+                  <span className="text-[17px] font-semibold ">New Releases</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
+
               <SidebarMenuButton asChild isActive={pathname === "/books"}>
                 <Link href="/books">
                   <ListFilter className="h-5 w-5" />
-                  <span>Browse All</span>
+                  <span className="text-[17px] font-semibold ">Browse All</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/recommendation"}>
+                <Link href="/recommendation">
+                  <Smile className="h-5 w-5" />
+                  <span className="text-[17px] font-semibold ">Recommendation</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -201,13 +228,32 @@ export function Sidebar() {
               <SidebarMenuButton asChild isActive={pathname === "/cart"}>
                 <Link href="/cart">
                   <ShoppingCart className="h-5 w-5" />
-                  <span>Cart</span>
+                  <span className="text-[17px] font-semibold ">Cart</span>
                 </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+
+
+              <SidebarMenuButton asChild isActive={pathname === "/books"}>
+
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="p-4">
+
+          <div
+            className="  md:hidden w-full rounded-md p-2 border flex items-center justify-between"
+          >
+            <p className="text-[17px] font-semibold">
+              THEME
+            </p>
+
+            <ThemeToggle />
+          </div>
+
           {
             IsLoading ? (
               <div className="flex justify-center p-4 bg-muted items-center">
@@ -223,14 +269,14 @@ export function Sidebar() {
                       <AvatarImage src={CachedUser?.profile?.profilePictures?.[0]?.secureUrl} />
                       <AvatarFallback>U</AvatarFallback>
                     </Avatar>
-                    <span>{CachedUser?.name?.toLocaleUpperCase()}</span>
+                    <span className="text-[17px]  font-semibold">{CachedUser?.name?.toLocaleUpperCase()}</span>
                   </Link>
                 </Button>
               </>
             ) : (
               <Button variant="outline" className="w-full justify-start" asChild>
                 <Link href="/auth/signin">
-                  <span>Login</span>
+                  <span className="text-[17px] font-semibold">Login</span>
                 </Link>
               </Button>
             )

@@ -44,16 +44,16 @@ export default function RootLayout({
               <InnerBody>
                 <Sidebar />
 
-                <div className="flex justify-start items-center flex-col">
+                <div className="flex containerEdited justify-start items-center flex-col">
 
-                    <div className="w-full sticky top-0 z-20 container sm:w-[87vw]">
+                  <div className=" sticky top-0 z-20  w-full">
 
                     <Header />
 
                   </div>
 
-                  <div className="w-full">
-                    
+                  <div className="w-full containerEdited  ">
+
 
                     {children}
                   </div>

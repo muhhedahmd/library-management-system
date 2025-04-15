@@ -26,7 +26,7 @@ export interface Book {
 }
 
 export interface RecommendationResponse {
-  books: Book[]
+  recommendations: Book[]
 }
 
 export interface SimilarBooksResponse {
@@ -34,7 +34,7 @@ export interface SimilarBooksResponse {
 }
 
 export interface TrendingBooksResponse {
-  trendingBooks: Book[]
+  recommendations: Book[]
 }
 
 export interface CollaborativeRecommendationResponse {
@@ -62,8 +62,24 @@ export const recommendationApi = createApi({
   tagTypes: ["Recommendations", "Interactions"],
   endpoints: (builder) => ({
     // Main recommendations endpoint
-    getRecommendations: builder.query<RecommendationResponse, void>({
-      query: () => "recommendations",
+    getRecommendations: builder.query<RecommendationResponse, {
+      method?: "rating" | "favorite" | "category" | "author" | "hybrid"
+      limit?: number
+    }>({
+      query: ({
+        limit,
+        method
+      }) => {
+        return {
+
+          url: "api/recommendations",
+          params: {
+            limit,
+                method
+          }
+        }
+
+      },
       providesTags: ["Recommendations"],
     }),
 
@@ -109,32 +125,32 @@ export const recommendationApi = createApi({
       invalidatesTags: ["Recommendations"],
     }),
 
-    
+
     userPreferncesCategoryAuthors: builder.query<{
       category: Category[]
       author: Author[]
     }, {
       skip?: number,
-    take?: number,
-    userId?: string
-  }>({
-    query: ({
-      skip,
-      take,
-      userId
-    }) => {
-      return {
-        url: `api/recommendations/user-prefernces`,
-        method: 'GET',
-        params: {
-          skip,
-          userId,
-          take
+      take?: number,
+      userId?: string
+    }>({
+      query: ({
+        skip,
+        take,
+        userId
+      }) => {
+        return {
+          url: `api/recommendations/user-prefernces`,
+          method: 'GET',
+          params: {
+            skip,
+            userId,
+            take
+          }
         }
+
       }
-      
-    }
-  }),
+    }),
   })
 })
 

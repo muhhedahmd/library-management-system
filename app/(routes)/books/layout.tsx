@@ -2,10 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 
-// import { Sidebar } from "@/components/sidebar"
-// import { CartProvider } from "@/components/cart/cart-provider"
-// import { Toaster } from "@/components/ui/toaster"
-// import { Header } from "@/components/header"
+
 
 
 export const metadata: Metadata = {
@@ -22,7 +19,7 @@ export default function RootLayout({
   return (
 
     <div className=" flex justify-center w-full items-center">
-      <div className="md:container overflow-hidden  w-full">
+      <div className=" overflow-hidden  w-full">
 
             <div className="flex   min-h-screen w-full flex-col">
               <div className="md:flex md:flex-1 ">

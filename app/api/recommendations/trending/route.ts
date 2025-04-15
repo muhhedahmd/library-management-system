@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
 
     const trendingBooks = await getTrendingBooks(dateFilter, limit)
 
+
     return NextResponse.json({ recommendations: trendingBooks })
   } catch (error) {
     console.error("Error getting trending recommendations:", error)
@@ -60,17 +61,17 @@ async function getTrendingBooks(since: Date, limit: number) {
     },
   })
 
-  // Get recent loans
-  const recentLoans = await prisma.loan.findMany({
-    where: {
-      loanDate: {
-        gte: since,
-      },
-    },
-    select: {
-      bookId: true,
-    },
-  })
+  // // Get recent loans
+  // const recentLoans = await prisma.loan.findMany({
+  //   where: {
+  //     loanDate: {
+  //       gte: since,
+  //     },
+  //   },
+  //   select: {
+  //     bookId: true,
+  //   },
+  // })
 
   // Calculate trending score for each book
   const bookScores: Record<string, number> = {}
@@ -86,9 +87,9 @@ async function getTrendingBooks(since: Date, limit: number) {
   })
 
   // Add scores from loans (medium weight)
-  recentLoans.forEach(({ bookId }) => {
-    bookScores[bookId] = (bookScores[bookId] || 0) + 3
-  })
+  // recentLoans.forEach(({ bookId }) => {
+  //   bookScores[bookId] = (bookScores[bookId] || 0) + 3
+  // })
 
   // Sort books by score and get top trending
   const topBookIds = Object.entries(bookScores)
@@ -166,6 +167,7 @@ async function getPopularBooks(limit: number) {
     // Calculate a popularity score (weighted average)
     const popularityScore = averageRating * 0.7 + Math.min(ratingCount / 10, 1) * 0.3
 
+    console.log({booksWithScores , book})
     return {
       ...book,
       averageRating,

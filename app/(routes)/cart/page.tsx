@@ -10,8 +10,8 @@ export default  function CartPage() {
   const {cart} =useCart()
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-8 flex items-center">
+    <div className=" mx-auto py-10 px-4 pt-5">
+      <h1 className="text-2xl font-bold mb-8 flex items-center">
         <ShoppingCart className="mr-3 h-8 w-8" /> Your Cart
       </h1>
 

@@ -30,7 +30,8 @@ async function generateBlurhash(buffer: Buffer): Promise<blurHashResponse> {
         };
 
     } catch (error) {
-        throw new Error(error.message);
+        console.log(error)
+        throw new Error("error");
     }
 }
 
@@ -99,7 +100,7 @@ export const POST = async (req: Request) => {
             }
             const imageData: {
                 type: bookcoverType,
-                fileUrl: string;
+                fileUrl: string | null
                 blurHash: string;
                 width: number;
                 height: number;
@@ -115,6 +116,7 @@ export const POST = async (req: Request) => {
 
                 for (let idx = 0; idx < +numBookCovers.length; idx++) {
 
+
                     const Img = formData.get(`cover-images-${idx}`) as File
                     console.log(`cover-images-${idx}
                         cover-images-hash-${idx}
@@ -127,35 +129,45 @@ export const POST = async (req: Request) => {
                         width: number,
                         height: number
                     }
+                    if(coverUpload.data){
+                        const data = {
 
-                    const data = {
-                        type: "Image" as bookcoverType,
-                        fileUrl: coverUpload.data.ufsUrl,
-                        blurHash: coverImagesHash,
-                        width: +coverImagesinfo?.width,
-                        height: + coverImagesinfo?.height,
-                        fileFormat: coverUpload.data.type,
-                        thumbnailUrl: coverUpload.data.ufsUrl,
-                        fileHash: coverUpload.data.fileHash,
-                        key: coverUpload.data.key,
-                        name: coverUpload.data.name,
-                        fileSize: thumbnailData.size
-
-
-                    
-                    }
-                    imageData.push(
-                        {
-                            ...data
+    
+                            type: "Image" as bookcoverType,
+                            fileUrl: coverUpload.data.ufsUrl || "",
+                            blurHash: coverImagesHash,
+                            width: +coverImagesinfo?.width,
+                            height: + coverImagesinfo?.height,
+                            fileFormat: coverUpload.data.type,
+                            thumbnailUrl: coverUpload.data.ufsUrl,
+                            fileHash: coverUpload.data.fileHash,
+                            key: coverUpload.data.key,
+                            name: coverUpload.data.name,
+                            fileSize: thumbnailData && thumbnailData.size || 0
+    
+    
+    
                         }
-                    )
+                        imageData.push(
+
+                            {
+                                ...data
+                            }
+                        )
+
+                    }
+
 
                 }
+
+                if(thumbnailData)
                 imageData.push(
+
+
 
                     {
                         type: "THUMBNAIL",
-                        fileUrl: thumbnailData.ufsUrl,
+                        fileUrl: thumbnailData.ufsUrl || "",
                         blurHash: blurhash?.blurHash,
                         width: +blurhash?.info?.width,
                         height: + blurhash?.info?.height,
@@ -176,6 +188,7 @@ export const POST = async (req: Request) => {
             const CreateBook = await prisma.book.create({
 
                 data: {
+                    userId: session.user.id,
                     fileUrl: uploadResultPdf.data.ufsUrl,
                     isbn,
                     title,
@@ -185,11 +198,11 @@ export const POST = async (req: Request) => {
                     description,
                     language,
                     pages,
-                    fileSize,
+                    fileSize : fileSize.toString() || null,
                     fileFormat,
-                    available : +available  ? true : false,
+                    available: +available ? true : false,
                     fileHash: uploadResultPdf.data.fileHash,
-                    price,
+                    price: parseFloat(price),
                     publisherId,
                     publishedAt: new Date(publishedAt),
                     bookCovers: {
@@ -197,7 +210,7 @@ export const POST = async (req: Request) => {
                             data: imageData.map((item) => {
                                 return {
                                     type: item.type,
-                                    fileUrl: item.fileUrl,
+                                    fileUrl: item.fileUrl || "",
                                     blurHash: item?.blurHash,
                                     width: +item.width,
                                     height: +item?.height,

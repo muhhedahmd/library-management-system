@@ -26,7 +26,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       },
 
     })
-    console.log({readingHistory})
     return NextResponse.json(readingHistory, { status: 200 })
 
   } catch (error) {

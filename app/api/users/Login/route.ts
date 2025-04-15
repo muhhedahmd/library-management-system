@@ -8,17 +8,12 @@ export async function POST(request: NextRequest) {
     await request.json();
 
   try {
-    const isExisiting = await prisma.user.findMany({
+    const isExisiting = await prisma.user.findUnique({
 
       where: {
-        OR: [
-          {
+        
             email: body.email,
-          },
-
-
-        ],
-
+          
       },
       select: {
         email: true,
@@ -37,8 +32,8 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    if (isExisiting.length > 0) {
-      const comparePass = await compare(body.password, isExisiting[0].password);
+    if (isExisiting) {
+      const comparePass = await compare(body.password, isExisiting.password);
       if (comparePass) {
         const {
           email,
@@ -49,7 +44,7 @@ export async function POST(request: NextRequest) {
           gender,
           role,
           profile
-        } = isExisiting[0];
+        } = isExisiting;
 
         return NextResponse.json(
           {

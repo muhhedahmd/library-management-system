@@ -3,13 +3,13 @@
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import { User } from "@prisma/client";
 import { RootState } from "@/store/store";
 import { deleteUser, setUser } from "@/store/Reducers/MainUserSlice";
+import { UserData } from "@/Types";
 
 const UserSessionManager = () => {
   const { data } = useSession();
-  const user = data?.user as User;
+  const user = data?.user as UserData ;
   const dispatch = useDispatch();
 
   const cachedUser = useSelector((state: RootState) => state.mainUserSlice.user);
@@ -18,7 +18,7 @@ const UserSessionManager = () => {
   useEffect(() => {
     if (user && !cachedUser) {
 
-      dispatch(setUser(user )); // Cache the user in Redux store
+      dispatch(setUser(user)); // Cache the user in Redux store
     }
 
     if (!user && cachedUser) {

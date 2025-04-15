@@ -29,8 +29,13 @@ export async function GET(request: Request) {
         book: {
           select: {
             id: true,
-            categoryId: true,
+            categoryId: true, 
             authorId: true,
+            ratings:{
+              select:{
+                rating:true,
+              }
+            }
           },
         },
       },
@@ -92,6 +97,11 @@ export async function GET(request: Request) {
       include: {
         author: true,
         category: true,
+        ratings:{
+          select:{
+            rating:true,
+          }
+        },
         bookCovers: {
           where: {
             type: "THUMBNAIL",
@@ -143,6 +153,7 @@ export async function GET(request: Request) {
       pages: book.pages,
       language: book.language,
       fileFormat: book.fileFormat,
+      ratings: book.ratings,
     }))
 
     // Log recommendations if needed
@@ -204,6 +215,11 @@ async function getPopularBooks(limit: number) {
     include: {
       author: true,
       category: true,
+      ratings:{
+        select:{
+          rating:true,
+        }
+      },
       bookCovers: {
         where: {
           type: "THUMBNAIL",
@@ -243,6 +259,7 @@ async function getPopularBooks(limit: number) {
       id: book.author.id,
       name: book.author.name,
     },
+    ratings: book.ratings,
     category: {
       id: book.category.id,
       name: book.category.name,

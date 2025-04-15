@@ -9,10 +9,10 @@ const ReadPage = dynamic(()=>import("./pagex"),{
 import React, { useEffect, useState } from 'react'
 const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   
-    const [BookId, setBookId] = useState<string>("")
+    const [id, setId] = useState<string>("")
     useEffect(() => {
       (async () => {
-        setBookId(
+        setId(
           (await params).id
         )
       })()
@@ -20,7 +20,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   
   return (
     <ReadPage
-    BookId={BookId}
+    id={id}
     
     />
     // <div>page</div>

@@ -155,7 +155,7 @@ export default async function BookPage({ params }: { params: { id: string } }) {
 
   return (
 
-    <div className="container mx-auto py-8 px-4 md:px-6">
+    <div className="w-full mx-auto py-8 px-4 md:px-6">
 
 
       {/* Book Details */}

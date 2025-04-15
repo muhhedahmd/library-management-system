@@ -60,8 +60,8 @@ export default async function LibraryPage() {
     if (!libraryItems) return null
 
     return (
-        <div className="container py-10 px-4 max-w-full">
-            <div className="container mx-auto">
+        <div className=" py-10 px-4 max-w-full">
+            <div className="w-full mx-auto">
 
                 <h1 className="text-3xl font-bold mb-2">My Library</h1>
                 <p className="text-muted-foreground mb-8">Select a book from the sidebar or browse your collection below</p>
@@ -80,7 +80,7 @@ export default async function LibraryPage() {
                         </Button>
                     </div>
                 ) : (
-                    <div className=" container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <div className="  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                         {libraryItems.map((item) => (
                             <LibraryItemCard key={item?.id} item={item} />
                         ))}
