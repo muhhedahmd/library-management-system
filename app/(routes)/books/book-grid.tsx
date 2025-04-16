@@ -8,6 +8,7 @@ import type { orderBy, orderByDirection } from "@/Types"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "@/store/store"
 import { setBooksPagination } from "@/store/Slices/paggnitionSlice"
+import { Loader2 } from "lucide-react"
 
 export default function BookGrid() {
   const [filteration, setFilteration] = useState<{
@@ -340,6 +341,11 @@ export default function BookGrid() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-6">
+        {
+          isFetching||
+          isLoadingApi && <Loader2 />
+
+        }
         {data?.data
           .filter(
             (book, index, self) =>

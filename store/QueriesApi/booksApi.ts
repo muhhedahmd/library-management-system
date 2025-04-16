@@ -1,6 +1,6 @@
 
-import { BooksRes, BooksResForAnalytics, orderBy, orderByDirection, ReadingHistoryForBook, shapeOfCheckOutReq, shapeOfResponseOfRatingOfUser, shapeOfResponseToggleRatting, SingleBook, Statics } from "@/Types";
-import { Book, Checkout, Favorite, ReadingHistory } from "@prisma/client";
+import { BooksRes, BooksResForAnalytics, orderBy, orderByDirection, ratingResponse, ReadingHistoryForBook, shapeOfCheckOutReq, shapeOfResponseOfRatingOfUser, shapeOfResponseToggleRatting, SingleBook, Statics } from "@/Types";
+import { Book, Checkout, Favorite, Rating, ReadingHistory } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface BooksResponse {
@@ -840,6 +840,19 @@ export const apiBook = createApi({
                 }),
                 invalidatesTags: [  "Book",  "Books"],
               }),
+              getRatingsOfBook : build.query< ratingResponse[] |undefined  , {
+                bookId : string| undefined
+              }>({
+                query({
+                    bookId
+                }) {
+                    return {
+                        url :`api/books/${bookId}/ratings`
+
+                    }
+                },
+
+              })
 
 
 
@@ -852,7 +865,11 @@ export const apiBook = createApi({
 
 });
 
-export const { useGetBooksQuery,
+export const { 
+    useGetRatingsOfBookQuery
+    ,
+    
+    useGetBooksQuery,
     useCreateBookMutation,
     useGetSingleBookQuery,
     useReadingTimeOfBookQuery,

@@ -1,11 +1,12 @@
 // import { ShapeOfUserSearchMention } from "@/app/api/users/mentions/route";
 // import { ShapeOFminmalUserType } from "@/app/api/users/singleuser/route";
 import { EditedUserPrefrances, Preference, ProfileWithPic, UserData } from "@/Types";
-import { UserPreference } from "@prisma/client";
+import { bookCover, Rating, } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiUser = createApi({
   reducerPath: "users",
+  tagTypes: ["ReadingHistory", "Favorites", "Purchases", "MemberStats"],
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
   endpoints: (build) => ({
     GetUserProfile: build.query<ProfileWithPic, {
@@ -75,13 +76,33 @@ export const apiUser = createApi({
 
       }
 
-    })
+    }),
+    getReadingHistory: build.query<CoustomReadingHistory[], string>({
+      query: (userId: string) => `api/users/${userId}/reading-history`,
+      providesTags: ["ReadingHistory"],
+    }),
+    getFavorites: build.query<CoustomFavorite[], string>({
+      query: (userId: string) => `/api/users/${userId}/favorites`,
+      providesTags: ["Favorites"],
+    }),
+    getPurchases: build.query<CoustomPurchase[], string>({
+      query: (userId: string) => `api/users/${userId}/purchases`,
+      providesTags: ["Purchases"],
+    }),
+    getMemberStats: build.query<CoustomMemberStats, string>({
+      query: (userId: string) => `api/users/${userId}/member-stats`,
+      providesTags: ["MemberStats"],
+    }),
 
   }),
 });
 
 // Export the generated hooks
 export const {
+  useGetFavoritesQuery ,
+  useGetPurchasesQuery,
+ useGetMemberStatsQuery,
+ useGetReadingHistoryQuery, 
   useUpdateProfileMutation,
   useGetUserProfileQuery,
   useGetUserQuery,
@@ -94,6 +115,76 @@ type prefrancesResponse = {
 
     categories: Preference[],
     authors: Preference[],
-    Combination  :EditedUserPrefrances[]
+    Combination: EditedUserPrefrances[]
   }
-} 
+}
+
+export interface CoustomBook {
+  id: string
+  title: string
+  description?: string
+  isbn: string
+  author: Author
+  publisher: Publisher
+  category: Category
+  bookCovers: bookCover[]
+  price: number
+  available: boolean
+  pages: string 
+  ratings : Rating[]
+}
+
+export interface Author {
+  id: string
+  name: string
+  bio?: string
+}
+
+export interface Publisher {
+  id: string
+  name: string
+  website?: string
+}
+
+export interface Category {
+  id: string
+  name: string
+  description?: string
+}
+
+
+
+export interface CoustomReadingHistory {
+  id: string
+  book: CoustomBook
+  startedAt: string
+  lastReadAt: string
+  finishedAt?: string
+  pagesRead: number
+  readingTimeMinutes: number
+  completed: boolean
+}
+
+export interface CoustomFavorite {
+  id: string
+  book: CoustomBook
+  createdAt: string
+
+}
+
+export interface CoustomPurchase {
+  id: string
+  book: CoustomBook
+  purchaseDate: string
+  price: number
+  quantity: number
+}
+
+export interface CoustomMemberStats {
+  booksRead: number
+  readingGoal: number
+  favoriteBooks: number
+  reviewsWritten: number
+  readingStreak: number
+  booksPurchased: number
+}

@@ -12,7 +12,10 @@ const RecommendationSideBar = ({ loadMore, isLoadingMain, isLoadingCollaborative
 
     return (
         <div
-            className={cn('w-[18rem] sticky top-[4.2rem] shadow-md  rounded-md  border-2 bg-muted h-[90vh] transition-all duration-300 ', _expand && "w-10")}
+        style={{
+            height :"calc(100vh - 5rem)"
+        }}
+            className={cn('w-[18rem] sticky top-[4.2rem] shadow-md  rounded-md  border-2 bg-muted  transition-all duration-300 ', _expand && "w-10")}
         >
             <div className='flex justify-between items-center'>
                 <div

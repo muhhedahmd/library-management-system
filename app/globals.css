@@ -14,7 +14,7 @@ html {
 
 @media (max-width: 768px), (max-height: 600px) {
   html {
-      font-size: 15px; /* Smaller font size for smaller viewports */
+      font-size: 14px; /* Smaller font size for smaller viewports */
   }
 }
 
@@ -265,9 +265,9 @@ input[type="number"] {
       max-width: 64rem /* 1024px */;
   }
   @media (width >= 80rem /* 1280px */) {
-      max-width: 80rem /* 1280px */;
+      max-width: 80vw /* 1280px */;
   }
   @media (width >= 96rem /* 1536px */) {
-      max-width: 85vw /* 1536px */;
+      max-width: 82vw /* 1536px */;
   }
 }

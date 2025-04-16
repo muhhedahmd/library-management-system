@@ -83,7 +83,9 @@ export function BookCard({ book }: BookCardProps) {
             </p>
           </>
            : <p className="cursor-pointer rounded-md" onClick={() => router.push(`/books?categoryId=${book.category.id}`)}>
-            {book.category.name.length > 20 ? book.category.name.slice(0, 20) + "..." : book.category.name}
+            {book.category.name.length > 20 ? book.category.name.slice(0, 30) + "..." : book.category.name}
+            
+            {/* {book.category.name} */}
             </p>
           }
 
@@ -111,7 +113,7 @@ export function BookCard({ book }: BookCardProps) {
                 maxStars={5}
                 
 
-                initialRating={AvgRating}
+                initialRating={AvgRating && +AvgRating.toFixed(1) || 0}
               />
 
 

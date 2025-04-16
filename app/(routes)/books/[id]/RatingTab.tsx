@@ -1,4 +1,5 @@
 import { StarRating } from '@/app/(routes)/starRatting/starRatting'
+import BlurredImage from '@/app/_components/imageWithBlurHash'
 import { Avatar } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -6,11 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { TabsContent } from '@/components/ui/tabs'
-import { useAddBookRatingMutation, useBookRatingOfUSerQuery } from '@/store/QueriesApi/booksApi'
+import { useAddBookRatingMutation, useBookRatingOfUSerQuery, useGetRatingsOfBookQuery } from '@/store/QueriesApi/booksApi'
+import { userResponse } from '@/store/Reducers/MainUserSlice'
 import { BooksRes } from '@/Types'
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { Send, Users, Edit2 } from 'lucide-react'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const RatingTab = ({
     book
@@ -20,7 +23,8 @@ const RatingTab = ({
     const {
         data: DataGetRatingForU,
         isLoading: isLoadingGetRatingForU,
-        isFetching: isFetchingGetRatingForU
+        isFetching: isFetchingGetRatingForU, 
+        refetch :refetchYours
     } = useBookRatingOfUSerQuery({
         bookId: book.id
     })
@@ -30,6 +34,10 @@ const RatingTab = ({
         // isFetching: isFetchingAddBookRating
     }] = useAddBookRatingMutation()
 
+    const { data, isLoading, isFetching, refetch } = useGetRatingsOfBookQuery({
+        bookId: book.id!
+    })
+    console.log({ data })
     const [review, setReview] = useState("")
     const [isEditing, setIsEditing] = useState(false)
     const [editedReview, setEditedReview] = useState("")
@@ -46,12 +54,17 @@ const RatingTab = ({
                 bookId: book.id,
                 rating: editedRating,
                 review: review
-            }).unwrap()
+            }).unwrap().then(()=>{
+                refetch()
+                refetchYours()
+
+            })
             setReview("")
         } catch (error) {
             console.error("Failed to add rating:", error)
         }
     }
+    const mainUser = useSelector(userResponse)!
 
     const handleEditRating = async () => {
         try {
@@ -59,7 +72,11 @@ const RatingTab = ({
                 bookId: book.id,
                 rating: editedRating,
                 review: editedReview
-            }).unwrap()
+            }).unwrap().then(()=>{
+                refetch()
+                refetchYours()
+
+            })
             setIsEditing(false)
         } catch (error) {
             console.error("Failed to update rating:", error)
@@ -79,7 +96,7 @@ const RatingTab = ({
                     <div className='flex items-center mb-2 gap-2 justify-start'>
                         <p className="font-semibold">Total Rating</p>
                         <Badge className='flex items-center gap-2'>
-                            <p>{book.averageRating}</p>
+                            <p>{book.totalRatings}</p>
                             <Users className='h-4 w-4' />
                         </Badge>
                     </div>
@@ -93,7 +110,7 @@ const RatingTab = ({
                                         value={editedReview}
                                         onChange={(e) => setEditedReview(e.target.value)}
                                         placeholder='Edit your review'
-                                        defaultValue={DataGetRatingForU.review}
+                                        defaultValue={DataGetRatingForU.review || ""}
                                     />
                                 </div>
                                 <StarRating
@@ -190,6 +207,123 @@ const RatingTab = ({
                             />
                         </div>
                     )}
+
+                    {data && (!isLoading || !isFetching) ? <div className='w-full flex flex-col justify-start items-start gap-4 mt-3'   >
+
+                        {data.map((rate) => {
+
+                            const image = rate?.user?.profile?.profilePictures[0]
+                            return <div className='flex justify-start items-center gap-4' key={rate.id}>
+                                <div
+                                    className='flex '
+                                >
+
+                                    <BlurredImage
+                                        alt={rate?.user?.name + "image"}
+
+
+                                        height={image?.height || 100}
+                                        width={image?.width || 100}
+                                        imageUrl={image?.secureUrl || "/placeholder.svg"}
+                                        quality={100}
+                                        blurhash={image?.hashBlur || ""}
+                                        className='rounded-md  border shadow min-h-14 min-w-14'
+
+                                    />
+                                </div>
+
+                                <div className='flex flex-col justify-start w-full  '>
+
+                                    <div className='flex justify-start flex-col items-start gap-2 '>
+                                        <div className='flex justify-start items-start gap-3'>
+
+                                            <p className='font-semibold capitalize'>
+
+                                                {
+                                                    rate.user?.name
+                                                }
+                                            </p>
+                                            <p className='text-sm text-muted-foreground'>
+                                                {
+                                                    "(" + rate.user.profile.title + ")"
+                                                }
+                                            </p>
+                                            {
+                                                rate.user.id === mainUser.id &&
+                                                <Badge>
+                                                    {"Your's"}
+                                                </Badge>
+                                            }
+                                        </div>
+                                        <div className='flex justify-start  items-center -mt-2 gap-2 '>
+                                            <StarRating
+                                                className='text-muted'
+                                                size={20}
+                                                readonly
+                                                initialRating={rate?.rating}
+                                            />
+                                            <p className='text-muted-foreground'>
+                                                {
+                                                    (+rate?.rating || 0)?.toFixed(1)
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p
+                                    >
+                                        {
+                                            rate.review
+
+                                        }
+                                    </p>
+
+                                </div>
+
+
+
+                            </div>
+                        })
+                        }
+                    </div> :
+                        <div className='w-full flex flex-col justify-start items-start gap-4 mt-3'>
+                            {Array.from({ length: 3 }).map((_, index) => (
+                                <div className='flex justify-start items-center gap-4' key={index}>
+                                    {/* Avatar Skeleton */}
+                                    <div className='flex'>
+                                        <div className='animate-wave rounded-md border shadow min-h-20 min-w-20 bg-muted' />
+                                    </div>
+
+                                    {/* Content Skeleton */}
+                                    <div className='flex flex-col justify-start w-full gap-3'>
+                                        {/* User Info Skeleton */}
+                                        <div className='flex justify-start flex-col items-start gap-2'>
+                                            <div className='flex justify-start items-start gap-3'>
+                                                <div className='animate-wave h-5 w-24 rounded-md bg-muted' />
+                                                <div className='animate-wave h-4 w-16 rounded-md bg-muted' />
+                                                <div className='animate-wave h-4 w-12 rounded-md bg-muted' />
+                                            </div>
+
+                                            {/* Rating Skeleton */}
+                                            {/* <div className='flex justify-start items-center mt-2 gap-2'>
+                                                <div className='animate-wave h-5 w-24 rounded-md bg-muted' />
+                                                <div className='animate-wave h-4 w-8 rounded-md bg-muted' />
+                                            </div> */}
+                                        </div>
+
+                                        {/* Review Text Skeleton */}
+                                        <div className='space-y-2'>
+                                            <div className='animate-wave h-4 w-[40rem] rounded-md bg-muted' />
+                                            {/* <div className='animate-wave h-4 w-4/5 rounded-md bg-muted' /> */}
+                                            <div className='animate-wave h-4 w-3/4 rounded-md bg-muted' />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                    }
+
+
                 </CardContent>
             </Card>
         </TabsContent>

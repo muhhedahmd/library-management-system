@@ -77,7 +77,17 @@ export async function GET(req: NextRequest) {
       },
       include: {
         author: true,
-        category: true,
+        category: {
+          include: {
+              parent: {
+                  select: {
+                      name: true,
+                      id: true
+
+                  }
+              }
+          },
+      },
         publisher: true,
         bookCovers: {
           where: {
@@ -131,7 +141,17 @@ async function getPopularBooks(limit: number) {
     },
     include: {
       author: true,
-      category: true,
+      category: {
+        include: {
+            parent: {
+                select: {
+                    name: true,
+                    id: true
+
+                }
+            }
+        },
+    },
       publisher: true,
       bookCovers: {
         where: {

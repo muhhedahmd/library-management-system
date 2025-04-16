@@ -115,7 +115,7 @@ export default function Layout({
                         {/* Left column - Profile info */}
                         {
 
-                            <Card className="w-full  md:sticky static top-[4.5rem] md:w-1/3">
+                            <Card className="w-full  md:sticky static top-[4.5rem] md:w-[35%]">
 
 
 
@@ -141,7 +141,7 @@ export default function Layout({
                                     </CardTitle>
                                     <div className="flex items-center gap-2 mt-1">
                                         <Badge variant={CachedUser.role === "ADMIN" ? "destructive" : "secondary"}>{CachedUser.role}</Badge>
-                                        {CachedUser.role === "MEMBER" && <Badge variant="outline">{"silver"}</Badge>}
+                                        {/* {CachedUser.role === "MEMBER" && <Badge variant="outline">{"silver"}</Badge>} */}
                                     </div>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
@@ -158,12 +158,7 @@ export default function Layout({
                                             <Calendar className="h-4 w-4 text-muted-foreground" />
                                             <span>Joined {formatDistanceToNow(new Date(CachedUser?.createdAt), { addSuffix: true })}</span>
                                         </div>
-                                        {CachedUser.role === "MEMBER" && (
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <User className="h-4 w-4 text-muted-foreground" />
-                                                {/* <span>ID: {CachedUser.MEMBERshipId}</span> */}
-                                            </div>
-                                        )}
+                                        
                                     </div>
 
                                     <Separator />

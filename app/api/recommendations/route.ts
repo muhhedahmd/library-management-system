@@ -224,7 +224,17 @@ async function getCategoryBasedRecommendations(userId: string, limit: number) {
     },
     include: {
       author: true,
-      category: true,
+      category: {
+        include: {
+            parent: {
+                select: {
+                    name: true,
+                    id: true
+
+                }
+            }
+        },
+    },
       ratings: {
         select: {
           rating: true,
@@ -293,7 +303,17 @@ async function getAuthorBasedRecommendations(userId: string, limit: number) {
     },
     include: {
       author: true,
-      category: true,
+      category: {
+        include: {
+            parent: {
+                select: {
+                    name: true,
+                    id: true
+
+                }
+            }
+        },
+    },
       ratings: {
         select: {
           rating: true,
@@ -338,7 +358,17 @@ async function getPopularBooks(limit: number) {
     include: {
       ratings: true,
       author: true,
-      category: true,
+      category: {
+        include: {
+            parent: {
+                select: {
+                    name: true,
+                    id: true
+
+                }
+            }
+        },
+    },
       bookCovers: {
         where: {
           type: "THUMBNAIL",

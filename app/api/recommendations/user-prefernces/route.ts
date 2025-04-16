@@ -24,7 +24,17 @@ export const GET = async (req: Request) => {
 
             },
             select: {
-                category: true,
+                category: {
+                    include: {
+                        parent: {
+                            select: {
+                                name: true,
+                                id: true
+            
+                            }
+                        }
+                    },
+                },
                 author: true,
             },
             orderBy: {

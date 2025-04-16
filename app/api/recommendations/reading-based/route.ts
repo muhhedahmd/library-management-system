@@ -29,7 +29,18 @@ export async function GET(request: Request) {
         book: {
           select: {
             id: true,
-            categoryId: true, 
+            categoryId : true ,
+            category: {
+              include: {
+                  parent: {
+                      select: {
+                          name: true,
+                          id: true
+
+                      }
+                  }
+              },
+          }, 
             authorId: true,
             ratings:{
               select:{
@@ -96,7 +107,17 @@ export async function GET(request: Request) {
       },
       include: {
         author: true,
-        category: true,
+        category: {
+          include: {
+              parent: {
+                  select: {
+                      name: true,
+                      id: true
+
+                  }
+              }
+          },
+      },
         ratings:{
           select:{
             rating:true,
@@ -214,7 +235,17 @@ async function getPopularBooks(limit: number) {
     },
     include: {
       author: true,
-      category: true,
+      category: {
+        include: {
+            parent: {
+                select: {
+                    name: true,
+                    id: true
+
+                }
+            }
+        },
+    },
       ratings:{
         select:{
           rating:true,

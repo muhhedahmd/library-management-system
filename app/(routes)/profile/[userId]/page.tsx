@@ -82,7 +82,6 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
   const { isLoading: isLoadingProfile, data: profileData, } = useGetUserProfileQuery({
     userId: userIdParam
   })
-  console.log({profileData})
 
   const Router = useRouter()
   const [scoreProfile, setScoreProfile] = useState(0);
@@ -168,7 +167,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
 
       <div className=" flex  w-full justify-center items-center">
 
-        <div className=" w-full md:w-[100%]  flex justify-between items-center  px-4 mt-[-12]  ">
+        <div className=" w-full md:w-[100%]  flex justify-between items-center  px- mt-[-12]  ">
 
           <div className="flex w-full  flex-col  md:flex-row justify-center items-start gap-6">
             {/* Left column - Profile info */}

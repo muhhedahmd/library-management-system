@@ -53,6 +53,7 @@ const BookDetails = ({
         bookId: bookId,
     })
 
+
     const [toggle, { isLoading: isLoadingToggleFav }] = useToggleBookFavMutation()
 
 
@@ -104,10 +105,12 @@ const BookDetails = ({
                         <BlurredImage
                             // layout="fill"
                             // objectFit="cover"
-                            height={mainCover.height}
-                            width={mainCover.width}
+                            height={mainCover.height || 100}
+                            width={mainCover.width || 100}
                             quality={100}
-                            blurhash={mainCover.blurHash}
+                            blurhash={mainCover.blurHash ||
+                                ""
+                            }
                             imageUrl={mainCover?.fileUrl || "/placeholder.svg?height=450&width=300"}
                             alt={`Cover of ${book.title}`}
                             className="object-cover w-full h-full"
@@ -143,7 +146,7 @@ const BookDetails = ({
                                                 console.error("Error updating book favorite status", error)
                                             })
                                     })}
-                                    variant="outline" size="icon" className="h-9 w-9">
+                                    variant="outline" size="icon" className="h-9 w-9 p-3">
 
                                     <Heart className={cn("h-4 w-4",
                                         isBookFavData && "fill-red-500  stroke-red-500 "
@@ -156,14 +159,14 @@ const BookDetails = ({
                                 </Button>
                         }
 
-                        <Button variant="outline" className="flex items-center gap-2">
+                        {/* <Button variant="outline" className="flex items-center gap-2">
                             <BookmarkPlus className="h-4 w-4" />
                             <span>Save</span>
-                        </Button>
-                        <Button variant="outline" className="flex items-center gap-2">
+                        </Button> */}
+                        {/* <Button variant="outline" className="flex items-center gap-2">
                             <Share2 className="h-4 w-4" />
                             <span>Share</span>
-                        </Button>
+                        </Button> */}
                     </div>
 
                     {
@@ -215,15 +218,12 @@ const BookDetails = ({
                                                 onClick={() => {
                                                     setgetQuantityOfBook((prev) => {
                                                         const newQuantity = prev - 1;
-                                                        console.log(
-                                                            {
-                                                                newQuantity
-                                                            }
-                                                        )
+                                                        
 
                                                         return newQuantity; // Return the new value to update the state
                                                     });
-                                                    updateQuantity(book.id, cart?.find((item) => item.id === book?.id)?.quantity - 1); // Use the newQuantity directly
+                                                    
+                                                    updateQuantity(book.id, cart && cart?.find((item) => item.id === book?.id)?.quantity - 1); // Use the newQuantity directly
                                                 }}
 
                                                 variant='secondary'
@@ -356,19 +356,19 @@ const BookDetails = ({
                             <StarRating
                                 readonly
                                 // onChange={changeRating}
-                                initialRating={book.averageRating}
+                                initialRating={book.averageRating && +book.averageRating.toFixed(1) || 0}
 
                                 size={25}
 
                             />
-                       
-                            <span className="ml-2 text-sm font-medium">{book.averageRating}</span>
+
+                            <span className="ml-2 text-sm font-medium">{book.averageRating && +book.averageRating.toFixed(1) || 0}</span>
                             <span className="ml-1 text-sm text-muted-foreground">({book._count.favorites} favorites)</span>
                         </div>
 
                         <div className="flex items-center">
                             <CalendarDays className="h-4 w-4 mr-1 text-muted-foreground" />
-                            <span className="text-sm">Published {new Date(book.publishedAt).toLocaleDateString()}</span>
+                            <span className="text-sm">Published {new Date(book.publishedAt || new Date()).toLocaleDateString()}</span>
                         </div>
 
                         <div className="flex items-center">
@@ -456,7 +456,7 @@ const BookDetails = ({
                             </div>
                         </TabsContent>
 
-                     
+
                         <RatingTab
                             book={book}
                         />

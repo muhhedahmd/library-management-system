@@ -63,7 +63,7 @@ const BlurredImage: React.FC<Props> = ({
     return (
       <div
       
-      className={`text-center w-full h-full flex justify-center items-center ` + className}>
+      className={`text-center flex justify-center items-center ` + className}>
         <ImageIcon className="w-6 h-6 "/>
       </div>
     )

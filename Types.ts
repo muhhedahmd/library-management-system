@@ -412,3 +412,14 @@ export type  ReadingHistoryForBook =  {
     
     
 }
+
+export type ratingResponse = {
+    rating: number;
+    id: string;
+    userId: string;
+    bookId: string;
+    review: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    user : userWithProfile
+}

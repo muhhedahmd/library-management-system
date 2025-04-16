@@ -263,13 +263,13 @@ export function Sidebar() {
               </div>
             ) : CachedUser ? (
               <>
-                <Button variant="outline" className="w-full h-10 justify-start" asChild>
+                <Button variant="outline" className="w-full h-10 justify-start " asChild>
                   <Link href={`/profile/${CachedUser.id}`}>
                     <Avatar className="h-5 w-5 mr-2">
                       <AvatarImage src={CachedUser?.profile?.profilePictures?.[0]?.secureUrl} />
                       <AvatarFallback>U</AvatarFallback>
                     </Avatar>
-                    <span className="text-[17px]  font-semibold">{CachedUser?.name?.toLocaleUpperCase()}</span>
+                    <span className="  font-semibold">{CachedUser?.name?.toLocaleUpperCase()}</span>
                   </Link>
                 </Button>
               </>

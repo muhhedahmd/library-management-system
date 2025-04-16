@@ -55,7 +55,17 @@ async function getSimilarBooks(bookId: string, limit: number) {
     include: {
       author: true,
       publisher: true,
-      category: true,
+      category: {
+        include: {
+            parent: {
+                select: {
+                    name: true,
+                    id: true
+
+                }
+            }
+        },
+    },
       ratings: {
         select: {
           rating: true,
