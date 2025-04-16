@@ -1,5 +1,5 @@
 "use client"
-import { Calendar, Edit, Library, Mail, Phone, User } from "lucide-react"
+import { Calendar, Edit, Library, Mail, Phone } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"

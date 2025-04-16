@@ -3,11 +3,11 @@ import { TabsContent } from '@/components/ui/tabs'
 import { useGetIsBookFavQuery, useGetSingleBookQuery, useToggleBookFavMutation } from '@/store/QueriesApi/booksApi'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
-    BookmarkPlus, BookOpen, CalendarDays, ChevronRight
+     BookOpen, CalendarDays, ChevronRight
     , Clock, Download, Heart
     , Minus, Plus
-    , Share2, ShoppingCart,
-    Trash, Users
+    , ShoppingCart,
+     Users
 } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -43,7 +43,7 @@ const BookDetails = ({
     const {
         addToCart,
         removeFromCart,
-        updateQuantity,
+        // updateQuantity,
         cart
     } = useCart()
     const {
@@ -201,29 +201,32 @@ const BookDetails = ({
                                     </Button>
 
                                     <div className=' flex w-1/4 justify-between items-center'>
-                                        {getQuantityOfBook === 1 ?
+                                        {getQuantityOfBook === 1 &&
+                                            // <Button
+                                            //     onClick={() => removeFromCart(book.id)}
+                                            //     variant='destructive'
+                                            //     className='bg-red-500 flex justify-center items-center rounded-none w-1/2 shadow-none'
+                                            // >
+
+
+                                            //     <Trash />
+                                            // </Button>
+
+                                            // :
                                             <Button
-                                                onClick={() => removeFromCart(book.id)}
-                                                variant='destructive'
-                                                className='bg-red-500 flex justify-center items-center rounded-none w-1/2 shadow-none'
-                                            >
-
-
-                                                <Trash />
-                                            </Button>
-
-                                            :
-                                            <Button
-                                                // className='w-1/2 '
+                                                // // className='w-1/2 '
                                                 onClick={() => {
-                                                    setgetQuantityOfBook((prev) => {
-                                                        const newQuantity = prev - 1;
+                                                    // setgetQuantityOfBook((prev) => {
+                                                        
+                                                    //     const newQuantity = prev - 1;
                                                         
 
-                                                        return newQuantity; // Return the new value to update the state
-                                                    });
-                                                    
-                                                    updateQuantity(book.id, cart && cart?.find((item) => item.id === book?.id)?.quantity - 1); // Use the newQuantity directly
+                                                    //     return newQuantity; // Return the new value to update the state
+                                                    // });
+                                                    removeFromCart(
+                                                        book.id
+                                                    )
+                                                    // updateQuantity(book.id, cart && cart?.find((item) => item.id === book?.id)?.quantity - 1); // Use the newQuantity directly
                                                 }}
 
                                                 variant='secondary'
@@ -239,19 +242,19 @@ const BookDetails = ({
 
                                         }
                                         <Button
-                                            onClick={() => {
-                                                setgetQuantityOfBook((prev) => {
-                                                    const newQuantity = prev + 1;
-                                                    console.log(
-                                                        {
-                                                            newQuantity
-                                                        }
-                                                    )
+                                            // onClick={() => {
+                                            //     setgetQuantityOfBook((prev) => {
+                                            //         const newQuantity = prev + 1;
+                                            //         console.log(
+                                            //             {
+                                            //                 newQuantity
+                                            //             }
+                                            //         )
 
-                                                    return newQuantity; // Return the new value to update the state
-                                                });
-                                                updateQuantity(book.id, cart?.find((item) => item.id === book?.id)?.quantity + 1); // Use the newQuantity directly
-                                            }}
+                                            //         return newQuantity; // Return the new value to update the state
+                                            //     });
+                                            //     // updateQuantity(book.id, cart?.find((item) => item.id === book?.id)?.quantity + 1); // Use the newQuantity directly
+                                            // }}
                                             variant='outline'
                                             className=' rounded-tr-md rounded-tl-none  rounded-bl-none w-1/2 shadow-none'
 
