@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { useGetFavoritesQuery, useGetMemberStatsQuery, useGetPurchasesQuery, useGetReadingHistoryQuery } from "@/store/QueriesApi/ProfileQuery"
 import { StarRating } from "../../starRatting/starRatting"
+import Link from "next/link"
 
 // Temporary mock user ID - in a real app, this would come from authentication
 
@@ -262,7 +263,7 @@ function MemberBookCard({ book, type }: { book: any; type: "history" | "favorite
       )}
 
       <div className="flex-1">
-        <h3 className="font-semibold">{book.title}</h3>
+        <Link href={`/books/${book.id}`} className="font-semibold">{book.title}</Link>
         <p className="text-sm text-muted-foreground">{book.author}</p>
 
         {type === "history" && (

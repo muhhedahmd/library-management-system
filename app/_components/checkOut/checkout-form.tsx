@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {  useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,7 +13,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { CreditCard, Wallet } from "lucide-react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { toast } from "sonner"
 import { useCheckOutMutation } from "@/store/QueriesApi/booksApi"
 import { useCart } from "../cart/cart-provider"
 
@@ -54,12 +53,13 @@ export default function CheckoutForm() {
       billingCountry: "",
     },
   })
-  const [checkOut , {
+  const [checkOut, {
     isLoading,
-    
-  } ] = useCheckOutMutation()
 
-  const {cart ,clearCart} = useCart()
+
+  }] = useCheckOutMutation()
+
+  const { cart  } = useCart()
   const subtotal = cart.reduce((total, item) => {
     return total + item.price * (item.quantity || 1)
   }, 0)
@@ -71,275 +71,272 @@ export default function CheckoutForm() {
   const total = subtotal + tax
 
   const onSubmit = async (data: CheckoutFormValues) => {
-    try {
-  await checkOut({
-         address :"",
-         book : cart.map((book)=>{
-           return{
-             bookId :book.id ,
-             quantity : book.quantity,
-            price : book.price,
-          }
-         }),
-         street: data.billingAddress || "",
-         city: data.billingCity || "",
-         state: data.billingState || "",
-         zip: data.billingZip || "",
-         country: data.billingCountry || "",
-         total  ,
-           
-      }).unwrap().then((res)=>{      
-        clearCart()
-        router.push(`/checkout/success?orderId=${res.id}`)
-      })
-      
-      
-     
-      // Process payment
- 
-      // Redirect to success page
-    } catch (error) {
 
-      console.error("Error processing payment:", error)
-      toast.error( "Payment failed", {
-        description: "There was an error processing your payment. Please try again.",
- 
+    try {
+      // Restructured to avoid promise chain issues
+   const response =    await checkOut({
+        address: "",
+        book: cart.map((book) => ({
+          bookId: book.id,
+          quantity: book.quantity,
+          price: book.price,
+        })),
+        street: data.billingAddress || "",
+        city: data.billingCity || "",
+        state: data.billingState || "",
+        zip: data.billingZip || "",
+        country: data.billingCountry || "",
+        total,
       })
+      if (response.data) {
+        router.push(`/checkout/success?orderId=${response.data?.id}`)
+      }
+
+
+      // Handle successful response
+
+    } catch (error) {
+      console.error("Error processing payment:", error)
+
     }
   }
 
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="your.email@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <>
+ 
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Contact Information</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="your.email@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Payment Method</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="paymentMethod"
-              render={({ field }) => (
-                <FormItem className="space-y-4">
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={(value) => {
-                        field.onChange(value)
-                        setPaymentTab(value)
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-2"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="credit-card" id="credit-card" />
-                        <Label htmlFor="credit-card" className="flex items-center">
-                          <CreditCard className="mr-2 h-4 w-4" />
-                          Credit Card
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="paypal" id="paypal" />
-                        <Label htmlFor="paypal" className="flex items-center">
-                          <Wallet className="mr-2 h-4 w-4" />
-                          PayPal
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <Card>
+            <CardHeader>
+              <CardTitle>Payment Method</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="paymentMethod"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                          setPaymentTab(value)
+                        }}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-2"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="credit-card" id="credit-card" />
+                          <Label htmlFor="credit-card" className="flex items-center">
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            Credit Card
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="paypal" id="paypal" />
+                          <Label htmlFor="paypal" className="flex items-center">
+                            <Wallet className="mr-2 h-4 w-4" />
+                            PayPal
+                          </Label>
+                        </div>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="mt-6">
-              <Tabs value={paymentTab} onValueChange={setPaymentTab}>
-                <TabsContent value="credit-card" className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="cardNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Card Number</FormLabel>
-                        <FormControl>
-                          <Input placeholder="1234 5678 9012 3456" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
+              <div className="mt-6">
+                <Tabs value={paymentTab} onValueChange={setPaymentTab}>
+                  <TabsContent value="credit-card" className="space-y-4">
                     <FormField
                       control={form.control}
-                      name="cardExpiry"
+                      name="cardNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Expiry Date</FormLabel>
+                          <FormLabel>Card Number</FormLabel>
                           <FormControl>
-                            <Input placeholder="MM/YY" {...field} />
+                            <Input placeholder="1234 5678 9012 3456" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="cardCvc"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>CVC</FormLabel>
-                          <FormControl>
-                            <Input placeholder="123" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </TabsContent>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="cardExpiry"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Expiry Date</FormLabel>
+                            <FormControl>
+                              <Input placeholder="MM/YY" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                <TabsContent value="paypal">
-                  <div className="flex items-center justify-center py-8 text-center">
-                    <div>
-                      <p className="text-muted-foreground mb-4">
-                        You will be redirected to PayPal to complete your payment after reviewing your order.
-                      </p>
-                      <div className="flex justify-center">
-                        <CreditCard className="h-12" />
-                        {/* <img src="/paypal-logo.svg" alt="PayPal" className="h-12" /> */}
+                      <FormField
+                        control={form.control}
+                        name="cardCvc"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>CVC</FormLabel>
+                            <FormControl>
+                              <Input placeholder="123" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="paypal">
+                    <div className="flex items-center justify-center py-8 text-center">
+                      <div>
+                        <p className="text-muted-foreground mb-4">
+                          You will be redirected to PayPal to complete your payment after reviewing your order.
+                        </p>
+                        <div className="flex justify-center">
+                          <CreditCard className="h-12" />
+                          {/* <img src="/paypal-logo.svg" alt="PayPal" className="h-12" /> */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
-          </CardContent>
-        </Card>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Billing Address</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="billingAddress"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="123 Main St" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Billing Address</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
               <FormField
                 control={form.control}
-                name="billingCity"
+                name="billingAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="New York" {...field} />
+                      <Input placeholder="123 Main St" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="billingState"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State/Province</FormLabel>
-                    <FormControl>
-                      <Input placeholder="NY" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="billingCity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder="New York" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="billingZip"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>ZIP/Postal Code</FormLabel>
-                    <FormControl>
-                      <Input placeholder="10001" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="billingState"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State/Province</FormLabel>
+                      <FormControl>
+                        <Input placeholder="NY" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="billingCountry"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder="United States" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
-        </Card>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="billingZip"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>ZIP/Postal Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="10001" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-        <div className="flex justify-end">
-          <Button type="submit" size="lg" disabled={isLoading}>
-            {isLoading ? "Processing..." : "Complete Purchase"}
-          </Button>
-        </div>
-      </form>
-    </Form>
+                <FormField
+                  control={form.control}
+                  name="billingCountry"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input placeholder="United States" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-end">
+            <Button type="submit" size="lg" disabled={isLoading}>
+              {isLoading ? "Processing..." : "Complete Purchase"}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
   )
 }
 

@@ -1,28 +1,28 @@
-import { getServerSession } from "next-auth/next"
-import { redirect } from "next/navigation"
-import { authOptions } from "@/lib/authOption"
+"use client"
+
+import { useCart } from "@/app/_components/cart/cart-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, Home, BookOpen } from "lucide-react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 
-interface SuccessPageProps {
-  searchParams: {
-    orderId?: string
-  }
-}
-
-export default async function SuccessPage({ searchParams }: SuccessPageProps) {
-  const session = await getServerSession(authOptions)
-
-  if (!session?.user) {
-    redirect("/api/auth/signin?callbackUrl=/checkout/success")
-  }
-
-  const orderId = searchParams.orderId || "unknown"
-
-  // In a real application, you would fetch the order details from your database
-  // For this example, we'll just use the orderId from the URL
+export default function SuccessPage() {
+  const {
+    setCart
+  } = useCart()
+  const searchParams = useSearchParams()
+  const [orderId, setOrderId] = useState<string | null>(null)
+  setTimeout(() => {
+    setCart([])
+  }, 100)
+  useEffect(() => {
+    const orderIdParam = searchParams.get("orderId")
+    if (orderIdParam) {
+      setOrderId(orderIdParam)
+    }
+  }, [searchParams]) 
 
   return (
     <div className="container mx-auto py-16 px-4 max-w-3xl">
@@ -38,7 +38,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
           <div className="bg-muted p-4 rounded-md">
             <div className="flex justify-between mb-2">
               <span className="text-muted-foreground">Order ID:</span>
-              <span className="font-medium">{orderId}</span>
+              <span className="font-medium">{orderId || "Processing..."}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Date:</span>
@@ -88,4 +88,3 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
     </div>
   )
 }
-

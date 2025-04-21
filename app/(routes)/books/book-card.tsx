@@ -108,7 +108,6 @@ export function BookCard({ book }: BookCardProps) {
           >
             <div className="flex flex-col gap-3 my-3 ">
               <StarRating
-                allowHalf
                 readonly
                 maxStars={5}
                 

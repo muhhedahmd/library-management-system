@@ -5,8 +5,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
      BookOpen, CalendarDays, ChevronRight
     , Clock, Download, Heart
-    , Minus, Plus
     , ShoppingCart,
+     Trash2,
      Users
 } from 'lucide-react'
 import Link from 'next/link'
@@ -25,6 +25,7 @@ import { StarRating } from '@/app/(routes)/starRatting/starRatting'
 import { cn } from '@/lib/utils'
 import RatingTab from './RatingTab'
 import ReadingHistoryCard from './reading-history'
+import { useRouter } from 'next/navigation'
 
 const BookDetails = ({
     bookId
@@ -39,6 +40,7 @@ const BookDetails = ({
     } = useGetSingleBookQuery({
         bookId
     })
+    const router =useRouter()
 
     const {
         addToCart,
@@ -195,12 +197,16 @@ const BookDetails = ({
 
                                 <div
                                     //  className="flex-1"
-                                    className="w-full flex justify-start rounded-md text-muted-foreground items-center mb-4 bg-primary cursor-pointer" >
-                                    <Button className='flex-1 cursor-pointer'>
+                                    className="w-full flex justify-between rounded-md text-muted-foreground items-center mb-4 bg-primary cursor-pointer" >
+                                    <Button onClick={()=>{
+                                        router.push(`/cart`)
+                                    }} className='flex-1 w-3/4 cursor-pointer'>
+
                                         Check out
                                     </Button>
 
-                                    <div className=' flex w-1/4 justify-between items-center'>
+                                    <div className=' flex w-1/4 justify-end rounded-br-md  items-center'>
+
                                         {getQuantityOfBook === 1 &&
                                             // <Button
                                             //     onClick={() => removeFromCart(book.id)}
@@ -214,6 +220,8 @@ const BookDetails = ({
 
                                             // :
                                             <Button
+                                            
+
                                                 // // className='w-1/2 '
                                                 onClick={() => {
                                                     // setgetQuantityOfBook((prev) => {
@@ -230,18 +238,20 @@ const BookDetails = ({
                                                 }}
 
                                                 variant='secondary'
-                                                className='bg-red-500 flex justify-center items-center rounded-none w-1/2 shadow-none'
+                                                className='
+                                                 rounded-r-md
+                                                bg-red-500 flex  justify-center items-center w-1/2 shadow-none'
                                             >
 
-                                                <Minus
-                                                    className='text-muted-foreground'
+                                                <Trash2
+                                                    className='text-accent-foregrounds'
 
 
                                                 />
                                             </Button>
 
                                         }
-                                        <Button
+                                        {/* <Button
                                             // onClick={() => {
                                             //     setgetQuantityOfBook((prev) => {
                                             //         const newQuantity = prev + 1;
@@ -266,7 +276,7 @@ const BookDetails = ({
 
                                                 }
                                             </span>
-                                        </Button>
+                                        </Button> */}
                                     </div>
                                 </div>
                                 :
