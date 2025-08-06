@@ -106,5 +106,6 @@ MIT License
 
 📫 Contact
 
-Made with ❤️ by Hossam
-Email: Hossam@hmail.com
+Made with ❤️ by Mohamed ahmed  
+Email: muhhedahmd@gmail.com
+linked in : https://www.linkedin.com/in/mohamed-ahmed-34a379212/
