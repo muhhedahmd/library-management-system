@@ -72,7 +72,6 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
       )
     })()
   }, [params])
-  // console.log(userIdParam)
 
   const [
     editBg,

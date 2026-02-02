@@ -71,7 +71,6 @@ const LogIn = () => {
           }
 
 
-          // router.push(`/profile/${res.}`)
           setError("Loged in sucessfully")
 
 

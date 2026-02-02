@@ -10,6 +10,7 @@ export const apiUser = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
   endpoints: (build) => ({
     GetUserProfile: build.query<ProfileWithPic, {
+      
 
       userId?: string
     }>({

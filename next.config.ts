@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         
       },
       {
+        hostname : "flagcdn.com"
+        
+      },
+      {
         hostname:"via.placeholder.com"
       },
       {

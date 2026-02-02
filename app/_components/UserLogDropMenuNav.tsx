@@ -45,7 +45,7 @@ export function DropdownMenuDemo() {
           <button className=" min-w-max min-h-max hover:bg-secondary p-2  pt-2 pb-2  rounded-lg transition-all border-none outline-none  border-white  " >
             <Avatar>
               <AvatarImage
-              src={CachedUser.profile.profilePictures[0].secureUrl || ""}
+              src={CachedUser?.profile?.profilePictures[0]?.secureUrl || ""}
               />
               <AvatarFallback>
             <CircleUser className="w-6 h-6 font-normal" />

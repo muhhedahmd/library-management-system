@@ -528,6 +528,7 @@ function generateBookCoverUrl(title) {
 // }
 
 export async function POST() {
+  
   try {
     // Check prerequisites - we assume admins, users, and categories already exist
     const adminUsers = await prisma.user.findMany({
@@ -807,7 +808,7 @@ export async function POST() {
           title,
           description: `A comprehensive resource on ${title.toLowerCase()}.`,
           isbn: generateISBN(),
-          authorId: author.id,
+          authorId: author.id!,
           publisherId: publisher.id,
           categoryId: category.id,
           fileUrl: bookData.url, // Use the actual PDF URL from the data
@@ -815,7 +816,7 @@ export async function POST() {
           language: "English",
           pages: String(Math.floor(bookData.size / 2000) + 50), // Estimate pages based on file size
           publishedAt: new Date(bookData.uploadedAt),
-          price: (9.99 + Math.random() * 30).toFixed(2),
+          price: + (9.99 + Math.random() * 30).toFixed(2),
           keywords,
           userId: adminUser.id, // Assign to admin user
           available: true,

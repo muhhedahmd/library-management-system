@@ -8,9 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
+    "seed": "ts-node ./seeds/seedsbooks.ts",
     "type-check": "tsc --noEmit",
     "postinstall": "prisma generate",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "vercel-build": "npx prisma generate && npx prisma migrate deploy && next build"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
@@ -97,7 +98,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
-    "@types/node": "^20",
+    "@types/node": "^20.19.30",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-infinite-scroller": "^1.2.5",
@@ -108,6 +109,7 @@
     "eslint": "^9.21.0",
     "eslint-config-next": "15.2.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

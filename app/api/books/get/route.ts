@@ -121,7 +121,6 @@ export async function GET(req: Request) {
             skip: skip * take,
             take: take,
         });
-        console.log(books.map((book) => book.id))
 
         return NextResponse.json(books);
     } catch (error) {

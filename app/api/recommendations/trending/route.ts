@@ -61,17 +61,7 @@ async function getTrendingBooks(since: Date, limit: number) {
     },
   })
 
-  // // Get recent loans
-  // const recentLoans = await prisma.loan.findMany({
-  //   where: {
-  //     loanDate: {
-  //       gte: since,
-  //     },
-  //   },
-  //   select: {
-  //     bookId: true,
-  //   },
-  // })
+  
 
   // Calculate trending score for each book
   const bookScores: Record<string, number> = {}

@@ -1,106 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { PrismaClient, UserRole, GENDER, LoanStatus, bookcoverType } from '@prisma/client';
+
+
+
+import { PrismaClient, UserRole, GENDER, LoanStatus } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
-import { randomUUID } from 'crypto';
-import axios from 'axios';
-import sharp from 'sharp';
-import { encode } from 'blurhash';
 
 const prisma = new PrismaClient();
-
-// 🔑 Pexels API Key
-const PEXELS_API_KEY = process.env.PEXELS_API_KEY || 'QqHOijkJNcuseFqqxOV8EymJSj0ETWLZInSYybvXLWboILNNtFLgURUq';
-
-// Helper function to generate blurhash
-async function generateBlurhash(buffer: Buffer): Promise<{ blurHash: string; width: number; height: number }> {
-  try {
-    const { data, info } = await sharp(buffer)
-      .raw()
-      .ensureAlpha()
-      .resize(32, 32, { fit: 'inside' })
-      .toBuffer({ resolveWithObject: true });
-    
-    return {
-      blurHash: encode(new Uint8ClampedArray(data), info.width, info.height, 4, 4),
-      width: info.width,
-      height: info.height,
-    };
-  } catch (error) {
-    console.error('Error generating blurhash:', error);
-    throw error;
-  }
-}
-
-// Pexels API helper to search for book cover images
-async function searchPexelsBookCover(bookTitle: string, authorName: string): Promise<any> {
-  try {
-    // Create a search query focused on book-related imagery
-    const searchTerms = [
-      `${bookTitle} book cover`,
-      `${authorName} book`,
-      `classic literature book cover`,
-      `vintage book cover ${bookTitle}`,
-      `book cover design ${authorName}`,
-    ];
-    
-    const randomQuery = faker.helpers.arrayElement(searchTerms);
-    
-    const response = await axios.get('https://api.pexels.com/v1/search', {
-      headers: {
-        Authorization: PEXELS_API_KEY,
-      },
-      params: {
-        query: randomQuery,
-        per_page: 5,
-        orientation: 'portrait',
-      },
-    });
-    
-    // Return a random photo from results
-    const photos = response.data.photos || [];
-    return photos.length > 0 ? faker.helpers.arrayElement(photos) : null;
-  } catch (error: any) {
-    console.error(`Error searching Pexels for "${bookTitle}":`, error.message);
-    return null;
-  }
-}
-
-// Download image from URL and return Buffer
-async function downloadImage(url: string): Promise<Buffer | null> {
-  try {
-    const response = await axios.get(url, {
-      responseType: 'arraybuffer',
-      timeout: 30000,
-    });
-    return Buffer.from(response.data);
-  } catch (error: any) {
-    console.error(`Error downloading image from ${url}:`, error.message);
-    return null;
-  }
-}
-
-// Get real book cover image with fallback
-async function getBookCoverImage(bookTitle: string, authorName: string): Promise<Buffer | null> {
-  try {
-    // Try Pexels first
-    const photo = await searchPexelsBookCover(bookTitle, authorName);
-    
-    if (photo && photo.src && photo.src.large) {
-      console.log(`  📸 Found Pexels image for "${bookTitle}"`);
-      const imageBuffer = await downloadImage(photo.src.large);
-      if (imageBuffer) return imageBuffer;
-    }
-
-    // Fallback to placeholder with book title
-    console.log(`  ⚠️  Using placeholder for: ${bookTitle}`);
-    const placeholderUrl = `https://placehold.co/600x900/2C3E50/ECF0F1/png?text=${encodeURIComponent(bookTitle.substring(0, 30))}`;
-    return await downloadImage(placeholderUrl);
-  } catch (error: any) {
-    console.error(`Error getting book cover for "${bookTitle}":`, error.message);
-    return null;
-  }
-}
 
 // Real authors with biographical data
 const AUTHORS = [
@@ -1065,7 +970,7 @@ async function main() {
   });
 
   const regularUsers = await Promise.all(
-    Array.from({ length: 10 }).map(async () => {
+    Array.from({ length: 10 }).map(async (_, i) => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
       return prisma.user.create({
@@ -1127,14 +1032,14 @@ async function main() {
   );
   console.log(`  ✓ Created ${createdAuthors.length} authors\n`);
 
-  // 5. Create Books with Real Cover Images
-  console.log('📖 Creating books with real PDFs and cover images...');
+  // 5. Create Books
+  console.log('📖 Creating books with real PDFs...');
   const createdBooks = [];
 
   for (let i = 0; i < BOOKS.length; i++) {
     try {
       const bookData = BOOKS[i];
-      console.log(`\n[${i + 1}/${BOOKS.length}] Creating: ${bookData.title}...`);
+      console.log(`  [${i + 1}/${BOOKS.length}] Creating: ${bookData.title}...`);
 
       const author = createdAuthors.find(a => a.name === bookData.authorName);
       const category = createdCategories.find(c => c.name === bookData.categoryName);
@@ -1146,49 +1051,6 @@ async function main() {
         continue;
       }
 
-      // Get book cover images
-      console.log(`    🎨 Fetching book cover images...`);
-      
-      // Get thumbnail image
-      const thumbnailBuffer = await getBookCoverImage(bookData.title, author.name);
-      await delay(800); // Rate limit protection
-      
-      if (!thumbnailBuffer) {
-        console.log(`    ⚠️ Skipping - no thumbnail available`);
-        continue;
-      }
-
-      // Generate blurhash for thumbnail
-      const thumbnailInfo = await generateBlurhash(thumbnailBuffer);
-      
-      // Get 2-4 additional cover images (variations)
-      const numCovers = faker.number.int({ min: 2, max: 4 });
-      const coverImages: Array<{
-        buffer: Buffer;
-        blurhash: string;
-        width: number;
-        height: number;
-      }> = [];
-
-      for (let j = 0; j < numCovers; j++) {
-        const coverBuffer = await getBookCoverImage(bookData.title, author.name);
-        await delay(800);
-        
-        if (coverBuffer) {
-          const coverInfo = await generateBlurhash(coverBuffer);
-          // Get actual image dimensions
-          const metadata = await sharp(coverBuffer).metadata();
-          coverImages.push({
-            buffer: coverBuffer,
-            blurhash: coverInfo.blurHash,
-            width: metadata.width || 600,
-            height: metadata.height || 900,
-          });
-          console.log(`    ✅ Cover image ${j + 1}/${numCovers} ready`);
-        }
-      }
-
-      // Create book with covers
       const book = await prisma.book.create({
         data: {
           title: bookData.title,
@@ -1203,8 +1065,6 @@ async function main() {
           fileFormat: 'PDF',
           language: 'English',
           pages: bookData.pages,
-          key: randomUUID(),
-          fileHash: randomUUID(),
           publishedAt: bookData.publishedAt,
           price: bookData.price,
           available: true,
@@ -1213,48 +1073,18 @@ async function main() {
           averageRating: faker.number.float({ min: 3.5, max: 5,  }),
           totalRatings: faker.number.int({ min: 10, max: 1000 }),
           totalFavorites: faker.number.int({ min: 5, max: 500 }),
-          bookCovers: {
-            create: [
-              // Thumbnail
-              {
-                type: bookcoverType.THUMBNAIL,
-                fileUrl: `data:image/png;base64,${thumbnailBuffer.toString('base64').substring(0, 100)}...`, // Simulated URL
-                name: `${bookData.title} - Thumbnail`,
-                fileSize: thumbnailBuffer.length.toString(),
-                width: thumbnailInfo.width,
-                height: thumbnailInfo.height,
-                fileFormat: 'PNG',
-                key: randomUUID(),
-                blurHash: thumbnailInfo.blurHash,
-                fileHash: randomUUID(),
-              },
-              // Additional cover images
-              ...coverImages.map((cover, idx) => ({
-                type: bookcoverType.Image,
-                fileUrl: `data:image/png;base64,${cover.buffer.toString('base64').substring(0, 100)}...`, // Simulated URL
-                name: `${bookData.title} - Cover ${idx + 1}`,
-                fileSize: cover.buffer.length.toString(),
-                width: cover.width,
-                height: cover.height,
-                fileFormat: 'PNG',
-                key: randomUUID(),
-                blurHash: cover.blurhash,
-                fileHash: randomUUID(),
-              })),
-            ],
-          },
         },
       });
 
       createdBooks.push(book);
-      console.log(`    ✅ Book created with ${coverImages.length + 1} cover images`);
-      await delay(200);
+      console.log(`    ✅ Created successfully`);
+      await delay(100);
     } catch (error: any) {
       console.error(`    ❌ Error: ${error.message}`);
     }
   }
 
-  console.log(`\n  ✓ Created ${createdBooks.length} books with cover images\n`);
+  console.log(`\n  ✓ Created ${createdBooks.length} books\n`);
 
   // 6. Create Ratings
   console.log('⭐ Creating ratings...');
@@ -1275,7 +1105,6 @@ async function main() {
         });
         ratingsCount++;
       } catch (error) {
-        console.error(` Error: ${error}`);
         // Skip duplicate ratings
       }
     }
@@ -1299,7 +1128,6 @@ async function main() {
         });
         favoritesCount++;
       } catch (error) {
-        console.error(` Error: ${error}`);
         // Skip duplicates
       }
     }
@@ -1373,7 +1201,6 @@ async function main() {
         });
         historyCount++;
       } catch (error) {
-        console.error(error);
         // Skip duplicates
       }
     }
@@ -1395,12 +1222,11 @@ async function main() {
           data: {
             userId: user.id,
             categoryId: category.id,
-            weight: faker.number.float({ min: 1, max: 10}),
+            weight: faker.number.float({ min: 1, max: 10,  }),
           },
         });
         preferencesCount++;
       } catch (error) {
-        console.error(error);
         // Skip duplicates
       }
     }
@@ -1420,8 +1246,7 @@ async function main() {
           },
         });
         preferencesCount++;
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
         // Skip duplicates
       }
     }

@@ -26,7 +26,7 @@ export const authOptions: AuthOptions = {
           );
 
           if (response.status === 200) {
-            console.log("Response Data:", response.data);
+          console.log("Response Data:", response.data);
             return response.data;
           }
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
