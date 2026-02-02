@@ -11,6 +11,7 @@ const picsumImages = [
     url: "https://unsplash.com/photos/yC-Yzbqy7PY",
     download_url: "https://picsum.photos/id/0/5000/3333",
   },
+  
   {
     id: "1",
     author: "Alejandro Escamilla",

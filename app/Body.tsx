@@ -33,17 +33,6 @@ const InnerBody = ({
     }, [])
 
     if (!isMounting) return null
-
-    // const getWidth = () => {
-    //     if (windowWidth <= 1400) {
-    //         return open ? '15.4%' : '0'
-
-    //     } else if (windowWidth >= 1400) {
-    //         return open ? '9%' : '0'
-    //     } else {
-    //         return open ? '5%' : '0'
-    //     }
-    // }
     const getMargin = () => {
         if (windowWidth <= 1400) {
             return open ? '15.4%' : '0'
@@ -52,16 +41,7 @@ const InnerBody = ({
         } else {
             return open ? '5%' : '0'
         }
-   
 
-
-        // if (windowWidth >= 1336) {
-        //     return open ? '10%' : '4rem'
-        // } else if (windowWidth >= 1080) {
-        //     return open ? '14%' : '4%'
-        // } else {
-        //     return open ? '14%' : '3%'
-        // }
     }
 
     return (

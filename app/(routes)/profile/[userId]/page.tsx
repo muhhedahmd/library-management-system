@@ -15,53 +15,11 @@ import { ProgreeProfile } from "../_components/ProgressProfile"
 import { TabsInfo } from "../_components/TabsInfo"
 import { AnimatePresence, motion } from "motion/react"
 import BooksPage from "../_components/BookActions/BookManage"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter} from "next/navigation"
 import { cn } from "@/lib/utils"
 
-// This is a mock data object - replace with your actual data fetching logic
-
-const mockCachedUser = {
-
-  ADMIN: {
-    name: "Sarah Johnson",
-    email: "sarah.johnson@library.com",
-    phone: "+1 (555) 123-4567",
-    role: "Administrator",
-    joinDate: "March 15, 2020",
-    profileImage: "/placeholder.svg?height=200&width=200",
-    stats: {
-      booksManaged: 5243,
-      MEMBERsOverseeing: 1250,
-      activeLoans: 328,
-      overdue: 42,
-    },
-  },
-  MEMBER: {
-    name: "Michael Chen",
-    email: "michael.chen@example.com",
-    phone: "+1 (555) 987-6543",
-    role: "Member",
-    MEMBERshipType: "Premium",
-    MEMBERshipId: "MEM-2023-7845",
-    joinDate: "June 8, 2022",
-    profileImage: "/placeholder.svg?height=200&width=200",
-    stats: {
-      booksLoaned: 37,
-      currentlyBorrowed: 3,
-      reservations: 2,
-      overdue: 0,
-    },
-    recentBooks: [
-      { title: "The Midnight Library", author: "Matt Haig", returnDate: "Apr 15, 2024" },
-      { title: "Project Hail Mary", author: "Andy Weir", returnDate: "Apr 22, 2024" },
-      { title: "Atomic Habits", author: "James Clear", returnDate: "Apr 30, 2024" },
-    ],
-  },
-}
 
 export default function ProfilePage({ params }: { params: Promise<{ userId: string }> }) {
-  // const { userId } = params;
-  const _searchParams = useSearchParams()
 
   const [openManageBooks, setOpenManageBooks] = useState(false)
   const [userIdParam, setuserIdParam] = useState<string>("")
@@ -85,13 +43,6 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
   const Router = useRouter()
   const [scoreProfile, setScoreProfile] = useState(0);
 
-  const [, setisInCreateBook] = useState(false)
-  useEffect(() => {
-
-    const InCreateBook = _searchParams.get('books')
-    setisInCreateBook(InCreateBook ? true : false)
-
-  }, [_searchParams])
 
 
   useEffect(() => {
@@ -311,7 +262,7 @@ export default function ProfilePage({ params }: { params: Promise<{ userId: stri
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    < MemberContent mainUser={true} userId={userIdParam} books={mockCachedUser.MEMBER.recentBooks} />
+                    < MemberContent mainUser={true} userId={userIdParam}  />
                   </motion.div>
                 </AnimatePresence>
               }
