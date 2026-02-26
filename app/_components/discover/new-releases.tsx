@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, Loader2 } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { useGetNewReleasesQuery } from "@/store/QueriesApi/booksApi"
@@ -13,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/store/store"
 import { Button } from "@/components/ui/button"
 import { setNewReleasesPagination } from "@/store/Slices/paggnitionSlice"
+import { BookThumbnail } from "../BookThumbnail"
 
 interface NewReleasesProps {
   limit?: number
@@ -94,12 +94,14 @@ export default function NewReleases({ limit = 6, categoryId }: NewReleasesProps)
         <Card key={book.id} className="p-0 overflow-hidden group">
           <div className="aspect-[2/3] relative">
             <Link href={`/books/${book.id}`}>
-              <Image
-                src={book.bookCovers[0]?.fileUrl || "/placeholder.svg?height=300&width=200"}
-                alt={book.title}
-                fill
-                className="object-cover transition-transform group-hover:scale-105"
-              />
+               <BookThumbnail
+                   title={book.title}
+                   author={book.author?.name}
+                   description={book.description}
+                   tag={book.category?.name}
+                   className="w-full h-full"
+                 />
+               
             </Link>
             <div className="absolute top-2 right-2">
               <Badge

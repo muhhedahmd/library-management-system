@@ -1,67 +1,68 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { categorySchema } from "@/app/_components/ZodScheams";
-// import { Category } from "@prisma/client";
-import { categoryWithchildren } from "@/Types";
+import type { categorySchema } from "@/app/_components/ZodScheams";
+import type { categoryWithchildren } from "@/Types";
 
 interface CategoriesResponse {
-  data: categoryWithchildren[]; // List of categories
-  hasMore: boolean; // Indicates if there are more items to fetch
+  data: categoryWithchildren[];
+  hasMore: boolean;
 }
 
 export const apiCategory = createApi({
   reducerPath: "category",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
   endpoints: (build) => ({
-    // Fetch categories with pagination
-    getCategories: build.query<CategoriesResponse, { pgnum: number; pgsize: number }>({
+    getCategories: build.query<
+      CategoriesResponse,
+      { pgnum: number; pgsize: number }
+    >({
       query: ({ pgnum, pgsize }) => ({
         url: "api/categories/get",
         params: { pgnum, pgsize },
       }),
-      serializeQueryArgs({
-        // endpointDefinition  ,
-        endpointName ,
-        // queryArgs
-      }){
-        return endpointName
-      },
-      transformResponse: (response: categoryWithchildren[], meta, arg) => {
-        const hasMore = response.length === arg.pgsize; // If the response length equals the page size, there might be more items
-        return { data: response, hasMore };
-      },
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      transformResponse: (
+        response: categoryWithchildren[],
+        _meta,
+        arg
+      ) => ({
+        data: response,
+        hasMore: response.length === arg.pgsize,
+      }),
       merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data); // Append new items to the existing list
-        currentCache.hasMore = newItems.hasMore; // Update the hasMore flag
+        currentCache.data.push(...newItems.data);
+        currentCache.hasMore = newItems.hasMore;
       },
-      forceRefetch: ({ currentArg, previousArg }) => currentArg?.pgnum !== previousArg?.pgnum,
+      forceRefetch: ({ currentArg, previousArg }) =>
+        currentArg?.pgnum !== previousArg?.pgnum,
     }),
 
-    // Create a new category
-    createCategory: build.mutation<categoryWithchildren, { body: typeof categorySchema._type }>({
+    createCategory: build.mutation<
+      categoryWithchildren,
+      { body: typeof categorySchema._type }
+    >({
       query: ({ body }) => ({
         url: "api/categories/create",
         method: "POST",
-        body: body,
+        body,
       }),
-      async onQueryStarted({ 
-        // body
-       }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
-          const { data: createdCategory } = await queryFulfilled;
-          // Update the cache with the newly created category
+          const { data } = await queryFulfilled;
           dispatch(
-            apiCategory.util.updateQueryData("getCategories", undefined, (draft) => {
-              draft.data.unshift(createdCategory); // Add the new category to the beginning of the list
-            })
+            apiCategory.util.updateQueryData(
+              "getCategories",
+              undefined,
+              (draft) => {
+                draft.data.unshift(data);
+              }
+            )
           );
         } catch (error) {
-          console.error("Failed to create category:", error);
+          console.error("createCategory cache update failed:", error);
         }
-      
       },
     }),
   }),
 });
 
-// Export the generated hooks
 export const { useGetCategoriesQuery, useCreateCategoryMutation } = apiCategory;

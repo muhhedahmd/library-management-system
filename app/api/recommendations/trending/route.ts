@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
 import prisma  from "@/lib/prisma"
-import { BooksRes } from "@/Types"
 
 export async function GET(req: NextRequest) {
   try {
@@ -169,10 +168,10 @@ async function getPopularBooks(limit: number) {
   })
 
   // Calculate average rating and rating count for each book
-  const booksWithScores = booksWithRatings.map((book: BooksRes) => {
+  const booksWithScores = booksWithRatings.map((book) => {
     const ratings = book.ratings
     const ratingCount = ratings.length
-    const averageRating = ratingCount > 0 ? ratings.reduce((sum, r) => sum + r.rating, 0) / ratingCount : 0
+    const averageRating = ratingCount > 0 ? ratings.reduce((sum , r ) => sum + r.rating, 0) / ratingCount : 0
 
     // Calculate a popularity score (weighted average)
     const popularityScore = averageRating * 0.7 + Math.min(ratingCount / 10, 1) * 0.3

@@ -38,6 +38,7 @@ async function generateBlurhash(buffer: Buffer): Promise<blurHashResponse> {
 
 export const POST = async (req: Request) => {
     const session = (await getServerSession(authOptions)) as CustomSession;
+    
     const userId = session?.user?.id;
 
     if (!session || !userId || session.user.role !== "ADMIN") {

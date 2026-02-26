@@ -1,84 +1,64 @@
-// import { ShapeOfUserSearchMention } from "@/app/api/users/mentions/route";
-// import { ShapeOFminmalUserType } from "@/app/api/users/singleuser/route";
-import {  publisherSchema } from "@/app/_components/ZodScheams";
-// import { ProfileWithPic, UserData } from "@/Types";
-import {  Publisher } from "@prisma/client";
+import type { publisherSchema } from "@/app/_components/ZodScheams";
+import type { Publisher } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface PublisherResponse {
-    data: Publisher[];
-    hasMore: boolean; // Indicates if there are more items to fetch
+  data: Publisher[];
+  hasMore: boolean;
 }
+
 export const apiPublisher = createApi({
-    reducerPath: "publisher",
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
-    endpoints: (build) => ({
-        getPublisher: build.query<PublisherResponse, {
-
-            pgnum: number, pgsize: number
-        } | undefined>({
-            query: ({
-                pgnum,
-                pgsize
-            }) => {
-                return {
-                    url: "api/publishers/get",
-                    params: { pgnum, pgsize }
-                }
-
-            },
-            serializeQueryArgs({
-                // endpointDefinition,
-                endpointName,
-                // queryArgs
-            }) {
-                return endpointName
-            },
-            transformResponse: (response: Publisher[], meta, arg) => {
-                const hasMore = response.length === arg.pgsize; // If the response length equals the page size, there might be more items
-                return { data: response, hasMore };
-            },
-            merge: (currentCache, newItems) => {
-                currentCache.data.push(...newItems.data); // Append new items to the existing list
-                currentCache.hasMore = newItems.hasMore; // Update the hasMore flag
-            },
-            forceRefetch: ({ currentArg, previousArg }) => {
-                 return currentArg?.pgnum !== previousArg?.pgnum
-            },
-
-
-
-        }),
-        createPublisher: build.mutation<Publisher, { body: typeof publisherSchema._type }>({
-            query: ({ body }) => ({
-                url: "api/publishers/create", // Update the URL to match your API endpoint
-                method: "POST",
-                body: body,
-            }),
-            async onQueryStarted({  }, { dispatch, queryFulfilled }) {
-                try {
-                    const { data: createdCategory } = await queryFulfilled;
-                    // Update the cache with the newly created category
-                    dispatch(
-                        apiPublisher.util.updateQueryData("getPublisher", undefined, (draft) => {
-                            draft.data.unshift(createdCategory); // Add the new category to the beginning of the list
-                        })
-                    );
-                } catch (error) {
-                    console.error("Failed to create category:", error);
-                }
-            },
-        }),
-
-
+  reducerPath: "publisher",
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
+  endpoints: (build) => ({
+    getPublisher: build.query<
+      PublisherResponse,
+      { pgnum: number; pgsize: number } | undefined
+    >({
+      query: ({ pgnum, pgsize } = { pgnum: 0, pgsize: 20 }) => ({
+        url: "api/publishers/get",
+        params: { pgnum, pgsize },
+      }),
+      serializeQueryArgs: ({ endpointName }) => endpointName,
+      transformResponse: (response: Publisher[], _meta, arg) => ({
+        data: response,
+        hasMore: response.length === (arg?.pgsize ?? 20),
+      }),
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+        currentCache.hasMore = newItems.hasMore;
+      },
+      forceRefetch: ({ currentArg, previousArg }) =>
+        currentArg?.pgnum !== previousArg?.pgnum,
     }),
 
-
+    createPublisher: build.mutation<
+      Publisher,
+      { body: typeof publisherSchema._type }
+    >({
+      query: ({ body }) => ({
+        url: "api/publishers/create",
+        method: "POST",
+        body,
+      }),
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            apiPublisher.util.updateQueryData(
+              "getPublisher",
+              undefined,
+              (draft) => {
+                draft.data.unshift(data);
+              }
+            )
+          );
+        } catch (error) {
+          console.error("createPublisher cache update failed:", error);
+        }
+      },
+    }),
+  }),
 });
 
-// Export the generated hooks
-export const {
-    useCreatePublisherMutation,
-    useGetPublisherQuery
-} =
-    apiPublisher
+export const { useCreatePublisherMutation, useGetPublisherQuery } = apiPublisher;

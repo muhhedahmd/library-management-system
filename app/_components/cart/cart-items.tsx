@@ -1,51 +1,52 @@
 "use client"
 
 // import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Trash2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-// import { toast } from "sonner"
 import { CartItem } from "./cart-provider"
+import { BookThumbnail } from "../BookThumbnail"
+import { useState } from "react"
+import { toast } from "sonner"
 
 interface CartItemsProps {
     items: CartItem[]
 }
 
 export default function CartItems({ items }: CartItemsProps) {
-    // const [cartItems, setCartItems] = useState<CartItem[]>(items)
-    // const [isRemoving, setIsRemoving] = useState<Record<string, boolean>>({})
+    const [cartItems, setCartItems] = useState<CartItem[]>(items)
+    const [isRemoving, setIsRemoving] = useState<Record<string, boolean>>({})
 
-    // const handleRemoveItem = async (itemId: string) => {
-    //     setIsRemoving((prev) => ({ ...prev, [itemId]: true }))
+    const handleRemoveItem = async (itemId: string) => {
+        setIsRemoving((prev) => ({ ...prev, [itemId]: true }))
 
-    //     try {
-    //         const response = await fetch(`/api/cart/items/${itemId}`, {
-    //             method: "DELETE",
-    //         })
+        try {
+            const response = await fetch(`/api/cart/items/${itemId}`, {
+                method: "DELETE",
+            })
 
-    //         if (!response.ok) {
-    //             throw new Error("Failed to remove item from cart")
-    //         }
+            if (!response.ok) {
+                throw new Error("Failed to remove item from cart")
+            }
 
-    //         setCartItems(cartItems.filter((item) => item.id !== itemId))
+            setCartItems(cartItems.filter((item) => item.id !== itemId))
 
-    //         toast.success("Item removed", {
+            toast.success("Item removed", {
 
-    //             description: "The item has been removed from your cart",
-    //         })
-    //     } catch (error) {
-    //         console.error("Error removing item from cart:", error)
-    //         toast.warning("Error", {
+                description: "The item has been removed from your cart",
+            })
+        } catch (error) {
+            console.error("Error removing item from cart:", error)
+            toast.warning("Error", {
 
-    //             description: "Failed to remove item from cart",
-    //             // variant: "destructive",
-    //         })
-    //     } finally {
-    //         setIsRemoving((prev) => ({ ...prev, [itemId]: false }))
-    //     }
-    // }
+                description: "Failed to remove item from cart",
+                // variant: "destructive",
+            })
+        } finally {
+            setIsRemoving((prev) => ({ ...prev, [itemId]: false }))
+        }
+    }
 
     return (
         <div className="space-y-4">
@@ -54,11 +55,13 @@ export default function CartItems({ items }: CartItemsProps) {
                     <CardContent className="p-0">
                         <div className="flex flex-col sm:flex-row">
                             <div className="ml-4  w-[8rem] h-[9rem] aspect-square  rounded-lg relative flex-shrink-0">
-                                <Image
-                                    src={item?.bookCovers?.find((item) => item.type === "THUMBNAIL")?.fileUrl || "/placeholder.svg?height=160&width=120"}
-                                    alt={item.title}
-                                    fill
-                                    className="object-cover rounded-lg"
+                                <BookThumbnail
+                                    title={item.title}
+                                    author={item.author.name}
+                                    description={item.description}
+                                    tag={item.category?.name}
+
+                                    className="w-full h-full"
                                 />
                             </div>
                             <div className="p-4 flex-1 flex flex-col">
@@ -78,7 +81,7 @@ export default function CartItems({ items }: CartItemsProps) {
 
                                 {item.quantity > 1 &&
 
-                                    <div  className="mt-1 text-sm">
+                                    <div className="mt-1 text-sm">
                                         <p>
                                             the physical item doen&apos;t available yet
                                         </p>
@@ -92,11 +95,11 @@ export default function CartItems({ items }: CartItemsProps) {
                                         variant="ghost"
                                         size="sm"
                                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                                        // onClick={() => handleRemoveItem(item.id)}
-                                        // disabled={isRemoving[item.id]}
+                                    onClick={() => handleRemoveItem(item.id)}
+                                    disabled={isRemoving[item.id]}
                                     >
                                         <Trash2 className="h-4 w-4 mr-1" />
-                                        {/* {isRemoving[item.id] ? "Removing..." : "Remove"} */}
+                                        {isRemoving[item.id] ? "Removing..." : "Remove"}
                                     </Button>
                                 </div>
                             </div>

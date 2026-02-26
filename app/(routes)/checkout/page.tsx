@@ -8,13 +8,8 @@ import CheckoutForm from "../../_components/checkOut/checkout-form"
 import OrderSummary from "../../_components/checkOut/order-summary"
 
 export default function CheckoutPage() {
-  // const session = await getServerSession(authOptions)
 
-  // if (!session?.user) {
-  //   redirect("/api/auth/signin?callbackUrl=/checkout")
-  // }
-
-const {cart } =useCart()
+  const { cart } = useCart()
 
   // Redirect to cart if empty
   if (cart?.length === 0) {
@@ -37,12 +32,12 @@ const {cart } =useCart()
           <CheckoutForm />
         </div>
         <div className="lg:col-span-1 ">
-          
+
           <OrderSummary cart={{
-             items:cart ,
-             subtotal: cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
-             total: cart.reduce((acc, item) => acc + item.price * item.quantity, 0) * 1.1,
-             tax: cart.reduce((acc, item) => acc + item.price * item.quantity, 0) * 0.07,
+            items: cart,
+            subtotal: cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+            total: cart.reduce((acc, item) => acc + item.price * item.quantity, 0) * 1.1,
+            tax: cart.reduce((acc, item) => acc + item.price * item.quantity, 0) * 0.07,
           }} />
         </div>
       </div>

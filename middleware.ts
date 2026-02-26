@@ -1,58 +1,50 @@
-import {  getToken } from "next-auth/jwt";
+import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
+const PROTECTED_ROUTES = [
+  "/profile",
+  "/checkout",
+  "/todo",
+  "/recommendation",
+  "/upload",
+  "/users",
+  "/posts",
+];
+
 export default withAuth(
-  async function middleware(Request: NextRequest) {
+  async function middleware(request: NextRequest) {
     const secret = process.env.NEXTAUTH_SECRET!;
+    const { pathname } = request.nextUrl;
 
-    const pathname = Request.nextUrl.pathname;
-    const isAuth = await getToken({
-      req: Request,
-      secret: secret,
-      raw: true,
-    });
+    const token = await getToken({ req: request, secret, raw: true });
 
-    const ProtectedRoute = ["/profile" ,  "/checkout",  "/todo" , "/recommendation" , "/profile", "/upload", "/users" , "/posts"];
-    const AuthRoute = pathname.startsWith("/api/auth");
-    const isProtectedRoute = ProtectedRoute.some((route) => {
-      return pathname.startsWith(route);
-    });
+    const isProtected = PROTECTED_ROUTES.some((route) =>
+      pathname.startsWith(route)
+    );
 
-    if (isAuth && pathname.includes("/auth")) {
-      return NextResponse.redirect(new URL("/", Request.url));
+    // Only block /auth/* pages (not /api/auth/* which NextAuth needs)
+    const isAuthPage =
+      pathname.startsWith("/auth") && !pathname.startsWith("/api/auth");
+
+    // Redirect authenticated users away from auth pages
+    if (token && isAuthPage) {
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (!isAuth && isProtectedRoute) {
-      // Add callback URL to redirect back after signin
-      const callbackUrl = encodeURIComponent(Request.url)
-      return NextResponse.redirect(new URL(`auth/signin?callbackUrl=${callbackUrl}`, Request.url));
+    // Redirect unauthenticated users away from protected routes
+    if (!token && isProtected) {
+      const callbackUrl = encodeURIComponent(request.url);
+      return NextResponse.redirect(
+        new URL(`/auth/signin?callbackUrl=${callbackUrl}`, request.url)
+      );
     }
 
-    
-    if (isAuth  && pathname.startsWith("/auth")) {
-            return NextResponse.redirect(new URL("/", Request.url));
-
-    }
-
-    if (isAuth && AuthRoute) {
-      return NextResponse.next();
-      // const tokenData = (await jose.jwtVerify(isAuth, jwtConfig.secret)).payload as User;
-      // if (!tokenData.isCompleteProfile && pathname !== "/profile" && pathname !== "/" && !pathname.startsWith("/api"))  {
-      //   // If profile is not complete, redirect to profile page
-      //   return NextResponse.redirect(new URL("/profile", Request.url));
-      // } else if (AuthRoute && tokenData.payload.isCompleteProfile  && pathname !== "/") {
-      //   // If profile is complete and user is on auth route, redirect to homepage
-      //   return NextResponse.redirect(new URL("/", Request.url));
-      // }
-    } 
-  
+    return NextResponse.next();
   },
   {
     callbacks: {
-      authorized({ }) {
-        // console.log("Authorizedmethotoken"  ,token)
-        // console.log("req"  ,JSON.stringify(req))
+      authorized() {
         return true;
       },
     },
@@ -60,5 +52,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)", "/api/auth(.*)"],
+  matcher: ["/((?!.*\\..*|_next).*)"],
 };
