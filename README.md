@@ -1,111 +1,156 @@
+# LibraryPro 📚
 
-📚 Library Management System
+A full-stack digital library management system — browse, purchase, and read books online, with an admin dashboard for managing the catalog, users, and analytics.
 
-A full-stack library management system built with **Next.js 15**, **Prisma**, **Redux Toolkit**, and **Tailwind CSS**. This system allows users to manage books, members, borrow/return activities, and more with a clean and responsive UI.
+## Features
 
-🔐 Test Credentials
-Username: Hossam@hmail.com
-Password: Hossam123
+### For Readers
+- 🔍 **Browse & Search** — filter books by category, author, publisher, price range, and sort order
+- 📖 **In-browser PDF Reader** — read purchased books directly in the app
+- ⭐ **Ratings & Reviews** — rate books and leave reviews
+- ❤️ **Favorites** — save books to your favorites list
+- 📊 **Reading History** — track pages read, reading time, and completion status
+- 🛒 **Cart & Checkout** — purchase books via Stripe
+- 📚 **Personal Library** — access all your purchased books in one place
+- 🤖 **AI Recommendations** — get book suggestions based on reading history, preferences, and collaborative filtering
+- 🎨 **Preferences** — set reading genre preferences to personalize recommendations
+- 🌙 **Dark Mode** — full light/dark theme support
 
-🚀 Features
+### For Admins
+- 📝 **Book Management** — create, edit, and manage the full book catalog
+- 🖼️ **Cover Images** — upload multiple cover images with automatic blurhash placeholders
+- 📄 **PDF Upload** — upload book files via UploadThing
+- 📈 **Analytics Dashboard** — view stats on popularity, reading history, and favorites per book
+- 👥 **User Management** — view member profiles and activity
+- 🏷️ **Catalog Management** — create and manage authors, publishers, and categories
 
-- Modern UI with Mantine + TailwindCSS + ShadCN
-- Authentication (NextAuth)
-- State Management (Redux Toolkit + Optimistic Caching)
-- File/Image Upload (UploadThing + Cloudinary)
-- PDF Reports (React PDF)
-- Filtering, Sorting, Pagination (TanStack Table)
-- Date pickers, Phone inputs, Form validations
-- Form Handling with react-hook-form + Zod
-- Prisma ORM + PostgreSQL (or MySQL)
-- Admin panel (add/edit/delete books, users, etc.)
-- API routes with app/api/ in Next.js 15
-- Rating System + Book Preview + BlurImage
-- Fully responsive and mobile-friendly
+### Discovery
+- 🏆 **Bestsellers** — top books by sales
+- 🆕 **New Releases** — recently published books
+- 💯 **Top Rated** — highest rated books
+- 🔎 **Discover Page** — curated sections combining all of the above
 
-🧠 Tech Stack
+---
 
-- Next.js 15: React framework for fullstack app
-- Prisma ORM: Type-safe DB access
-- Redux Toolkit: Global state & caching
-- Tailwind CSS: Utility-first CSS
-- Radix UI / ShadCN: Accessible components
-- Mantine UI: UI component library
-- Zod: Schema validation for forms and APIs
-- Cloudinary: Media storage & optimization
-- UploadThing: Secure file uploads
-- Framer Motion: Animations
+## Tech Stack
 
-🛠️ Getting Started
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router, Turbopack) |
+| Language | TypeScript 5 |
+| Auth | NextAuth.js v4 — JWT strategy |
+| Database | PostgreSQL + Prisma ORM v6 |
+| State / Data | Redux Toolkit + RTK Query |
+| Styling | Tailwind CSS v4 + shadcn/ui (Radix) |
+| Animations | Framer Motion |
+| File Storage | UploadThing (PDFs & book covers) |
+| Image Processing | Sharp + Blurhash |
+| Payments | Stripe |
+| Notifications | Sonner |
+| Forms | React Hook Form + Zod |
+| Tables | TanStack Table |
 
-1. Clone the repository
-git clone https://github.com/yourusername/library-management.git
-cd library-management
+---
 
-2. Install dependencies
+## Getting Started
+
+```bash
 npm install
-
-3. Configure Environment Variables
-Create a .env file in the root directory:
-
-DATABASE_URL=your_postgres_url
-NEXTAUTH_SECRET=some_secret_key
-NEXTAUTH_URL=http://localhost:3000
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_key
-CLOUDINARY_API_SECRET=your_secret
-UPLOADTHING_SECRET=...
-UPLOADTHING_APP_ID=...
-
-4. Run Prisma Migrations
-npx prisma generate
+cp .env.example .env.local   # fill in your env vars
 npx prisma migrate dev
+npm run dev                  # http://localhost:3000
+```
 
-5. Start Development Server
-npm run dev
+### Scripts
 
-Visit: http://localhost:3000
+```bash
+npm run dev           # dev server with Turbopack
+npm run build         # prisma generate + next build
+npm run type-check    # tsc --noEmit
+npm run lint:fix      # ESLint with auto-fix
+npm run seed          # seed the database with books
+```
 
-📦 Build & Deployment
+---
 
-npm run build
-npm start
+## Environment Variables
 
-Use Vercel, Render, or Railway to deploy.
+| Variable | Description |
+|---|---|
+| `NEXTAUTH_SECRET` | JWT signing secret |
+| `NEXTAUTH_URL` | Full app URL (e.g. `http://localhost:3000`) |
+| `DATABASE_URL` | PostgreSQL connection string |
+| `NEXT_PUBLIC_API` | Base URL for client-side API calls |
+| `UPLOADTHING_SECRET` | UploadThing secret |
+| `UPLOADTHING_APP_ID` | UploadThing app ID |
+| `STRIPE_SECRET_KEY` | Stripe secret key |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
 
-🧪 Test Credentials
+---
 
-Username: Hossam@hmail.com
-Password: Hossam123
+## Routes
 
-📁 Folder Structure
+| Path | Access | Description |
+|---|---|---|
+| `/` | Public | Landing page |
+| `/books` | Public | Full catalog with filters |
+| `/books/:id` | Public | Book detail, ratings & reviews |
+| `/books/:id/read` | Public | In-browser PDF reader |
+| `/discover` | Public | Curated discovery sections |
+| `/bestsellers` | Public | Top-selling books |
+| `/new-releases` | Public | Recently published books |
+| `/library` | Public | Browse library catalog |
+| `/cart` | Public | Shopping cart |
+| `/auth/signin` | Guest only | Sign in / Register |
+| `/profile/:userId` | Protected | User dashboard |
+| `/profile/:userId/managebooks` | Admin only | Book management |
+| `/profile/:userId/managebooks/createbook` | Admin only | Create new book |
+| `/profile/:userId/managebooks/:bookId/editBook` | Admin only | Edit existing book |
+| `/profile/:userId/perferances` | Protected | Reading preferences |
+| `/recommendation` | Protected | AI-powered recommendations |
+| `/checkout` | Protected | Purchase checkout |
+| `/checkout/success` | Protected | Order confirmation |
+| `/users/:userId` | Protected | Member profile |
 
-app/                 - Next.js 15 app dir (pages, layouts, api)
-├── api/             - Backend routes
-├── dashboard/       - Protected admin panel
-components/          - Reusable UI components
-lib/                 - Utilities (e.g., auth, db, helpers)
-prisma/              - Prisma schema & seeds
-public/              - Static assets (images/icons)
-store/               - Redux slices and setup
-styles/              - Tailwind + custom styles
-hooks/               - Custom React hooks
-types/               - TS types and interfaces
+---
 
-🤝 Contributing
+## Project Structure
 
-1. Fork this repo
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+```
+app/
+├── (homePage)/         # Landing page
+├── (routes)/           # All user-facing pages
+│   ├── auth/           # Sign in / register
+│   ├── books/          # Catalog, detail, PDF reader
+│   ├── profile/        # User dashboard + admin tools
+│   ├── recommendation/ # AI recommendations
+│   ├── checkout/       # Purchase flow
+│   └── ...
+├── api/                # Route Handlers (backend)
+├── _components/        # Shared UI components
+├── error.tsx           # Global error boundary
+└── layout.tsx          # Root layout + providers
 
-🧠 License
+store/
+├── QueriesApi/         # RTK Query slices (one per domain)
+└── Reducers/           # Redux slices for local state
 
-MIT License
+lib/
+├── authOption.ts       # NextAuth config
+├── prisma.ts           # Prisma client singleton
+└── user-actions.ts     # Server actions
 
-📫 Contact
+middleware.ts           # Route-level auth guard
+prisma/schema.prisma    # Database schema
+```
 
-Made with ❤️ by Mohamed ahmed  
-Email: muhhedahmd@gmail.com
-linked in : https://www.linkedin.com/in/mohamed-ahmed-34a379212/
+---
+
+## Authentication
+
+Route protection is handled in `middleware.ts` using NextAuth's `getToken()`:
+- Unauthenticated users on protected routes → redirect to `/auth/signin?callbackUrl=...`
+- Authenticated users on `/auth/*` → redirect to `/`
+- `/api/auth/*` is always open (NextAuth internals)
+
+User roles: `ADMIN` and `MEMBER`. Admin-only API routes check `session.user.role === "ADMIN"`.
