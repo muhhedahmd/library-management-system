@@ -1,121 +1,114 @@
-import { Author, Category } from "@prisma/client"
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import type { Author, Category } from "@prisma/client";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export interface Book {
-  id: string
-  title: string
-  description: string
-  author: {
-    id: string
-    name: string
-  }
-  category: {
-    id: string
-    name: string
-  }
-  bookCovers: {
-    id: string
-    fileUrl: string
-    type: string
-    blurHash?: string
-  }[]
-  publishedAt: string
-  pages: number
-  language: string
-  fileFormat: string
+// ─── Types ─────────────────────────────────────────────────────────────────
+
+export interface RecommendationBook {
+  id: string;
+  title: string;
+  description: string;
+  author: { id: string; name: string };
+  category: { id: string; name: string };
+  bookCovers: { id: string; fileUrl: string; type: string; blurHash?: string }[];
+  publishedAt: string;
+  pages: number;
+  language: string;
+  fileFormat: string;
 }
 
 export interface RecommendationResponse {
-  recommendations: Book[]
+  recommendations: RecommendationBook[];
 }
-
 export interface SimilarBooksResponse {
-  similarBooks: Book[]
+  similarBooks: RecommendationBook[];
 }
-
 export interface TrendingBooksResponse {
-  recommendations: Book[]
+  recommendations: RecommendationBook[];
 }
-
 export interface CollaborativeRecommendationResponse {
-  recommendations: Book[]
+  recommendations: RecommendationBook[];
 }
-
 export interface PreferenceBasedRecommendationResponse {
-  recommendations: Book[]
+  recommendations: RecommendationBook[];
 }
-
 export interface ReadingBasedRecommendationResponse {
-  recommendations: Book[]
+  recommendations: RecommendationBook[];
+}
+export interface LogInteractionRequest {
+  bookId: string;
+  interactionType: "view" | "read" | "favorite" | "purchase" | "rate";
+  value?: number;
+  duration?: number;
 }
 
-export interface LogInteractionRequest {
-  bookId: string
-  interactionType: "view" | "read" | "favorite" | "purchase" | "rate"
-  value?: number // For ratings
-  duration?: number // For reading time in seconds
-}
+// ─── API ───────────────────────────────────────────────────────────────────
 
 export const recommendationApi = createApi({
   reducerPath: "recommendationApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API! }),
   tagTypes: ["Recommendations", "Interactions"],
   endpoints: (builder) => ({
-    // Main recommendations endpoint
-    getRecommendations: builder.query<RecommendationResponse, {
-      method?: "rating" | "favorite" | "category" | "author" | "hybrid"
-      limit?: number
-    }>({
-      query: ({
-        limit,
-        method
-      }) => {
-        return {
-
-          url: "api/recommendations",
-          params: {
-            limit,
-                method
-          }
-        }
-
-      },
+    getRecommendations: builder.query<
+      RecommendationResponse,
+      { method?: "rating" | "favorite" | "category" | "author" | "hybrid"; limit?: number }
+    >({
+      query: (params) => ({ url: "api/recommendations", params }),
       providesTags: ["Recommendations"],
     }),
 
-    // Similar books endpoint
-    getSimilarBooks: builder.query<SimilarBooksResponse, { bookId: string; limit?: number }>({
-      query: ({ bookId, limit = 6 }) => `api/recommendations/similar-books?bookId=${bookId}&limit=${limit}`,
+    getSimilarBooks: builder.query<
+      SimilarBooksResponse,
+      { bookId: string; limit?: number }
+    >({
+      query: ({ bookId, limit = 6 }) => ({
+        url: "api/recommendations/similar-books",
+        params: { bookId, limit },
+      }),
     }),
 
-    // Trending books endpoint
-    getTrendingBooks: builder.query<TrendingBooksResponse, { limit?: number; categoryId?: string }>({
-      query: ({ limit = 10, categoryId }) => {
-        let url = `api/recommendations/trending?limit=${limit}`
-        if (categoryId) url += `&categoryId=${categoryId}`
-        return url
-      },
+    getTrendingBooks: builder.query<
+      TrendingBooksResponse,
+      { limit?: number; categoryId?: string }
+    >({
+      query: ({ limit = 10, categoryId }) => ({
+        url: "api/recommendations/trending",
+        params: { limit, categoryId },
+      }),
     }),
 
-    // Collaborative filtering recommendations
-    getCollaborativeRecommendations: builder.query<CollaborativeRecommendationResponse, { limit?: number }>({
-      query: ({ limit = 10 }) => `api/recommendations/collaborative?limit=${limit}`,
+    getCollaborativeRecommendations: builder.query<
+      CollaborativeRecommendationResponse,
+      { limit?: number }
+    >({
+      query: ({ limit = 10 }) => ({
+        url: "api/recommendations/collaborative",
+        params: { limit },
+      }),
       providesTags: ["Recommendations"],
     }),
 
-    // Preference-based recommendations
-    getPreferenceBasedRecommendations: builder.query<PreferenceBasedRecommendationResponse, { limit?: number }>({
-      query: ({ limit = 10 }) => `api/recommendations/preference-based?limit=${limit}`,
+    getPreferenceBasedRecommendations: builder.query<
+      PreferenceBasedRecommendationResponse,
+      { limit?: number }
+    >({
+      query: ({ limit = 10 }) => ({
+        url: "api/recommendations/preference-based",
+        params: { limit },
+      }),
       providesTags: ["Recommendations"],
     }),
 
-    // Reading-based recommendations
-    getReadingBasedRecommendations: builder.query<ReadingBasedRecommendationResponse, { limit?: number }>({
-      query: ({ limit = 10 }) => `api/recommendations/reading-based?limit=${limit}`,
+    getReadingBasedRecommendations: builder.query<
+      ReadingBasedRecommendationResponse,
+      { limit?: number }
+    >({
+      query: ({ limit = 10 }) => ({
+        url: "api/recommendations/reading-based",
+        params: { limit },
+      }),
       providesTags: ["Recommendations"],
     }),
 
-    // Log user interaction
     logInteraction: builder.mutation<{ success: boolean }, LogInteractionRequest>({
       query: (interaction) => ({
         url: "log/interaction",
@@ -125,34 +118,17 @@ export const recommendationApi = createApi({
       invalidatesTags: ["Recommendations"],
     }),
 
-
-    userPreferncesCategoryAuthors: builder.query<{
-      category: Category[]
-      author: Author[]
-    }, {
-      skip?: number,
-      take?: number,
-      userId?: string
-    }>({
-      query: ({
-        skip,
-        take,
-        userId
-      }) => {
-        return {
-          url: `api/recommendations/user-prefernces`,
-          method: 'GET',
-          params: {
-            skip,
-            userId,
-            take
-          }
-        }
-
-      }
+    userPreferncesCategoryAuthors: builder.query<
+      { category: Category[]; author: Author[] },
+      { skip?: number; take?: number; userId?: string }
+    >({
+      query: (params) => ({
+        url: "api/recommendations/user-prefernces",
+        params,
+      }),
     }),
-  })
-})
+  }),
+});
 
 export const {
   useGetRecommendationsQuery,
@@ -163,5 +139,4 @@ export const {
   useGetReadingBasedRecommendationsQuery,
   useLogInteractionMutation,
   useUserPreferncesCategoryAuthorsQuery,
-} = recommendationApi
-
+} = recommendationApi;

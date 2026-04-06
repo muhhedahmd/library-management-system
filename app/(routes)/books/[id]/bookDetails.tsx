@@ -15,7 +15,6 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import BookPageLoading from './loading'
-import BlurredImage from '@/app/_components/imageWithBlurHash'
 import { Button } from '@/components/ui/button'
 import DownloadButton from '@/app/_components/DownloadButton'
 import { useCart } from '@/app/_components/cart/cart-provider'
@@ -26,6 +25,7 @@ import { cn } from '@/lib/utils'
 import RatingTab from './RatingTab'
 import ReadingHistoryCard from './reading-history'
 import { useRouter } from 'next/navigation'
+import { BookThumbnail } from '@/app/_components/BookThumbnail'
 
 const BookDetails = ({
     bookId
@@ -94,7 +94,6 @@ const BookDetails = ({
             ? book.readingHistory.reduce((sum, history) => sum + (history.readingTimeMinutes || 0), 0) /
             book.readingHistory.length
             : 0
-    const mainCover = book.bookCovers.find((cover) => cover.type === "Image") || book.bookCovers[0]
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -104,19 +103,14 @@ const BookDetails = ({
 
                 <div className="flex flex-col items-center">
                     <div className="relative w-full aspect-square rounded-lg overflow-hidden shadow-lg mb-6">
-                        <BlurredImage
-                            // layout="fill"
-                            // objectFit="cover"
-                            height={mainCover.height || 100}
-                            width={mainCover.width || 100}
-                            quality={100}
-                            blurhash={mainCover.blurHash ||
-                                ""
-                            }
-                            imageUrl={mainCover?.fileUrl || "/placeholder.svg?height=450&width=300"}
-                            alt={`Cover of ${book.title}`}
-                            className="object-cover w-full h-full"
-                        />
+                  
+                        <BookThumbnail
+                                            title={book.title}
+                                            author={book.title || ""}
+                                            description={book.title || ""}
+                                            tag={book?.category?.name || ""}
+                                            className="object-cover w-full h-full"
+                                        />
                     </div>
 
                     <div className="flex flex-wrap gap-2 justify-center w-full mb-6">

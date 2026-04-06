@@ -1,6 +1,7 @@
+
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { UserData } from "@/Types";
+import type { RootState } from "../store";
+import type { UserData } from "@/Types";
 
 interface MainUserState {
   user: UserData | null;
@@ -35,14 +36,15 @@ export const mainUserSlice = createSlice({
   },
 });
 
-export const { setUser, editUser, deleteUser, setLoading } = mainUserSlice.actions;
+export const { setUser, editUser, deleteUser, setLoading } =
+  mainUserSlice.actions;
 
-// ── Selectors ──────────────────────────────────────────────────────────────
-// Named selectors (preferred — import these)
+// Selectors
 export const selectUser = (state: RootState) => state.mainUserSlice.user;
-export const selectIsLoading = (state: RootState) => state.mainUserSlice.isLoading;
+export const selectIsLoading = (state: RootState) =>
+  state.mainUserSlice.isLoading;
 
-// Legacy aliases — kept so existing code doesn't break
+// Legacy aliases kept for backwards compatibility
 export const userResponse = selectUser;
 export const isLoading = selectIsLoading;
 export const editUserResponse = selectUser;

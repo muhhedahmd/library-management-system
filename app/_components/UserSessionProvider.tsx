@@ -1,15 +1,17 @@
-"use client"
-import { SessionProvider } from 'next-auth/react'
-import React from 'react'
-import UserSessionManager from './UserSessionManager'
-const UserSessionProvider = ({
+"use client";
 
-}) => {
+import { SessionProvider } from "next-auth/react";
+import UserSessionManager from "../../hooks/UserSessionManager";
+
+export default function UserSessionProvider({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   return (
     <SessionProvider>
-        <UserSessionManager/>
+      <UserSessionManager />
+      {children}
     </SessionProvider>
-  )
+  );
 }
-
-export default UserSessionProvider

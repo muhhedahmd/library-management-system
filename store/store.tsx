@@ -24,7 +24,6 @@ export const makeStore = () => {
       pagination :paggnitionSlice,
 
 
-      // [apiSlice.reducerPath] : apiSlice.reducer ,
      
     },
     middleware: (getDefaultMiddleware) =>

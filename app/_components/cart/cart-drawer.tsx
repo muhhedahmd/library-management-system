@@ -8,7 +8,7 @@ import { useCart } from "./cart-provider"
 import { formatCurrency } from "@/lib/utils"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import BlurredImage from "../imageWithBlurHash"
+import { BookThumbnail } from "../BookThumbnail"
 
 export function CartDrawer() {
   const { cart, removeFromCart, clearCart, totalItems } = useCart()
@@ -52,55 +52,48 @@ export function CartDrawer() {
           <>
             <div className="flex-1 overflow-auto py-4">
               <div className="space-y-4">
-                {cart.map((item ) => 
-                  {
-                    const Cover = item?.bookCovers?.find((img)=>img.type=== "THUMBNAIL")
-                    return (
+                {cart.map((item) => {
+                  return (
 
-                      <div key={item.id} className="flex gap-4">
-                        <div className="w-fit h-fit flex-shrink-0">
-                        {
-                          Cover ?
-                          <BlurredImage
-                          imageUrl={ Cover?.fileUrl || "/placeholder.svg"}
-                          alt={item.title}
-                          height={Cover.height}
-                          width={Cover.width}
-                          quality={100} 
-                          blurhash={Cover.blurHash}
-                            className="w-[5rem] h-[5rem] object-cover rounded"
-                            />
-                           : null 
-                          }
+                    <div key={item.id} className="flex gap-4">
+                      <div className="w-fit h-fit flex-shrink-0">
+
+                        <BookThumbnail
+                          title={item.title}
+                          author={item.author.name}
+                          description={item.description}
+                          tag={item.category?.name}
+                          className="w-full h-full"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+
+                        <div className="flex justify-between">
+                          <SheetClose asChild>
+                            <Link href={`/books/${item.id}`} className="font-medium hover:underline truncate">
+                              {item.title}
+                            </Link>
+                          </SheetClose>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeFromCart(item.id)}
+                            className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
                         </div>
-                        <div className="flex-1 min-w-0">
-
-                          <div className="flex justify-between">
-                            <SheetClose asChild>
-                              <Link href={`/books/${item.id}`} className="font-medium hover:underline truncate">
-                                {item.title}
-                              </Link>
-                            </SheetClose>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => removeFromCart(item.id)}
-                              className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
+                        <p className="text-sm text-muted-foreground truncate">by {item.author.name}</p>
+                        <div className="flex justify-between items-center mt-2">
+                          <div className="text-sm">
+                            {item.quantity} {"x"} {formatCurrency(item.price)}
                           </div>
-                          <p className="text-sm text-muted-foreground truncate">by {item.author.name}</p>
-                          <div className="flex justify-between items-center mt-2">
-                            <div className="text-sm">
-                              {item.quantity} {"x"} {formatCurrency(item.price)}
-                            </div>
-                            <div className="font-medium">{formatCurrency(item.price * item.quantity)}</div>
-                          </div>
+                          <div className="font-medium">{formatCurrency(item.price * item.quantity)}</div>
                         </div>
                       </div>
-                    )
-                  }
+                    </div>
+                  )
+                }
                 )}
               </div>
             </div>

@@ -15,9 +15,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const bookId = searchParams.get('bookId')
 
+
     const skip = +(searchParams.get("skip") ?? 0);
     const take = +(searchParams.get("take") ?? 10);
-
+    if(!bookId) return NextResponse.json({ error: "BookId is required" }, { status: 400 })
 
     try {
         const readingHistory = await prisma.readingHistory.findMany({

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import Image from "next/image"
 import { Cart } from "../cart/cart-summary"
+import { BookThumbnail } from "../BookThumbnail"
 
 interface OrderSummaryProps {
   cart: Cart
@@ -29,12 +29,13 @@ export default function OrderSummary({ cart }: OrderSummaryProps) {
           {cart.items.map((item) => (
             <div key={item.id} className="flex items-center space-x-4">
               <div className="w-12 h-16 relative flex-shrink-0">
-                <Image
-                  src={item?.bookCovers?.find((img)=>img?.type === "THUMBNAIL")?.fileUrl || "/placeholder.svg?height=64&width=48"}
-                  alt={item.title}
-                  fill
-                  className="object-cover rounded"
-                />
+                <BookThumbnail
+                          title={item.title}
+                          author={item.author.name}
+                          description={item.description}
+                          tag={item.category?.name}
+                          className="w-full h-full"
+                        />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{item.title}</p>

@@ -1,5 +1,7 @@
+
 import type { Metadata } from "next"
 import DiscoverPageClient from "./DiscoverPageClient"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Discover Books | Language Education Library",
@@ -10,9 +12,7 @@ export default function DiscoverPage() {
   return<div
    className="p-3"
   >
-
-    <DiscoverPageClient
-    />
+    <Suspense><DiscoverPageClient/></Suspense>
   </div>
 }
 
